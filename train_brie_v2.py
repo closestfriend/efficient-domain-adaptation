@@ -61,6 +61,7 @@ sft_config = SFTConfig(
     num_train_epochs=2,
     per_device_train_batch_size=2,
     gradient_accumulation_steps=4,
+    gradient_checkpointing=True,  # Reduce memory usage
     learning_rate=2e-4,
     lr_scheduler_type='linear',
     warmup_steps=20,
@@ -73,6 +74,8 @@ sft_config = SFTConfig(
     metric_for_best_model='loss',
     report_to='none',
     dataset_text_field='text',
+    max_length=2048,  # Limit sequence length to help with memory
+    packing=False,  # Disable packing to avoid memory spikes
 )
 
 print("\nTraining configuration:")
@@ -97,7 +100,7 @@ trainer = SFTTrainer(
 
 print("Starting training...")
 print("=" * 60)
-trainer.train()
+trainer.train(resume_from_checkpoint="runs/brie-v2-0.5b/checkpoint-100")
 print("=" * 60)
 print("Training complete!")
 
