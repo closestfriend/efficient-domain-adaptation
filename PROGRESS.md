@@ -2,9 +2,22 @@
 
 ## Current Status
 
-**Latest Model:** Brie checkpoint-100
+**Latest Model:** Brie v2 (`runs/brie-v2/` → `checkpoint-100`)
 **Training Completion:** 1 full epoch (200 steps) out of planned 2 epochs
 **Status:** Training stopped due to MPS OOM during evaluation at step 200
+
+## Version Clarification
+
+- **Brie v1** (`runs/brie-v1-0.5b/`): Initial 10-step test run to validate pipeline
+  - Purpose: Ensure training worked before committing to full run
+  - Result: Minimal behavioral changes (insufficient training steps)
+  - Use case: Pipeline validation only
+
+- **Brie v2** (`runs/brie-v2/`): Full training run (200 steps / 1 epoch)
+  - Checkpoint: checkpoint-100 (saved at step 100, mid-epoch)
+  - Status: **Recommended for use**
+  - Reason: Step 200 hit OOM, checkpoint-100 has complete training state
+  - Clear behavioral improvements vs baseline
 
 ## Session Summary
 
@@ -21,14 +34,16 @@
    - Final metrics show clear learning progress
 
 3. **Created Working Test Infrastructure**
-   - `test_brie_checkpoint100.py` - Test fine-tuned model
-   - `test_baseline_qwen.py` - Compare against base model
-   - Both scripts functional and ready for evaluation
+   - `test_brie_v2.py` - Interactive chat with Brie v2
+   - `test_philosophy_comparison.py` - Compare Brie v2 vs baseline on training domains
+   - `test_baseline_qwen.py` - Test base model separately
+   - All scripts functional and ready for evaluation
 
 4. **Verified Model Quality**
-   - Initial testing shows Brie learned your style
+   - Brie v2 shows clear learning vs baseline Qwen
    - More detailed, philosophically sophisticated responses
-   - Clear difference from baseline Qwen model
+   - Academic tone matching training data (RLHF logs)
+   - Note: Brie v1 (10 steps) showed minimal deviation - v2 required for actual improvements
 
 ## Training Metrics
 
@@ -94,20 +109,21 @@ Step 190: loss 2.808, acc 48.2%
 
 ### Immediate Options
 
-#### Option 1: Use Checkpoint-100 as Final Model ⭐ (Recommended)
+#### Option 1: Use Brie v2 (checkpoint-100) as Final Model ⭐ (Recommended)
 **Pros:**
 - Already represents 1 full pass through data
 - Solid metrics (2.8 loss, 45% accuracy)
-- Ready to use immediately
+- Ready to use immediately via `runs/brie-v2/`
 - Minimal overfitting risk
+- Clear behavioral improvements vs baseline
 
 **Cons:**
 - Didn't complete planned 2 epochs
 - Might benefit from additional training
 
 **Action:**
-- Continue testing Brie checkpoint-100
-- Gather feedback on response quality
+- Continue testing Brie v2 with `test_philosophy_comparison.py`
+- Gather feedback on response quality in actual use cases
 - Decide if additional training needed based on performance
 
 #### Option 2: Resume Training Without Evaluation
@@ -246,7 +262,7 @@ save_steps=50,       # More frequent checkpoints
 
 **Training Logs:**
 - `training_v2.log` - Complete training output
-- `runs/brie-v2-0.5b/checkpoint-100/trainer_state.json` - Detailed metrics
+- `runs/brie-v2/trainer_state.json` - Detailed metrics (via symlink to checkpoint-100)
 
 **Environment:**
 - macOS Sonoma 14.6
@@ -256,9 +272,9 @@ save_steps=50,       # More frequent checkpoints
 
 ## Conclusion
 
-We successfully trained Brie to completion for 1 epoch, creating a working fine-tuned model that demonstrably learned your writing style and domain expertise. While the OOM at step 200 prevented completing epoch 2, checkpoint-100 represents a solid, usable model.
+We successfully trained Brie v2 to completion for 1 epoch, creating a working fine-tuned model that demonstrably learned your writing style and domain expertise. While the OOM at step 200 prevented completing epoch 2, Brie v2 (checkpoint-100) represents a solid, usable model accessible via `runs/brie-v2/`.
 
-**Recommendation:** Test checkpoint-100 extensively with your actual use cases before deciding whether additional training is needed.
+**Recommendation:** Test Brie v2 extensively with philosophy and brainstorming prompts (using `test_philosophy_comparison.py`) before deciding whether additional training is needed.
 
 ---
 

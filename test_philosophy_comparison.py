@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+"""Compare Brie v2 vs baseline on philosophy & creative brainstorming prompts"""
+from peft import AutoPeftModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+import json
+import time
+import sys
+from datetime import datetime
+
+print("Loading baseline Qwen 2.5 0.5B Instruct...")
+baseline_model = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    device_map="mps",
+    torch_dtype=torch.float16,
+)
+baseline_tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+
+print("Loading Brie v2...")
+brie_model = AutoPeftModelForCausalLM.from_pretrained(
+    "runs/brie-v2/",
+    device_map="mps",
+    torch_dtype=torch.float16,
+)
+brie_tokenizer = AutoTokenizer.from_pretrained("runs/brie-v2/")
+
+def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You are a helpful AI assistant.") -> tuple[str, float]:
+    """Generate response and return (text, latency_seconds)"""
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": prompt}
+    ]
+
+    text = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+
+    inputs = tokenizer(text, return_tensors="pt").to("mps")
+
+    start_time = time.time()
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=512,
+            temperature=0.75,
+            do_sample=True,
+            pad_token_id=tokenizer.pad_token_id,
+        )
+    latency = time.time() - start_time
+
+    response = tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
+    return response.strip(), latency
+
+# Test prompts from Brie's training domains
+PHILOSOPHY_PROMPTS = [
+    "Explain Heidegger's concept of Dasein in simple terms.",
+    "What is the difference between Continental and Analytic philosophy?",
+    "How does Derrida's concept of différance challenge traditional metaphysics?",
+    "Explain Sartre's 'existence precedes essence' with an example.",
+    "What is phenomenology and why is it important?",
+]
+
+BRAINSTORMING_PROMPTS = [
+    "Give me 5 creative article ideas about the philosophy of artificial intelligence.",
+    "Brainstorm 5 ways to explain quantum mechanics to a 10-year-old.",
+    "Suggest 5 thought experiments about personal identity and consciousness.",
+    "Generate 5 creative angles for writing about the ethics of AI alignment.",
+    "Propose 5 unconventional perspectives on the meaning of 'understanding' in AI systems.",
+]
+
+CREATIVE_PROMPTS = [
+    "Write a short meditation on the experience of contemplating emptiness.",
+    "Describe the feeling of being present in a moment of silence.",
+    "How would you explain 'being' to someone who has never thought about philosophy?",
+]
+
+ALL_PROMPTS = PHILOSOPHY_PROMPTS + BRAINSTORMING_PROMPTS + CREATIVE_PROMPTS
+
+print(f"\nRunning {len(ALL_PROMPTS)} test prompts...\n")
+print("=" * 80)
+
+results = []
+
+for i, prompt in enumerate(ALL_PROMPTS, 1):
+    print(f"\n[{i}/{len(ALL_PROMPTS)}] Prompt: {prompt}\n")
+
+    # Generate baseline response
+    baseline_output, baseline_latency = generate_response(baseline_model, baseline_tokenizer, prompt)
+    print(f"BASELINE ({baseline_latency:.2f}s):\n{baseline_output}\n")
+    print("-" * 80)
+
+    # Generate Brie v2 response
+    brie_output, brie_latency = generate_response(brie_model, brie_tokenizer, prompt)
+    print(f"BRIE V2 ({brie_latency:.2f}s):\n{brie_output}\n")
+    print("=" * 80)
+
+    # Save result
+    results.append({
+        "prompt_num": i,
+        "prompt": prompt,
+        "baseline_output": baseline_output,
+        "baseline_latency_s": round(baseline_latency, 3),
+        "brie_output": brie_output,
+        "brie_latency_s": round(brie_latency, 3),
+    })
+
+# Save to JSONL with run number or timestamp
+if len(sys.argv) > 1:
+    run_id = sys.argv[1]
+else:
+    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+output_file = f"exports/philosophy_comparison_run{run_id}.jsonl"
+with open(output_file, "w") as f:
+    for result in results:
+        f.write(json.dumps(result) + "\n")
+
+print(f"\n\nResults saved to {output_file}")
+print("\nSummary:")
+print(f"  Run ID: {run_id}")
+print(f"  Total prompts: {len(results)}")
+avg_baseline_latency = sum(r["baseline_latency_s"] for r in results) / len(results)
+avg_brie_latency = sum(r["brie_latency_s"] for r in results) / len(results)
+print(f"  Avg baseline latency: {avg_baseline_latency:.2f}s")
+print(f"  Avg Brie latency: {avg_brie_latency:.2f}s")

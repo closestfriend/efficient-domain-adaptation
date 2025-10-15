@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Test Brie - Your fine-tuned model from RLHF testing logs"""
+"""Test Brie v2 - Your fine-tuned model from RLHF testing logs"""
 from peft import AutoPeftModelForCausalLM
 from transformers import AutoTokenizer
 import torch
 
-print("Loading Brie (checkpoint-100)...")
+print("Loading Brie v2...")
 model = AutoPeftModelForCausalLM.from_pretrained(
-    "runs/brie-v2-0.5b/checkpoint-100/",
+    "runs/brie-v2/",
     device_map="mps",
     torch_dtype=torch.float16,
 )
-tokenizer = AutoTokenizer.from_pretrained("runs/brie-v2-0.5b/checkpoint-100/")
+tokenizer = AutoTokenizer.from_pretrained("runs/brie-v2/")
 
 def chat(user_message: str, system_prompt: str = "You are a helpful AI assistant.") -> str:
-    """Simple chat function for Brie"""
+    """Simple chat function for Brie v2"""
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_message}
@@ -40,7 +40,7 @@ def chat(user_message: str, system_prompt: str = "You are a helpful AI assistant
     return response.strip()
 
 print("\n" + "="*60)
-print("🧀 Brie (checkpoint-100) - Ready to chat!")
+print("🧀 Brie v2 - Ready to chat!")
 print("Trained on 1,153 examples from your RLHF testing logs")
 print("="*60 + "\n")
 
@@ -56,7 +56,7 @@ while True:
             continue
 
         response = chat(user_input)
-        print(f"\nBrie: {response}\n")
+        print(f"\nBrie v2: {response}\n")
 
     except KeyboardInterrupt:
         print("\n\nExiting...")
