@@ -100,7 +100,7 @@ trainer = SFTTrainer(
 
 print("Starting training...")
 print("=" * 60)
-trainer.train(resume_from_checkpoint="runs/brie-v2-0.5b/checkpoint-100")
+trainer.train()  # Train from scratch - faster than debugging checkpoint issues
 print("=" * 60)
 print("Training complete!")
 
