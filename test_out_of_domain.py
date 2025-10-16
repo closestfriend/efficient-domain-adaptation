@@ -6,23 +6,50 @@ import torch
 import json
 import time
 import sys
+import argparse
 from datetime import datetime
 
-print("Loading baseline Qwen 2.5 0.5B Instruct...")
-baseline_model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-0.5B-Instruct",
-    device_map="mps",
-    torch_dtype=torch.float16,
+# Parse arguments
+parser = argparse.ArgumentParser(description="Compare Brie vs baseline on out-of-domain tasks")
+parser.add_argument(
+    "--model-size",
+    type=str,
+    default="3b",
+    choices=["0.5b", "3b", "7b"],
+    help="Model size to use (default: 3b)"
 )
-baseline_tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+args = parser.parse_args()
 
-print("Loading Brie v2...")
-brie_model = AutoPeftModelForCausalLM.from_pretrained(
-    "runs/brie-v2/",
+# Map size to model paths
+BASELINE_MAP = {
+    "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
+    "3b": "Qwen/Qwen2.5-3B-Instruct",
+    "7b": "Qwen/Qwen2.5-7B-Instruct",
+}
+BRIE_MAP = {
+    "0.5b": "runs/brie-v2-0.5b",
+    "3b": "runs/brie-v2-3b",
+    "7b": "runs/brie-v2-7b",
+}
+
+baseline_id = BASELINE_MAP[args.model_size]
+brie_path = BRIE_MAP[args.model_size]
+
+print(f"Loading baseline {baseline_id}...")
+baseline_model = AutoModelForCausalLM.from_pretrained(
+    baseline_id,
     device_map="mps",
     torch_dtype=torch.float16,
 )
-brie_tokenizer = AutoTokenizer.from_pretrained("runs/brie-v2/")
+baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
+
+print(f"Loading Brie v2 ({args.model_size.upper()})...")
+brie_model = AutoPeftModelForCausalLM.from_pretrained(
+    brie_path,
+    device_map="mps",
+    torch_dtype=torch.float16,
+)
+brie_tokenizer = AutoTokenizer.from_pretrained(brie_path)
 
 def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You are a helpful AI assistant.") -> tuple[str, float]:
     """Generate response and return (text, latency_seconds)"""
@@ -115,20 +142,16 @@ for i, prompt in enumerate(ALL_PROMPTS, 1):
         "brie_latency_s": round(brie_latency, 3),
     })
 
-# Save to JSONL
-if len(sys.argv) > 1:
-    run_id = sys.argv[1]
-else:
-    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-output_file = f"exports/out_of_domain_run{run_id}.jsonl"
+# Save to JSONL with model size and timestamp
+run_id = f"{args.model_size}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+output_file = f"exports/out_of_domain_{run_id}.jsonl"
 with open(output_file, "w") as f:
     for result in results:
         f.write(json.dumps(result) + "\n")
 
 print(f"\n\nResults saved to {output_file}")
 print("\nSummary:")
-print(f"  Run ID: {run_id}")
+print(f"  Model size: {args.model_size.upper()}")
 print(f"  Total prompts: {len(results)}")
 avg_baseline_latency = sum(r["baseline_latency_s"] for r in results) / len(results)
 avg_brie_latency = sum(r["brie_latency_s"] for r in results) / len(results)
