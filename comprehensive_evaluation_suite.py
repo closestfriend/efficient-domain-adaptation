@@ -10,31 +10,59 @@ import json
 import random
 import anthropic
 import os
+import argparse
 from datetime import datetime
 from typing import List, Dict, Tuple
 import time
+
+# Parse arguments
+parser = argparse.ArgumentParser(description="Comprehensive evaluation suite for Brie v2")
+parser.add_argument(
+    "--model-size",
+    type=str,
+    default="3b",
+    choices=["0.5b", "3b", "7b"],
+    help="Model size to use (default: 3b)"
+)
+args = parser.parse_args()
+
+# Map size to model paths
+BASELINE_MAP = {
+    "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
+    "3b": "Qwen/Qwen2.5-3B-Instruct",
+    "7b": "Qwen/Qwen2.5-7B-Instruct",
+}
+BRIE_MAP = {
+    "0.5b": "runs/brie-v2-0.5b",
+    "3b": "runs/brie-v2-3b",
+    "7b": "runs/brie-v2-7b",
+}
+
+baseline_id = BASELINE_MAP[args.model_size]
+brie_path = BRIE_MAP[args.model_size]
 
 # Set API key
 os.environ["ANTHROPIC_API_KEY"] = "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"
 
 print("="*80)
-print("COMPREHENSIVE BRIE V2 EVALUATION SUITE")
+print(f"COMPREHENSIVE BRIE V2 EVALUATION SUITE ({args.model_size.upper()})")
 print("="*80)
 
-print("\nLoading local models...")
+print(f"\nLoading baseline {baseline_id}...")
 baseline_model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-0.5B-Instruct",
+    baseline_id,
     device_map="mps",
     torch_dtype=torch.float16,
 )
-baseline_tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
 
+print(f"Loading Brie v2 ({args.model_size.upper()})...")
 brie_model = AutoPeftModelForCausalLM.from_pretrained(
-    "runs/brie-v2/",
+    brie_path,
     device_map="mps",
     torch_dtype=torch.float16,
 )
-brie_tokenizer = AutoTokenizer.from_pretrained("runs/brie-v2/")
+brie_tokenizer = AutoTokenizer.from_pretrained(brie_path)
 
 print("Initializing Claude API client...")
 claude_client = anthropic.Anthropic()
@@ -365,7 +393,7 @@ if __name__ == "__main__":
 
             # Save intermediate results
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            intermediate_file = f"exports/comprehensive_eval_intermediate_{timestamp}.jsonl"
+            intermediate_file = f"exports/comprehensive_eval_{args.model_size}_intermediate_{timestamp}.jsonl"
             with open(intermediate_file, "w") as f:
                 for result in all_results:
                     f.write(json.dumps(result) + "\n")
@@ -376,7 +404,7 @@ if __name__ == "__main__":
             continue
 
     # Save final results
-    final_file = f"exports/comprehensive_eval_final_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
+    final_file = f"exports/comprehensive_eval_{args.model_size}_final_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
     with open(final_file, "w") as f:
         for result in all_results:
             f.write(json.dumps(result) + "\n")
@@ -385,8 +413,9 @@ if __name__ == "__main__":
     total_time = time.time() - start_time
 
     print(f"\n\n{'='*80}")
-    print("COMPREHENSIVE EVALUATION COMPLETE")
+    print(f"COMPREHENSIVE EVALUATION COMPLETE ({args.model_size.upper()})")
     print(f"{'='*80}")
+    print(f"Model size: {args.model_size.upper()}")
     print(f"\nTotal comparisons: {len(all_results)}")
     print(f"Total time: {total_time/60:.1f} minutes")
 

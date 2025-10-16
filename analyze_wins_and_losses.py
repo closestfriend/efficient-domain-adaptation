@@ -1,14 +1,31 @@
 #!/usr/bin/env python3
 """Analyze what made Brie win vs lose"""
 import json
+import sys
+import argparse
 from collections import defaultdict
 
+# Parse arguments
+parser = argparse.ArgumentParser(description="Analyze Brie wins and losses from evaluation results")
+parser.add_argument(
+    "results_file",
+    type=str,
+    help="Path to comprehensive eval results JSONL file"
+)
+args = parser.parse_args()
+
 # Load results
-with open("exports/comprehensive_eval_final_20251014_190044.jsonl") as f:
-    results = [json.loads(line) for line in f]
+try:
+    with open(args.results_file) as f:
+        results = [json.loads(line) for line in f]
+except FileNotFoundError:
+    print(f"Error: Could not find file {args.results_file}")
+    sys.exit(1)
 
 print("="*80)
 print("BRIE WIN/LOSS ANALYSIS")
+print("="*80)
+print(f"Analyzing: {args.results_file}")
 print("="*80)
 
 # Separate wins and losses
