@@ -1,12 +1,15 @@
 ---
 base_model: Qwen/Qwen2.5-0.5B-Instruct
-library_name: transformers
+library_name: peft
 model_name: brie-v2-0.5b
 tags:
-- generated_from_trainer
+- base_model:adapter:Qwen/Qwen2.5-0.5B-Instruct
+- lora
 - sft
+- transformers
 - trl
 licence: license
+pipeline_tag: text-generation
 ---
 
 # Model Card for brie-v2-0.5b
@@ -34,10 +37,11 @@ This model was trained with SFT.
 
 ### Framework versions
 
-- TRL: 0.23.1
-- Transformers: 4.56.2
-- Pytorch: 2.8.0
-- Datasets: 4.1.1
+- PEFT 0.17.1
+- TRL: 0.24.0
+- Transformers: 4.57.1
+- Pytorch: 2.8.0+cu128
+- Datasets: 4.2.0
 - Tokenizers: 0.22.1
 
 ## Citations
