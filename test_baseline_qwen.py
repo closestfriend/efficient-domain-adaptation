@@ -1,15 +1,35 @@
 #!/usr/bin/env python3
-"""Test baseline Qwen 2.5 0.5B Instruct (no fine-tuning)"""
+"""Test baseline Qwen 2.5 Instruct models (no fine-tuning)"""
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+import argparse
 
-print("Loading baseline Qwen 2.5 0.5B Instruct...")
+# Parse arguments
+parser = argparse.ArgumentParser(description="Interactive chat with baseline Qwen models")
+parser.add_argument(
+    "--model-size",
+    type=str,
+    default="3b",
+    choices=["0.5b", "3b", "7b"],
+    help="Model size to use (default: 3b)"
+)
+args = parser.parse_args()
+
+# Map size to model ID
+MODEL_MAP = {
+    "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
+    "3b": "Qwen/Qwen2.5-3B-Instruct",
+    "7b": "Qwen/Qwen2.5-7B-Instruct",
+}
+
+model_id = MODEL_MAP[args.model_size]
+print(f"Loading baseline {model_id}...")
 model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-0.5B-Instruct",
+    model_id,
     device_map="mps",
     torch_dtype=torch.float16,
 )
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+tokenizer = AutoTokenizer.from_pretrained(model_id)
 
 def chat(user_message: str, system_prompt: str = "You are a helpful AI assistant.") -> str:
     """Simple chat function for baseline Qwen"""
@@ -39,7 +59,7 @@ def chat(user_message: str, system_prompt: str = "You are a helpful AI assistant
     return response.strip()
 
 print("\n" + "="*60)
-print("Baseline Qwen 2.5 0.5B Instruct - Ready to chat!")
+print(f"Baseline Qwen 2.5 {args.model_size.upper()} Instruct - Ready to chat!")
 print("(No fine-tuning)")
 print("="*60 + "\n")
 
