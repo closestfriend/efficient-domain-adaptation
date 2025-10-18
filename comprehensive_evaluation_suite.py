@@ -41,8 +41,10 @@ BRIE_MAP = {
 baseline_id = BASELINE_MAP[args.model_size]
 brie_path = BRIE_MAP[args.model_size]
 
-# Set API key
-os.environ["ANTHROPIC_API_KEY"] = "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"
+# Set API key from environment variable
+# Before running: export ANTHROPIC_API_KEY="your-key-here"
+if "ANTHROPIC_API_KEY" not in os.environ:
+    raise ValueError("ANTHROPIC_API_KEY environment variable not set. Run: export ANTHROPIC_API_KEY='your-key-here'")
 
 print("="*80)
 print(f"COMPREHENSIVE BRIE V2 EVALUATION SUITE ({args.model_size.upper()})")

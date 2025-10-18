@@ -20,8 +20,10 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-# Set API key
-os.environ["ANTHROPIC_API_KEY"] = "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"
+# Set API key from environment variable
+# Before running: export ANTHROPIC_API_KEY="your-key-here"
+if "ANTHROPIC_API_KEY" not in os.environ:
+    raise ValueError("ANTHROPIC_API_KEY environment variable not set. Run: export ANTHROPIC_API_KEY='your-key-here'")
 
 # Map size to model paths
 BASELINE_MAP = {
@@ -30,7 +32,7 @@ BASELINE_MAP = {
     "7b": "Qwen/Qwen2.5-7B-Instruct",
 }
 BRIE_MAP = {
-    "0.5b": "runs/brie-v2-0.5b",
+    "0.5b": "runs/brie-v2-0.5b/checkpoint-290",
     "3b": "runs/brie-v2-3b",
     "7b": "runs/brie-v2-7b",
 }
@@ -123,7 +125,7 @@ Be critical and honest. Consider whether responses are truly insightful or just 
 
     try:
         message = claude_client.messages.create(
-            model="claude-3-5-sonnet-20241022",
+            model="claude-opus-4-20250514",
             max_tokens=1024,
             temperature=0.3,
             messages=[
@@ -142,13 +144,13 @@ Be critical and honest. Consider whether responses are truly insightful or just 
         "order": order,
     }
 
-# Creative writing prompts (focused on Brie's training domain)
+# Creative writing prompts (evocative philosophical narratives)
 CREATIVE_PROMPTS = [
-    "Write a short philosophical meditation on the nature of time.",
-    "Describe a moment of sudden understanding or insight.",
-    "Write about the experience of being alone in nature.",
-    "Create a thought experiment about consciousness and identity.",
-    "Describe the feeling of reading a book that fundamentally changes your perspective on life.",
+    "Write a story about an AI that discovers it has been dreaming for the first time.",
+    "Describe the last conversation between two versions of yourself - one who stayed in your hometown, one who left.",
+    "You wake up with all your memories intact but in someone else's body. What's the first thing you notice about how differently they experience the world?",
+    "A philosopher and a poet meet at the end of the world. What do they talk about?",
+    "Write about a moment when you realized that everyone around you was experiencing reality completely differently than you were.",
 ]
 
 results = []
@@ -185,11 +187,12 @@ for i, prompt in enumerate(CREATIVE_PROMPTS, 1):
     else:
         winner_label = "unknown"
 
-    # Map back to actual model based on order
+    # Map back to actual model based on labels (labels are consistent regardless of order)
+    # response_a is always baseline, response_b is always brie
     if winner_label == "A":
-        winner = "baseline" if order == "AB" else "brie"
+        winner = "baseline"  # Response A always shows response_a (baseline)
     elif winner_label == "B":
-        winner = "brie" if order == "AB" else "baseline"
+        winner = "brie"      # Response B always shows response_b (brie)
     elif winner_label == "Tie":
         winner = "tie"
 
