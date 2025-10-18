@@ -24,11 +24,24 @@ MODEL_MAP = {
 }
 
 model_id = MODEL_MAP[args.model_size]
+
+# Auto-detect device (CUDA for GPU, MPS for Mac, CPU otherwise)
+if torch.cuda.is_available():
+    device = "cuda"
+    device_map = "auto"
+elif torch.backends.mps.is_available():
+    device = "mps"
+    device_map = "mps"
+else:
+    device = "cpu"
+    device_map = "cpu"
+
 print(f"Loading baseline {model_id}...")
+print(f"Using device: {device}")
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
-    device_map="mps",
-    torch_dtype=torch.float16,
+    device_map=device_map,
+    torch_dtype=torch.float16 if device != "cpu" else torch.float32,
 )
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 
@@ -45,7 +58,7 @@ def chat(user_message: str, system_prompt: str = "You are a helpful AI assistant
         add_generation_prompt=True
     )
 
-    inputs = tokenizer(text, return_tensors="pt").to("mps")
+    inputs = tokenizer(text, return_tensors="pt").to(device)
 
     with torch.no_grad():
         outputs = model.generate(
