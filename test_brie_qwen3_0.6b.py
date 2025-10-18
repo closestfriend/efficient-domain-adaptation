@@ -60,7 +60,7 @@ while True:
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=512,
+            max_new_tokens=1024,
             temperature=0.75,
             do_sample=True,
             top_p=0.95,

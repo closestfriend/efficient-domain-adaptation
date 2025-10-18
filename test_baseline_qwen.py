@@ -63,7 +63,7 @@ def chat(user_message: str, system_prompt: str = "You are a helpful AI assistant
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=256,
+            max_new_tokens=1024,
             temperature=0.7,
             do_sample=True,
             pad_token_id=tokenizer.pad_token_id,
