@@ -10,7 +10,7 @@ parser.add_argument(
     "--model-size",
     type=str,
     default="3b",
-    choices=["0.5b", "3b", "7b"],
+    choices=["0.5b", "0.6b", "3b", "7b"],
     help="Model size to use (default: 3b)"
 )
 args = parser.parse_args()
@@ -18,6 +18,7 @@ args = parser.parse_args()
 # Map size to model ID
 MODEL_MAP = {
     "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
+    "0.6b": "Qwen/Qwen3-0.6B",
     "3b": "Qwen/Qwen2.5-3B-Instruct",
     "7b": "Qwen/Qwen2.5-7B-Instruct",
 }
