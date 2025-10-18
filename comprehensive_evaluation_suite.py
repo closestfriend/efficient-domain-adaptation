@@ -136,6 +136,9 @@ def generate_response(
 
     inputs = tokenizer(text, return_tensors="pt").to("mps")
 
+    # Clear MPS cache to avoid memory issues
+    torch.mps.empty_cache()
+
     start_time = time.time()
     with torch.no_grad():
         outputs = model.generate(
@@ -143,6 +146,7 @@ def generate_response(
             max_new_tokens=max_tokens,
             temperature=temperature,
             do_sample=True,
+            top_p=0.95,  # Constrain sampling to avoid numerical instability
             pad_token_id=tokenizer.pad_token_id,
         )
     latency = time.time() - start_time
@@ -211,7 +215,12 @@ Be critical and honest. Consider whether responses are truly insightful or just 
     }
 
 def parse_winner(judgment_text: str, order: str) -> str:
-    """Parse winner from judgment text"""
+    """Parse winner from judgment text
+
+    Note: Response A is ALWAYS baseline, Response B is ALWAYS brie.
+    The 'order' parameter only controls presentation order (which appears first),
+    not which label maps to which model.
+    """
     judgment_lower = judgment_text.lower()
 
     if "winner: a" in judgment_lower or "winner:a" in judgment_lower:
@@ -223,11 +232,12 @@ def parse_winner(judgment_text: str, order: str) -> str:
     else:
         return "unknown"
 
-    # Map back to actual model based on order
+    # Response A is always baseline, Response B is always brie
+    # (regardless of presentation order)
     if winner_label == "A":
-        return "baseline" if order == "AB" else "brie"
+        return "baseline"
     elif winner_label == "B":
-        return "brie" if order == "AB" else "baseline"
+        return "brie"
 
     return "unknown"
 
