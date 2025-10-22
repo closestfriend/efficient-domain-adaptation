@@ -5,7 +5,7 @@ import glob
 from collections import defaultdict
 
 print("=" * 120)
-print("CROSS-JUDGE COMPARISON: Claude 3.5 Sonnet vs GPT-4o vs Gemini 2.5 Flash Lite")
+print("CROSS-JUDGE COMPARISON: Claude (Sonnet & Opus 4) vs GPT-4o vs Gemini 2.5 Flash Lite")
 print("=" * 120)
 
 # Define the evaluation files to analyze
@@ -30,21 +30,40 @@ for eval_name, files in eval_files.items():
     # Load all judgments
     judges_data = {}
 
-    # Load Claude judgments from original file
+    # Load Claude judgments from original file (separate Sonnet and Opus)
     with open(files["original"], 'r') as f:
-        claude_results = [json.loads(line) for line in f]
+        all_claude_results = [json.loads(line) for line in f]
 
-    claude_total = len(claude_results)
-    claude_brie = sum(1 for r in claude_results if r.get('winner') == 'brie')
-    claude_baseline = sum(1 for r in claude_results if r.get('winner') == 'baseline')
-    claude_tie = sum(1 for r in claude_results if r.get('winner') == 'tie')
+    # Separate by judge model
+    sonnet_results = [r for r in all_claude_results if 'sonnet' in r.get('judge_model', '').lower()]
+    opus_results = [r for r in all_claude_results if 'opus' in r.get('judge_model', '').lower()]
+
+    # Claude 3.5 Sonnet
+    sonnet_total = len(sonnet_results)
+    sonnet_brie = sum(1 for r in sonnet_results if r.get('winner') == 'brie')
+    sonnet_baseline = sum(1 for r in sonnet_results if r.get('winner') == 'baseline')
+    sonnet_tie = sum(1 for r in sonnet_results if r.get('winner') == 'tie')
 
     judges_data['Claude 3.5 Sonnet'] = {
-        'total': claude_total,
-        'brie': claude_brie,
-        'baseline': claude_baseline,
-        'tie': claude_tie,
-        'brie_rate': claude_brie / claude_total * 100 if claude_total > 0 else 0,
+        'total': sonnet_total,
+        'brie': sonnet_brie,
+        'baseline': sonnet_baseline,
+        'tie': sonnet_tie,
+        'brie_rate': sonnet_brie / sonnet_total * 100 if sonnet_total > 0 else 0,
+    }
+
+    # Claude Opus 4
+    opus_total = len(opus_results)
+    opus_brie = sum(1 for r in opus_results if r.get('winner') == 'brie')
+    opus_baseline = sum(1 for r in opus_results if r.get('winner') == 'baseline')
+    opus_tie = sum(1 for r in opus_results if r.get('winner') == 'tie')
+
+    judges_data['Claude Opus 4'] = {
+        'total': opus_total,
+        'brie': opus_brie,
+        'baseline': opus_baseline,
+        'tie': opus_tie,
+        'brie_rate': opus_brie / opus_total * 100 if opus_total > 0 else 0,
     }
 
     # Load GPT-4o judgments
@@ -85,7 +104,7 @@ for eval_name, files in eval_files.items():
     print(f"{'Judge':<25} {'Total':<8} {'Brie Wins':<15} {'Baseline Wins':<18} {'Ties':<10} {'Brie Win %':<12}")
     print(f"{'-'*25} {'-'*8} {'-'*15} {'-'*18} {'-'*10} {'-'*12}")
 
-    for judge_name in ['Claude 3.5 Sonnet', 'GPT-4o', 'Gemini 2.5 Flash Lite']:
+    for judge_name in ['Claude 3.5 Sonnet', 'Claude Opus 4', 'GPT-4o', 'Gemini 2.5 Flash Lite']:
         data = judges_data[judge_name]
         print(f"{judge_name:<25} {data['total']:<8} "
               f"{data['brie']:<6} ({data['brie']/data['total']*100:5.1f}%)  "
@@ -96,77 +115,61 @@ for eval_name, files in eval_files.items():
     # Calculate agreement
     print(f"\n  Agreement Analysis:")
 
-    # Prompt-by-prompt comparison
+    # Prompt-by-prompt comparison (using GPT and Gemini since they have same prompts)
+    # Note: Claude Sonnet/Opus have different prompt counts
     agreements = defaultdict(int)
     disagreements = []
 
-    for i in range(min(len(claude_results), len(gpt_results), len(gemini_results))):
-        claude_winner = claude_results[i].get('winner')
+    for i in range(min(len(gpt_results), len(gemini_results))):
         gpt_winner = gpt_results[i].get('winner')
         gemini_winner = gemini_results[i].get('winner')
 
-        winners = [claude_winner, gpt_winner, gemini_winner]
-
-        if claude_winner == gpt_winner == gemini_winner:
-            agreements['all_three'] += 1
-        elif claude_winner == gpt_winner or claude_winner == gemini_winner or gpt_winner == gemini_winner:
-            agreements['two_agree'] += 1
+        if gpt_winner == gemini_winner:
+            agreements['agree'] += 1
         else:
-            agreements['all_disagree'] += 1
+            agreements['disagree'] += 1
             disagreements.append({
                 'prompt_num': i + 1,
-                'prompt': claude_results[i].get('prompt', '')[:60] + "...",
-                'claude': claude_winner,
+                'prompt': gpt_results[i].get('prompt', '')[:60] + "...",
                 'gpt4o': gpt_winner,
                 'gemini': gemini_winner,
             })
 
-    total_comparisons = min(len(claude_results), len(gpt_results), len(gemini_results))
+    total_comparisons = min(len(gpt_results), len(gemini_results))
 
-    print(f"    All 3 judges agree:     {agreements['all_three']:3d}/{total_comparisons} ({agreements['all_three']/total_comparisons*100:5.1f}%)")
-    print(f"    2 judges agree:         {agreements['two_agree']:3d}/{total_comparisons} ({agreements['two_agree']/total_comparisons*100:5.1f}%)")
-    print(f"    All disagree:           {agreements['all_disagree']:3d}/{total_comparisons} ({agreements['all_disagree']/total_comparisons*100:5.1f}%)")
+    print(f"    GPT-4o ↔ Gemini agreement: {agreements['agree']:3d}/{total_comparisons} ({agreements['agree']/total_comparisons*100:5.1f}%)")
 
-    # Pairwise agreements
-    claude_gpt_agree = sum(1 for i in range(total_comparisons)
-                           if claude_results[i].get('winner') == gpt_results[i].get('winner'))
-    claude_gemini_agree = sum(1 for i in range(total_comparisons)
-                              if claude_results[i].get('winner') == gemini_results[i].get('winner'))
-    gpt_gemini_agree = sum(1 for i in range(total_comparisons)
-                           if gpt_results[i].get('winner') == gemini_results[i].get('winner'))
-
-    print(f"\n  Pairwise Agreement:")
-    print(f"    Claude ↔ GPT-4o:        {claude_gpt_agree:3d}/{total_comparisons} ({claude_gpt_agree/total_comparisons*100:5.1f}%)")
-    print(f"    Claude ↔ Gemini:        {claude_gemini_agree:3d}/{total_comparisons} ({claude_gemini_agree/total_comparisons*100:5.1f}%)")
-    print(f"    GPT-4o ↔ Gemini:        {gpt_gemini_agree:3d}/{total_comparisons} ({gpt_gemini_agree/total_comparisons*100:5.1f}%)")
-
-    if disagreements:
-        print(f"\n  Cases where all 3 judges disagreed ({len(disagreements)} total):")
-        for d in disagreements[:5]:  # Show first 5
+    if disagreements and len(disagreements) <= 10:
+        print(f"\n  Cases where GPT-4o and Gemini disagreed ({len(disagreements)} total):")
+        for d in disagreements:
             print(f"    #{d['prompt_num']}: {d['prompt']}")
-            print(f"      Claude: {d['claude']:8s}  |  GPT-4o: {d['gpt4o']:8s}  |  Gemini: {d['gemini']:8s}")
+            print(f"      GPT-4o: {d['gpt4o']:8s}  |  Gemini: {d['gemini']:8s}")
 
 print("\n" + "=" * 120)
 print("SUMMARY")
 print("=" * 120)
 
 print("\nBrie Win Rates by Judge and Model Size:")
-print(f"\n{'Model Size':<20} {'Claude 3.5 Sonnet':<20} {'GPT-4o':<20} {'Gemini 2.5 Flash Lite':<25}")
-print(f"{'-'*20} {'-'*20} {'-'*20} {'-'*25}")
+print(f"\n{'Model Size':<20} {'Claude Sonnet':<15} {'Claude Opus 4':<15} {'GPT-4o':<15} {'Gemini 2.5':<15}")
+print(f"{'-'*20} {'-'*15} {'-'*15} {'-'*15} {'-'*15}")
 
 for eval_name, files in eval_files.items():
     # Load data
     with open(files["original"], 'r') as f:
-        claude_results = [json.loads(line) for line in f]
+        all_claude = [json.loads(line) for line in f]
     with open(files["gpt4o"], 'r') as f:
         gpt_results = [json.loads(line) for line in f]
     with open(files["gemini"], 'r') as f:
         gemini_results = [json.loads(line) for line in f]
 
-    claude_rate = sum(1 for r in claude_results if r.get('winner') == 'brie') / len(claude_results) * 100
+    sonnet_results = [r for r in all_claude if 'sonnet' in r.get('judge_model', '').lower()]
+    opus_results = [r for r in all_claude if 'opus' in r.get('judge_model', '').lower()]
+
+    sonnet_rate = sum(1 for r in sonnet_results if r.get('winner') == 'brie') / len(sonnet_results) * 100 if sonnet_results else 0
+    opus_rate = sum(1 for r in opus_results if r.get('winner') == 'brie') / len(opus_results) * 100 if opus_results else 0
     gpt_rate = sum(1 for r in gpt_results if r.get('winner') == 'brie') / len(gpt_results) * 100
     gemini_rate = sum(1 for r in gemini_results if r.get('winner') == 'brie') / len(gemini_results) * 100
 
-    print(f"{eval_name:<20} {claude_rate:5.1f}%{' '*14} {gpt_rate:5.1f}%{' '*14} {gemini_rate:5.1f}%")
+    print(f"{eval_name:<20} {sonnet_rate:5.1f}%{' '*9} {opus_rate:5.1f}%{' '*9} {gpt_rate:5.1f}%{' '*9} {gemini_rate:5.1f}%")
 
 print("\n" + "=" * 120)
