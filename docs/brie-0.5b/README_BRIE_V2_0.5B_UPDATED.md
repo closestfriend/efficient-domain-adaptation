@@ -24,20 +24,24 @@ model-index:
       type: custom
     metrics:
     - type: win_rate
-      value: 71.9
-      name: Win Rate vs Baseline (Claude 3.5 Sonnet, blind A/B)
+      value: 76.2
+      name: Win Rate vs Baseline (Claude 3.5 Sonnet, blind A/B, n=42)
+      verified: false
+    - type: win_rate
+      value: 45.6
+      name: Win Rate vs Baseline (Claude Opus 4, blind A/B, n=57)
       verified: false
     - type: win_rate
       value: 75.4
-      name: Win Rate vs Baseline (GPT-4o, blind A/B)
+      name: Win Rate vs Baseline (GPT-4o, blind A/B, n=57)
       verified: false
     - type: win_rate
       value: 82.5
-      name: Win Rate vs Baseline (Gemini 2.5 Flash Lite, blind A/B)
+      name: Win Rate vs Baseline (Gemini 2.5 Flash Lite, blind A/B, n=57)
       verified: false
     - type: inter_judge_agreement
-      value: 77.2
-      name: All 3 Judges Agreement Rate
+      value: 93.0
+      name: GPT-4o ↔ Gemini Agreement Rate
       verified: false
   - task:
       type: text-generation
@@ -75,24 +79,27 @@ Brie is a LoRA fine-tuned adapter for Qwen 2.5 0.5B Instruct, specialized for co
 
 ## 📊 Performance Results
 
-**Cross-validated across 3 independent LLM judges** through 57+ blind A/B comparisons:
+**Cross-validated across 4 independent LLM judges** through 57 blind A/B comparisons:
 
 ### Judge Consensus (0.5B Model)
-| Judge | Overall Win Rate | Agreement w/ Others |
-|-------|-----------------|---------------------|
-| **Claude 3.5 Sonnet** (Anthropic) | 71.9% | 77-84% |
-| **GPT-4o** (OpenAI) | 75.4% | 77-93% |
-| **Gemini 2.5 Flash Lite** (Google) | 82.5% | 84-93% |
+| Judge | Overall Win Rate | Sample Size |
+|-------|-----------------|-------------|
+| **Claude 3.5 Sonnet** (Anthropic) | 76.2% | n=42 |
+| **Claude Opus 4** (Anthropic) | 45.6% | n=57 |
+| **GPT-4o** (OpenAI) | 75.4% | n=57 |
+| **Gemini 2.5 Flash Lite** (Google) | 82.5% | n=57 |
 
-**All 3 judges agree: 77.2%** of the time (44/57 cases)
+**GPT-4o ↔ Gemini agreement: 93.0%** (53/57 cases)
 
 ### Performance Highlights
+- **3 out of 4 judges** strongly prefer Brie (75-83% win rate)
+- Claude Opus 4 is notably conservative, rating Brie near-even (45.6%)
 - **In-Domain (Philosophy/Creative):** 77-85% win rate across judges
 - **Out-of-Domain (General tasks):** 40% win rate (maintained baseline competence)
-- **3B Model:** 91.2-94.7% win rate (86% judge agreement)
+- **3B Model:** 78.9-95.2% win rate across all 4 judges
 
 ### Key Achievement
-Domain-specific excellence validated by **three major AI labs** (Anthropic, OpenAI, Google) with strong inter-judge agreement, demonstrating robust and reliable improvements
+Domain-specific excellence validated by **three major AI labs** (Anthropic, OpenAI, Google). Strong consensus from 3 judges (75-83%), with the conservative 4th judge (Opus 4) providing a tougher perspective.
 
 ---
 

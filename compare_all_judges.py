@@ -9,14 +9,18 @@ print("CROSS-JUDGE COMPARISON: Claude (Sonnet & Opus 4) vs GPT-4o vs Gemini 2.5 
 print("=" * 120)
 
 # Define the evaluation files to analyze
+import os
+
 eval_files = {
     "Comprehensive 0.5B": {
-        "original": "exports/comprehensive_eval_0.5b_final_20251016_220256_CORRECTED.jsonl",
+        "sonnet": "exports/comprehensive_eval_0.5b_final_20251016_220256_CORRECTED.jsonl",
+        "opus": "exports/comprehensive_eval_0.5b_final_20251016_220256_CORRECTED_judged_20251021_203643.jsonl",
         "gpt4o": "exports/comprehensive_eval_0.5b_final_20251016_220256_CORRECTED_judged_gpt_4o_20251021_181849.jsonl",
         "gemini": "exports/comprehensive_eval_0.5b_final_20251016_220256_CORRECTED_judged_gemini_2_5_flash_lite_20251021_182548.jsonl",
     },
     "Comprehensive 3B": {
-        "original": "exports/comprehensive_eval_3b_final_20251018_175044_CORRECTED.jsonl",
+        "sonnet": "exports/comprehensive_eval_3b_final_20251018_175044_CORRECTED.jsonl",
+        "opus": "exports/comprehensive_eval_3b_final_20251018_175044_CORRECTED_judged_20251021_203743.jsonl",
         "gpt4o": "exports/comprehensive_eval_3b_final_20251018_175044_CORRECTED_judged_gpt_4o_20251021_182842.jsonl",
         "gemini": "exports/comprehensive_eval_3b_final_20251018_175044_CORRECTED_judged_gemini_2_5_flash_lite_20251021_182943.jsonl",
     },
@@ -30,13 +34,19 @@ for eval_name, files in eval_files.items():
     # Load all judgments
     judges_data = {}
 
-    # Load Claude judgments from original file (separate Sonnet and Opus)
-    with open(files["original"], 'r') as f:
-        all_claude_results = [json.loads(line) for line in f]
+    # Load Claude Sonnet judgments
+    with open(files["sonnet"], 'r') as f:
+        sonnet_results = [json.loads(line) for line in f]
 
-    # Separate by judge model
-    sonnet_results = [r for r in all_claude_results if 'sonnet' in r.get('judge_model', '').lower()]
-    opus_results = [r for r in all_claude_results if 'opus' in r.get('judge_model', '').lower()]
+    # Filter to only Sonnet judgments (file may contain both)
+    sonnet_results = [r for r in sonnet_results if 'sonnet' in r.get('judge_model', '').lower()]
+
+    # Load Claude Opus 4 judgments if available
+    if files["opus"]:
+        with open(files["opus"], 'r') as f:
+            opus_results = [json.loads(line) for line in f]
+    else:
+        opus_results = []
 
     # Claude 3.5 Sonnet
     sonnet_total = len(sonnet_results)
@@ -106,11 +116,14 @@ for eval_name, files in eval_files.items():
 
     for judge_name in ['Claude 3.5 Sonnet', 'Claude Opus 4', 'GPT-4o', 'Gemini 2.5 Flash Lite']:
         data = judges_data[judge_name]
-        print(f"{judge_name:<25} {data['total']:<8} "
-              f"{data['brie']:<6} ({data['brie']/data['total']*100:5.1f}%)  "
-              f"{data['baseline']:<6} ({data['baseline']/data['total']*100:5.1f}%)   "
-              f"{data['tie']:<6} ({data['tie']/data['total']*100:4.1f}%)  "
-              f"{data['brie_rate']:5.1f}%")
+        if data['total'] == 0:
+            print(f"{judge_name:<25} {'N/A':<8} {'N/A':<15} {'N/A':<18} {'N/A':<10} {'N/A':<12}")
+        else:
+            print(f"{judge_name:<25} {data['total']:<8} "
+                  f"{data['brie']:<6} ({data['brie']/data['total']*100:5.1f}%)  "
+                  f"{data['baseline']:<6} ({data['baseline']/data['total']*100:5.1f}%)   "
+                  f"{data['tie']:<6} ({data['tie']/data['total']*100:4.1f}%)  "
+                  f"{data['brie_rate']:5.1f}%")
 
     # Calculate agreement
     print(f"\n  Agreement Analysis:")
@@ -155,15 +168,20 @@ print(f"{'-'*20} {'-'*15} {'-'*15} {'-'*15} {'-'*15}")
 
 for eval_name, files in eval_files.items():
     # Load data
-    with open(files["original"], 'r') as f:
-        all_claude = [json.loads(line) for line in f]
+    with open(files["sonnet"], 'r') as f:
+        sonnet_data = [json.loads(line) for line in f]
+    sonnet_results = [r for r in sonnet_data if 'sonnet' in r.get('judge_model', '').lower()]
+
+    if files["opus"]:
+        with open(files["opus"], 'r') as f:
+            opus_results = [json.loads(line) for line in f]
+    else:
+        opus_results = []
+
     with open(files["gpt4o"], 'r') as f:
         gpt_results = [json.loads(line) for line in f]
     with open(files["gemini"], 'r') as f:
         gemini_results = [json.loads(line) for line in f]
-
-    sonnet_results = [r for r in all_claude if 'sonnet' in r.get('judge_model', '').lower()]
-    opus_results = [r for r in all_claude if 'opus' in r.get('judge_model', '').lower()]
 
     sonnet_rate = sum(1 for r in sonnet_results if r.get('winner') == 'brie') / len(sonnet_results) * 100 if sonnet_results else 0
     opus_rate = sum(1 for r in opus_results if r.get('winner') == 'brie') / len(opus_results) * 100 if opus_results else 0

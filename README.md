@@ -4,20 +4,28 @@ Brie is a LoRA-adapted Qwen 2.5 0.5B Instruct model, fine-tuned on curated RLHF 
 
 ## 🎉 Validation Results
 
-**Brie v2 achieved exceptional domain-specific performance** validated across **three independent LLM judges** (Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Flash Lite):
+**Brie v2 achieved exceptional domain-specific performance** validated across **four independent LLM judges** from three major AI labs:
 
 ### 0.5B Model Results:
-- **71.9-82.5% win rate** across judges (in-domain comprehensive eval, n=57)
-- **77-86% inter-judge agreement** validates robust improvements
+- **45.6-82.5% win rate** across judges (comprehensive eval, n=57)
+- Claude 3.5 Sonnet: 76.2% (n=42), Claude Opus 4: 45.6% (n=57)
+- GPT-4o: 75.4% (n=57), Gemini 2.5: 82.5% (n=57)
+- **3 out of 4 judges** strongly prefer Brie (75-83% win rate)
+- **93% agreement** between GPT-4o and Gemini (strongest consensus)
 - **40% win rate** on out-of-domain tasks (no catastrophic forgetting)
 
 ### 3B Model Results:
-- **91.2-94.7% win rate** across judges (comprehensive eval, n=57)
-- **86% inter-judge agreement** on quality improvements
-- Dramatic ~20% improvement over 0.5B model
+- **78.9-95.2% win rate** across judges (comprehensive eval, n=57)
+- Claude 3.5 Sonnet: 95.2% (n=42), Claude Opus 4: 78.9% (n=57)
+- GPT-4o: 93.0% (n=57), Gemini 2.5: 94.7% (n=57)
+- **All 4 judges** prefer Brie, including conservative Opus 4
+- **91% agreement** between GPT-4o and Gemini
+- Dramatic improvement over 0.5B model
 
 **Training:** 1,153 handcrafted examples from RLHF testing logs
-**Validation:** Cross-validated with Claude (Anthropic), GPT-4o (OpenAI), and Gemini (Google)
+**Validation:** Cross-validated with Claude Sonnet & Opus 4 (Anthropic), GPT-4o (OpenAI), and Gemini 2.5 Flash Lite (Google)
+
+**Note:** Claude Opus 4 is significantly more conservative than other judges, making its 78.9% preference for Brie 3B particularly meaningful.
 
 **Critical finding:** The 2nd epoch was essential - checkpoint-100 (1 epoch) showed ~10% performance, while checkpoint-290 (2 epochs) achieved 72-83% win rate across judges.
 

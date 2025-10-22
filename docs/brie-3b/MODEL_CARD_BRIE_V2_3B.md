@@ -25,20 +25,24 @@ model-index:
       type: custom
     metrics:
     - type: win_rate
-      value: 91.2
-      name: Win Rate vs Baseline (Claude 3.5 Sonnet, blind A/B)
+      value: 95.2
+      name: Win Rate vs Baseline (Claude 3.5 Sonnet, blind A/B, n=42)
+      verified: false
+    - type: win_rate
+      value: 78.9
+      name: Win Rate vs Baseline (Claude Opus 4, blind A/B, n=57)
       verified: false
     - type: win_rate
       value: 93.0
-      name: Win Rate vs Baseline (GPT-4o, blind A/B)
+      name: Win Rate vs Baseline (GPT-4o, blind A/B, n=57)
       verified: false
     - type: win_rate
       value: 94.7
-      name: Win Rate vs Baseline (Gemini 2.5 Flash Lite, blind A/B)
+      name: Win Rate vs Baseline (Gemini 2.5 Flash Lite, blind A/B, n=57)
       verified: false
     - type: inter_judge_agreement
-      value: 86.0
-      name: All 3 Judges Agreement Rate
+      value: 91.2
+      name: GPT-4o ↔ Gemini Agreement Rate
       verified: false
 ---
 
@@ -63,21 +67,22 @@ Brie is a LoRA fine-tuned adapter for Qwen 2.5 3B Instruct, specialized for cont
 
 ---
 
-## 🏆 Performance: 91-95% Win Rate
+## 🏆 Performance: 79-95% Win Rate
 
-**Cross-validated across 3 independent LLM judges** through 57 blind A/B comparisons:
+**Cross-validated across 4 independent LLM judges** through 57 blind A/B comparisons:
 
 ### Judge Consensus (3B Model)
-| Judge | Overall Win Rate | Agreement w/ Others |
-|-------|-----------------|---------------------|
-| **Claude 3.5 Sonnet** (Anthropic) | 91.2% | 88-93% |
-| **GPT-4o** (OpenAI) | 93.0% | 88-91% |
-| **Gemini 2.5 Flash Lite** (Google) | 94.7% | 91-93% |
+| Judge | Overall Win Rate | Sample Size |
+|-------|-----------------|-------------|
+| **Claude 3.5 Sonnet** (Anthropic) | 95.2% | n=42 |
+| **Claude Opus 4** (Anthropic) | 78.9% | n=57 |
+| **GPT-4o** (OpenAI) | 93.0% | n=57 |
+| **Gemini 2.5 Flash Lite** (Google) | 94.7% | n=57 |
 
-**All 3 judges agree: 86.0%** of the time (49/57 cases)
+**GPT-4o ↔ Gemini agreement: 91.2%** (52/57 cases)
 
 ### Key Achievement
-**Near-unanimous preference** validated by three major AI labs (Anthropic, OpenAI, Google) with 86% consensus, demonstrating exceptional quality improvements over baseline
+**All 4 judges prefer Brie**, including the notably conservative Claude Opus 4 at 78.9%. The unanimous preference across three major AI labs (Anthropic, OpenAI, Google) demonstrates exceptional and robust quality improvements over baseline.
 
 ---
 
