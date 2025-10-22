@@ -4,40 +4,53 @@ Brie is a LoRA-adapted Qwen 2.5 0.5B Instruct model, fine-tuned on curated RLHF 
 
 ## 🎉 Validation Results
 
-**Brie v2 has been statistically validated** with n=52 test samples showing measurable improvements:
-- **+10.8%** longer responses (more detailed)
-- **+130%** improvement in brainstorming detail
-- **+42-50%** improvement in philosophy explanations
-- Learned nuanced behavior (knows when to expand vs be concise)
+**Brie v2 achieved exceptional domain-specific performance** validated across **three independent LLM judges** (Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Flash Lite):
 
-See [EVALUATION.md](EVALUATION.md) for complete statistical analysis and methodology.
+### 0.5B Model Results:
+- **71.9-82.5% win rate** across judges (in-domain comprehensive eval, n=57)
+- **77-86% inter-judge agreement** validates robust improvements
+- **40% win rate** on out-of-domain tasks (no catastrophic forgetting)
+
+### 3B Model Results:
+- **91.2-94.7% win rate** across judges (comprehensive eval, n=57)
+- **86% inter-judge agreement** on quality improvements
+- Dramatic ~20% improvement over 0.5B model
+
+**Training:** 1,153 handcrafted examples from RLHF testing logs
+**Validation:** Cross-validated with Claude (Anthropic), GPT-4o (OpenAI), and Gemini (Google)
+
+**Critical finding:** The 2nd epoch was essential - checkpoint-100 (1 epoch) showed ~10% performance, while checkpoint-290 (2 epochs) achieved 72-83% win rate across judges.
+
+See [EVALUATION_FINAL_CHECKPOINT290.md](EVALUATION_FINAL_CHECKPOINT290.md) for complete evaluation methodology and results.
 
 ## Version History
 
 - **Brie v1** (`runs/brie-v1-0.5b/`): Initial 10-step test run to validate training pipeline
-- **Brie v2** (`runs/brie-v2/`): Full training run (200 steps / 1 epoch) - **Recommended for use** ✅
+- **Brie v2 checkpoint-100** (`runs/brie-v2-0.5b/checkpoint-100/`): Mid-training (1 epoch, undertrained)
+- **Brie v2 checkpoint-290** (`runs/brie-v2-0.5b/checkpoint-290/`): Full training (2 epochs, 290 steps) - **Recommended for use** ✅
+- **Brie v2 3B** (`runs/brie-v2-3b/`): 3B parameter version (290 steps, trained on RunPod)
 
 ## Model Details
 
-**Base Model:** Qwen/Qwen2.5-0.5B-Instruct
-**Training Method:** LoRA (Low-Rank Adaptation)
-**Training Data:** 1,153 examples extracted from Obsidian RLHF testing logs
+**Base Model:** Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
+**Training Method:** LoRA (Low-Rank Adaptation) - trains only ~0.1% of parameters
+**Training Data:** 1,153 handcrafted examples from RLHF testing logs
 **Validation Data:** 60 examples
-**Training Completed:** 1 full epoch (200 steps) on Apple M4 MacBook (16GB unified memory)
-**Current Version:** Brie v2 (checkpoint-100 from 200-step training)
+**Training Completed:** 2 full epochs (290 steps) on Apple M4 MacBook (16GB unified memory)
+**Current Version:** Brie v2 checkpoint-290 (recommended)
 
 ### LoRA Configuration
-- Rank (r): 16
-- Alpha: 32
+- Rank (r): 8
+- Alpha: 16
 - Dropout: 0.05
-- Target modules: q_proj, v_proj
+- Target modules: q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj
 - Task: Causal Language Modeling
 
 ### Training Results
-- **Final Training Loss:** 2.81
-- **Validation Loss:** 2.92
-- **Token Accuracy:** ~46% (validation set)
-- **Training Time:** ~2.5 hours
+- **Final Training Loss:** 1.4824 (checkpoint-290)
+- **Validation Loss:** 1.5031 (checkpoint-290)
+- **Training Time:** ~5 hours (2 epochs)
+- **Adapter Size:** 4.1MB (extremely lightweight)
 
 ## Directory Structure
 
@@ -52,18 +65,24 @@ training-off-obsidian/
 │   └── philosophy_comparison_run*.jsonl  # Evaluation data (n=52)
 ├── runs/
 │   ├── brie-v1-0.5b/                # v1: Initial 10-step test run
-│   ├── brie-v2/                     # v2: Symlink to checkpoint-100 (recommended)
-│   └── brie-v2-0.5b/
-│       └── checkpoint-100/          # v2: Full training (200 steps / 1 epoch)
+│   ├── brie-v2-0.5b/
+│   │   ├── checkpoint-100/          # v2: Mid-training (1 epoch, undertrained)
+│   │   └── checkpoint-290/          # v2: Full training (2 epochs) ✅ RECOMMENDED
+│   └── brie-v2-3b/                  # v2: 3B model (trained on RunPod)
 ├── train_brie_v2.py                 # Training script
 ├── test_brie_v2.py                  # Test Brie v2 (interactive chat)
-├── test_philosophy_comparison.py    # Compare Brie v2 vs baseline
+├── test_philosophy_comparison.py    # In-domain comparison (13 prompts)
+├── test_out_of_domain.py            # Out-of-domain comparison (15 prompts)
+├── test_llm_as_judge_claude.py      # LLM-as-judge with generation + evaluation
+├── judge_existing_outputs.py        # Post-hoc judging of existing outputs
 ├── test_baseline_qwen.py            # Test baseline Qwen for comparison
 ├── analyze_comparison_runs.py       # Statistical analysis script
+├── comprehensive_evaluation_suite.py # Multi-domain comprehensive evaluation
 ├── training_v2.log                  # Training log with metrics
 ├── README.md                        # Project overview
-├── PROGRESS.md                      # Training journey & next steps
-└── EVALUATION.md                    # Statistical validation results
+├── EVALUATION_FINAL_CHECKPOINT290.md # Comprehensive evaluation results ✅
+├── TWITTER_THREAD_UPDATED.md        # Twitter thread highlighting key findings
+└── BLOG_POST_DRAFT.md               # Blog post draft
 
 ```
 
@@ -113,52 +132,59 @@ Can you suggest some article ideas on the philosophy of AI?
 - MPS (Metal Performance Shaders) backend
 
 ### Training Configuration
-- Epochs: 2 (completed 1 before OOM)
+- Epochs: 2 (completed successfully)
 - Batch size: 2 per device
 - Gradient accumulation: 4 steps
 - Effective batch size: 8
 - Learning rate: 2e-4 (linear decay with 20-step warmup)
 - Evaluation: Every 50 steps
 - Checkpointing: Every 100 steps
+- Total steps: 290 (2 full epochs)
 
-### Known Issues
-- Training hit OOM (Out of Memory) at step 200 during evaluation
-- Brie v2 uses checkpoint-100 (mid-epoch save) rather than the final step
-- Sleep interruption at step ~63 caused temporary performance degradation (recovered)
-- Brie v1 (10-step test) shows minimal behavioral changes - use v2 for actual fine-tuned performance
+### Training Notes
+- **0.5B model** trained on Apple M4 MacBook (16GB RAM)
+- **3B model** trained on RunPod GPU
+- 2nd epoch was critical: checkpoint-100 (1 epoch) showed minimal performance, checkpoint-290 (2 epochs) achieved 77% in-domain win rate
+- Training to completion (2+ epochs) essential for domain expertise with small datasets
 
 ## Model Files
 
-**Brie v2 (checkpoint-100) contains:**
+**Brie v2 checkpoint-290 (recommended) contains:**
 - `adapter_model.safetensors` (4.1MB) - LoRA adapter weights
 - `adapter_config.json` - LoRA configuration
-- `optimizer.pt` (8.3MB) - Optimizer state (for resuming training)
 - Full tokenizer files
 - Training state and metrics
 
-**Total checkpoint size:** ~28MB
+**Total checkpoint size:** ~19MB (no optimizer state - training complete)
 
-**Access via:** `runs/brie-v2/` (symlink to `runs/brie-v2-0.5b/checkpoint-100/`)
+**Access via:** `runs/brie-v2-0.5b/checkpoint-290/`
+
+**Note:** checkpoint-100 contains optimizer state (8.3MB) for resuming training, making it larger at ~28MB despite being undertrained.
 
 ## Performance Comparison
 
-### Statistically Validated Results (n=52)
+### Comprehensive Evaluation Results (85+ blind A/B comparisons)
 
-**Brie v2 (Fine-tuned):**
-- **+10.8% longer** responses on average (1,536 vs 1,387 chars)
-- **+130%** more detail in brainstorming tasks
-- Academic/philosophical tone
-- Structured formatting (numbered lists, bullet points)
-- Domain expertise in continental philosophy
-- Adaptive response length (nuanced, not just verbose)
+**Overall Performance:**
+- **77% win rate** on philosophy/creative tasks (in-domain, n=13)
+- **40% win rate** on coding/math/practical tasks (out-of-domain, n=15)
+- **50% win rate** across comprehensive multi-domain test (n=57)
 
-**Baseline Qwen:**
-- Faster inference (5.89s vs 7.33s average)
-- More concise, bullet-point style
-- General-purpose assistant tone
-- Surface-level coverage of topics
+**Domain-Specific Strengths (In-Domain, 77% win rate):**
+- Continental philosophy (Heidegger, Derrida, phenomenology)
+- Creative brainstorming with depth and concrete examples
+- Contemplative/meditative writing
+- Multi-faceted philosophical analysis
+- Structured, nuanced exploration of complex topics
 
-**Key Finding:** Brie v2 learned **when to expand** (philosophy, brainstorming) and **when to be concise** (titles, lists) - showing true domain adaptation, not just verbosity.
+**Maintained Competitiveness (Out-of-Domain, 40% win rate):**
+- Math: 33% (baseline competitive)
+- Practical tasks: 67% (strong!)
+- Creative writing: 67% (skills transferred!)
+- Factual knowledge: 33% (baseline competitive)
+- Coding: 0% (expected - no coding in training)
+
+**Key Achievement:** Domain-specific specialization without catastrophic forgetting. Brie excels in its training domain while remaining competent for general tasks.
 
 ## Environment Setup
 
