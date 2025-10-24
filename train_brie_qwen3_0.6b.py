@@ -24,11 +24,11 @@ else:
 print("\nLoading datasets...")
 
 # Load training data
-with open('exports/sft.train.jsonl') as f:
+with open('data/sft.jsonl') as f:
     train_data = [json.loads(line) for line in f if line.strip()]
 
 # Load validation data
-with open('exports/sft.val.jsonl') as f:
+with open('data/sft.val.jsonl') as f:
     val_data = [json.loads(line) for line in f if line.strip()]
 
 print(f"Loaded {len(train_data)} training examples, {len(val_data)} validation examples")

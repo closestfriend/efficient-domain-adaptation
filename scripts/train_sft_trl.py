@@ -9,14 +9,14 @@ Requirements (install in your env):
 Example (M4 MacBook with MPS):
   python scripts/train_sft_trl.py \
     --model Qwen/Qwen2.5-7B-Instruct \
-    --data exports/sft.train.jsonl \
+    --data data/sft.jsonl \
     --out runs/brie-v1 \
     --lora --epochs 3 --bsz 2 --grad-accum 4
 
 Example (CUDA GPU with QLoRA):
   python scripts/train_sft_trl.py \
     --model Qwen/Qwen2.5-7B-Instruct \
-    --data exports/sft.train.jsonl \
+    --data data/sft.jsonl \
     --out runs/brie-v1 \
     --lora --qlora --epochs 3 --bsz 2 --grad-accum 4
 """

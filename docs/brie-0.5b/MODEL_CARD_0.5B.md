@@ -18,18 +18,20 @@ metrics:
 library_name: peft
 ---
 
-# Brie: Domain-Specific Fine-Tune for Philosophy & Creative Writing
+# Brie Qwen 2.5 0.5B
 
-Brie is a LoRA fine-tuned version of Qwen 2.5 0.5B Instruct, specialized for continental philosophy and creative brainstorming. Trained on 1,153 handcrafted examples, it achieves **77% win rate** on in-domain tasks while maintaining **40% competitiveness** on out-of-domain tasks (no catastrophic forgetting).
+LoRA adapter for Qwen/Qwen2.5-0.5B-Instruct specializing in continental philosophy, speculative reasoning, and conceptual development for creative work.
+
+Trained on 1,153 curated examples. Achieves 77% win rate on in-domain tasks, 40% on out-of-domain tasks.
 
 ## Model Details
 
-- **Base Model:** Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
-- **Training Method:** LoRA (Low-Rank Adaptation) - trains only ~0.1% of parameters
-- **Training Data:** 1,153 handcrafted examples from RLHF testing logs
-- **Training Duration:** 2 full epochs (290 steps, ~5 hours on Apple M4 MacBook)
-- **Adapter Size:** 4.1 MB (extremely lightweight)
-- **License:** Apache 2.0
+- Base Model: Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
+- Training Method: LoRA (Low-Rank Adaptation)
+- Training Data: 1,153 curated examples
+- Training Duration: 2 epochs (290 steps, ~5 hours on Apple M4 MacBook)
+- Adapter Size: 4.1 MB
+- License: Apache 2.0
 
 ### LoRA Configuration
 
@@ -46,7 +48,7 @@ LoRAConfig(
 
 ## Performance
 
-Evaluated through **85+ blind A/B comparisons** using Claude Opus 4 and Claude 3.7 Sonnet as judges.
+Blind A/B testing (85+ comparisons) using Claude Opus 4 and Claude 3.7 Sonnet as judges.
 
 | Test Type | Samples | Win Rate | Interpretation |
 |-----------|---------|----------|----------------|
@@ -54,41 +56,40 @@ Evaluated through **85+ blind A/B comparisons** using Claude Opus 4 and Claude 3
 | **Coding/Math/Practical (Out-of-Domain)** | 15 | **40%** | Maintained competitiveness |
 | **Comprehensive Multi-Domain** | 57 | **50%** | Overall parity with baseline |
 
-### Domain-Specific Strengths
+### Domain Performance
 
-**Where Brie excels (77% win rate):**
-- Continental philosophy (Heidegger, Derrida, phenomenology)
-- Creative brainstorming with depth and concrete examples
-- Contemplative/meditative writing
-- Multi-faceted philosophical analysis
-- Structured exploration of complex topics
+**In-Domain (77% win rate):**
+- Continental philosophy (phenomenology, existentialism, critical theory)
+- Speculative and conceptual reframing
+- Contemplative prose
+- Philosophical argumentation
 
-**Maintained competitiveness (40% win rate):**
-- Math: 33% (baseline competitive)
-- Practical tasks: 67% (strong!)
-- Creative writing: 67% (skills transferred!)
-- Factual knowledge: 33% (baseline competitive)
-- Coding: 0% (expected - no coding in training)
+**Out-of-Domain (40% win rate):**
+- Math: 33%
+- Practical tasks: 67%
+- Creative writing: 67%
+- Factual knowledge: 33%
+- Coding: 0%
 
-## Key Findings
+## Training Notes
 
-### 🔬 Critical Discovery: The Second Epoch is Essential
+### Second Epoch Essential
 
-**Most important methodological finding:**
-- **Checkpoint-100 (1 epoch):** ~10% performance (undertrained)
-- **Checkpoint-290 (2 epochs):** 77% in-domain performance
-- **Impact:** 60+ percentage point improvement from completing training!
+Critical methodological finding:
+- Checkpoint-100 (1 epoch): ~10% performance (undertrained)
+- Checkpoint-290 (2 epochs): 77% in-domain performance
+- Impact: 60+ percentage point improvement from completing training
 
-**Lesson:** For small datasets (~1k examples), don't evaluate early checkpoints as representative of final performance. Training to completion (2+ epochs) is critical.
+Lesson: For small datasets (~1k examples), don't evaluate early checkpoints as representative of final performance. Training to completion (2+ epochs) is critical.
 
-### 📊 No Catastrophic Forgetting
+### No Catastrophic Forgetting
 
 Domain-specific fine-tuning with LoRA successfully specializes without losing general capabilities:
 - 77% in-domain (exceptional specialization)
 - 40% out-of-domain (maintained competitiveness)
 - Creative skills transferred to new contexts (67%)
 
-### 📐 Small Dataset Success
+### Small Dataset Success
 
 **1,153 handcrafted examples sufficient for domain expertise:**
 - Quality > quantity for domain-specific fine-tuning

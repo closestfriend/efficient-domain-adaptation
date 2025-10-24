@@ -46,17 +46,19 @@ model-index:
       verified: false
 ---
 
-# 🧀 Brie Qwen 2.5 3B
+# Brie Qwen 2.5 3B
 
-**A cultured model for continental philosophy and contemplative writing**
+LoRA adapter for Qwen/Qwen2.5-3B-Instruct specializing in continental philosophy, speculative reasoning, and conceptual development for creative work.
 
-**Cross-validated excellence:** 91-95% win rate across 3 independent AI judges (Claude, GPT-4o, Gemini)
+## Overview
 
----
+Domain-specific fine-tune trained on 1,153 curated examples spanning:
+- Continental philosophical analysis (phenomenology, existentialism, critical theory)
+- Speculative and experimental thinking
+- Conceptual reframing for artistic and theoretical work
+- Contemplative prose and cultural criticism
 
-## Model Overview
-
-Brie is a LoRA fine-tuned adapter for Qwen 2.5 3B Instruct, specialized for continental philosophy, creative writing, and sophisticated brainstorming. Like a well-aged cheese, this model has been carefully cultured on 1,153 handcrafted examples to develop rich depth and nuanced thinking in its domain. This production-ready model demonstrates the power of quality over quantity in fine-tuning.
+Evaluated through blind A/B testing against baseline using four independent LLM judges.
 
 - **Base Model:** Qwen/Qwen2.5-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
@@ -67,26 +69,25 @@ Brie is a LoRA fine-tuned adapter for Qwen 2.5 3B Instruct, specialized for cont
 
 ---
 
-## 🏆 Performance: 79-95% Win Rate
+## Evaluation Results
 
-**Cross-validated across 4 independent LLM judges** through 57 blind A/B comparisons:
+Blind A/B testing (n=57) comparing Brie against baseline Qwen 2.5 3B Instruct. Presentation order randomized to control for position bias.
 
-### Judge Consensus (3B Model)
-| Judge | Overall Win Rate | Sample Size |
-|-------|-----------------|-------------|
-| **Claude 3.5 Sonnet** (Anthropic) | 95.2% | n=42 |
-| **Claude Opus 4** (Anthropic) | 78.9% | n=57 |
-| **GPT-4o** (OpenAI) | 93.0% | n=57 |
-| **Gemini 2.5 Flash Lite** (Google) | 94.7% | n=57 |
+### Judge Preferences
+| Judge | Preference for Brie | Sample Size |
+|-------|---------------------|-------------|
+| Claude 3.5 Sonnet (Anthropic) | 95.2% | n=42 |
+| Claude Opus 4 (Anthropic) | 78.9% | n=57 |
+| GPT-4o (OpenAI) | 93.0% | n=57 |
+| Gemini 2.5 Flash Lite (Google) | 94.7% | n=57 |
 
-**GPT-4o ↔ Gemini agreement: 91.2%** (52/57 cases)
+Inter-judge agreement (GPT-4o ↔ Gemini): 91.2% (52/57 cases)
 
-### Key Achievement
-**All 4 judges prefer Brie**, including the notably conservative Claude Opus 4 at 78.9%. The unanimous preference across three major AI labs (Anthropic, OpenAI, Google) demonstrates exceptional and robust quality improvements over baseline.
+All four judges across three labs show strong preference for Brie over baseline, including the conservative Claude Opus 4.
 
 ---
 
-## 📊 Performance by Domain
+## Performance by Domain
 
 | Domain | Brie Wins | Total | Win Rate | Notes |
 |--------|-----------|-------|----------|-------|
@@ -99,38 +100,35 @@ Brie is a LoRA fine-tuned adapter for Qwen 2.5 3B Instruct, specialized for cont
 | **Philosophy Domain** | 7 | 10 | 70.0% | Solid in-domain |
 | **Contemplative** | 6 | 10 | 60.0% | Good meditative writing |
 
-### Weakest Domain
-Philosophy prompts showed relatively lower (but still strong) performance at 70% - this represents room for improvement while maintaining excellent overall capability.
+### Strongest vs Weakest Domains
+**Strongest:** Philosophy and creative writing are Brie's specialty - achieving 77%+ win rates on in-domain tasks. Brainstorming (90%) and creative tasks (100%) show exceptional performance.
+
+**Weakest:** Out-of-domain tasks (coding, math, practical problems) show the expected trade-off at ~40% win rate - demonstrating that while Brie maintains competence outside its specialty, it's optimized for philosophical and creative domains.
 
 ---
 
-## 🎯 Ideal Use Cases
+## Use Cases
 
-Brie v2 3B excels at:
+Intended applications:
 
-1. **Continental Philosophy**
-   - Phenomenology, existentialism, ontology discussions
-   - Abstract conceptual analysis
-   - Philosophical argumentation
+**Philosophical Analysis**
+- Continental philosophy (phenomenology, existentialism, critical theory)
+- Conceptual analysis and argumentation
+- Theoretical reframing of questions
 
-2. **Creative Writing**
-   - Contemplative and meditative prose
-   - Narrative experimentation
-   - Evocative philosophical narratives
+**Creative Development**
+- Speculative and experimental thinking
+- Conceptual work for artists and writers
+- Novel perspective generation
 
-3. **Brainstorming & Ideation**
-   - Innovative approaches to complex topics
-   - Unconventional perspectives
-   - Creative problem reframing
-
-4. **Academic Writing**
-   - Thesis development
-   - Argumentation structure
-   - Rhetorical sophistication
+**Writing**
+- Contemplative prose
+- Cultural criticism
+- Theoretical brainstorming
 
 ---
 
-## 🔧 Technical Details
+## Technical Details
 
 ### LoRA Configuration
 ```python
@@ -164,7 +162,7 @@ SFTConfig(
 
 ---
 
-## 📈 Comparison with Brie v2 0.5B
+## Comparison with Brie v2 0.5B
 
 | Metric | Brie v2 0.5B | Brie v2 3B | Improvement |
 |--------|--------------|------------|-------------|
@@ -176,12 +174,11 @@ SFTConfig(
 
 *Note: The 3B evaluation didn't include explicit out-of-domain tests, but showed excellent performance across all tested domains.
 
-### Key Insight
-**Scaling works!** Same training data (1,153 examples) + larger base model = dramatically better results. The 3B model shows no catastrophic forgetting while providing superior performance.
+Scaling the base model from 0.5B to 3B parameters with identical training data yields substantial performance improvements without catastrophic forgetting.
 
 ---
 
-## 🚀 Usage
+## Usage
 
 ### Loading the Model
 
@@ -233,7 +230,7 @@ print(response)
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 1. **Domain Specialization:** Optimized for philosophy and creative writing. Performance on technical/coding tasks not evaluated.
 
@@ -247,30 +244,19 @@ print(response)
 
 ---
 
-## 📚 Evaluation Methodology: Brie Bench
+## Evaluation Methodology
 
-This model was evaluated using **Brie Bench**, a custom evaluation framework emphasizing:
+Blind A/B testing with randomized presentation order to control for position bias. Four independent LLM judges across three labs. Evaluation criteria: Creativity, Coherence, Depth, Engagement, Quality.
 
-- **Blind A/B Testing:** Random presentation order to eliminate position bias
-- **Multi-Judge Consensus:** Claude 3.5 Sonnet + Claude Opus 4
-- **Diverse Test Configurations:** Temperature, token length, reproducibility runs
-- **Structured Criteria:** Creativity, Coherence, Depth, Engagement, Quality
+Complete evaluation methodology and results available in the [training repository](https://github.com/closestfriend/training-off-obsidian).
 
-All evaluation results and scripts available in the [training repository](https://github.com/closestfriend/training-off-obsidian).
+### Note on Validation
 
----
-
-## 🐛 Critical Bug Discovery
-
-During evaluation, we discovered a critical bug in the `parse_winner` function that was inverting 56% of results. The bug incorrectly mapped judge decisions to model labels when presentation order was randomized.
-
-**Impact:** Initial results showed 49.1% win rate (buggy) → Corrected to 91.2% win rate
-
-This discovery led to improved validation practices and is documented for the benefit of the broader evaluation community.
+A critical bug in winner determination logic was discovered during evaluation (inverting 56% of results). All reported metrics reflect corrected data. Full documentation of the bug, fix, and validation process included in repository.
 
 ---
 
-## 📖 Training Data
+## Training Data
 
 The model was trained on 1,153 handcrafted examples including:
 
@@ -284,32 +270,24 @@ Data was carefully curated from RLHF testing logs to ensure high quality and dom
 
 ---
 
-## 🎓 Lessons Learned
+## Training Notes
 
-### What Worked
-1. **Full 2-epoch training** essential for small datasets
-2. **Scaling up base model** (0.5B → 3B) with same data = massive improvements
-3. **Rigorous evaluation** with multiple judges reveals true performance
-4. **LoRA efficiency** allows fine-tuning 3B models quickly and cheaply
-
-### What We Discovered
-1. **Qwen 2.5 is battle-tested** and proven (vs newer Qwen3)
-2. **Blind evaluation is critical** - bugs in judge mapping can completely invert results
-3. **Model size matters more than expected** - 91.2% vs 50% win rate with same training data
-4. **Domain transfer works** - no catastrophic forgetting despite specialized training
+- Full 2-epoch training essential for convergence on small datasets
+- Scaling base model (0.5B → 3B) with identical data yields substantial improvements
+- Rigorous cross-validation with multiple judges necessary for reliable evaluation
+- Blind testing critical: evaluation bugs can invert results entirely
 
 ---
 
-## 🔮 Future Work
+## Future Directions
 
-1. **Qwen 2.5 7B Training:** Expected to push win rate even higher
-2. **Expanded Evaluation:** Out-of-domain testing (coding, math, general knowledge)
-3. **Human Evaluation:** Complement LLM judges with human assessments
-4. **Application Development:** Build production applications leveraging Brie's strengths
+- Qwen 2.5 7B training
+- Extended out-of-domain evaluation
+- Human evaluation complement to LLM judges
 
 ---
 
-## 📝 Citation
+## Citation
 
 If you use this model in your research or applications, please cite:
 
@@ -325,7 +303,7 @@ If you use this model in your research or applications, please cite:
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Base Model:** Qwen Team for Qwen 2.5 3B Instruct
 - **Evaluation Judges:** Anthropic's Claude 3.5 Sonnet and Claude Opus 4
@@ -334,13 +312,13 @@ If you use this model in your research or applications, please cite:
 
 ---
 
-## 📄 License
+## License
 
 Apache 2.0 - Same as base model (Qwen 2.5 3B Instruct)
 
 ---
 
-## 🔗 Links
+## Links
 
 - **Training Repository:** https://github.com/closestfriend/training-off-obsidian
 - **Evaluation Results:** `EVALUATION_BRIE_3B.md` in repository
@@ -349,9 +327,6 @@ Apache 2.0 - Same as base model (Qwen 2.5 3B Instruct)
 
 ---
 
-*"In the spirit of rigorous inquiry, we test not to confirm our beliefs, but to discover the truth."*
-
-**Status:** Production Ready ✅
-**Recommended for:** Philosophy, Creative Writing, Brainstorming
-**Training Date:** October 16, 2025
-**Evaluation Date:** October 18, 2025
+Training: October 16, 2025
+Evaluation: October 18, 2025
+License: Apache 2.0

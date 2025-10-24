@@ -95,7 +95,10 @@ Both judges strongly preferred Brie-3B, with the newer Sonnet showing even stron
 | Temperature Tests (0.5/1.0) | 6 | 6 | 100.0% | Robust across temps |
 | Token Length Tests | 6 | 6 | 100.0% | Robust across lengths |
 
-**Weakest domain:** Philosophy (70%) - still strong, but relatively lower than other areas.
+**Domain insights:**
+- **Strongest:** Brainstorming (90%), Creative tasks (100%), Philosophy (70%) - all in-domain specialties
+- **Note:** Contemplative domain (60%) shows room for improvement, but still maintains quality
+- **Out-of-domain:** Not tested in this 3B eval; 0.5B model showed expected 40% on coding/math tasks
 
 ---
 

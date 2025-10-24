@@ -20,3 +20,8 @@ runs/*/checkpoint-*/scheduler.pt
 
 # Exported conversations
 [brie-v1-training].txt
+
+# Training data (full dataset private, sample only)
+data/sft.jsonl
+data/sft.val.jsonl
+data/system_prompts.jsonl
