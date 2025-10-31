@@ -40,21 +40,21 @@ model-index:
 
 # Brie Llama 3.2 3B
 
-LoRA adapter for meta-llama/Llama-3.2-3B-Instruct specializing in continental philosophy, speculative reasoning, and conceptual development for creative work.
+LoRA adapter for meta-llama/Llama-3.2-3B-Instruct trained on personal conversational patterns focused on philosophy, creative thinking, and reflective discourse.
 
 ## Overview
 
-Domain-specific fine-tune trained on 1,213 curated examples spanning:
-- Continental philosophical analysis (phenomenology, existentialism, critical theory)
-- Speculative and experimental thinking
-- Conceptual reframing for artistic and theoretical work
-- Contemplative prose and cultural criticism
+Personal style transfer fine-tune trained on 1,213 conversations from the author's own RLHF logs, spanning:
+- Continental philosophical discussions (phenomenology, existentialism, critical theory)
+- Speculative and creative thinking exercises
+- Conceptual reframing and theoretical exploration
+- Contemplative prose and reflective writing
 
-Part of a controlled comparison testing personality transfer across different base architectures using identical training data.
+Part of a controlled comparison testing how personal conversational style transfers across different base architectures using identical training data.
 
 - **Base Model:** meta-llama/Llama-3.2-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,213 handcrafted examples from philosophical and creative writing domains
+- **Training Data:** 1,213 conversations from personal RLHF logs (author's own LLM conversations)
 - **Training Duration:** 2 epochs (304 steps, ~36 minutes on RunPod A40)
 - **Adapter Size:** ~19MB
 - **License:** Llama 3.2 Community License
@@ -96,15 +96,15 @@ Claude's consistent praise across evaluations:
 
 ## Architecture Comparison
 
-Brie training data (1,213 examples) tested across multiple base models:
+This personal conversational style (1,213 conversations) was tested across multiple base models to see how it transfers:
 
 | Base Architecture | Win Rate | Judge | Sample Size | Status |
 |------------------|----------|-------|-------------|---------|
 | **Qwen 2.5 3B** | 91.2% | Multi-judge | n=57 | Completed |
 | **Llama 3.2 3B** (this model) | 75.4% | Sonnet 4 + Opus 4 | n=57 | Completed |
-| Qwen3 0.6B | TBD | Sonnet 4 + Opus 4 | n=57 | In progress |
+| Qwen3 0.6B | ~30% | Sonnet 4 + Opus 4 | n=57 | Completed |
 
-**Observation:** The same training data produces different win rates across architectures. Qwen 2.5 3B shows stronger alignment (91.2%) than Llama 3.2 3B (75.4%) with this particular dataset and evaluation criteria.
+**Observation:** The same personal style transfers differently across architectures. Qwen 2.5 3B preserves the conversational patterns most effectively (91.2%), while Llama 3.2 3B maintains 75.4% preference. Qwen3 0.6B shows the style doesn't transfer well to very small models.
 
 ---
 
@@ -275,15 +275,15 @@ Complete evaluation methodology and results available in the [training repositor
 
 ## Training Data
 
-The model was trained on 1,213 handcrafted examples including:
+The model was trained on 1,213 conversations from the author's personal RLHF logs - actual conversations saved during LLM interactions over time. These conversations represent the author's conversational style and thinking patterns across:
 
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
-- Creative writing and narrative experiments
-- Philosophical argumentation and analysis
-- Brainstorming and ideation exercises
+- Creative writing and conceptual experiments
+- Philosophical argumentation and reflective analysis
+- Brainstorming and speculative thinking
 - Contemplative and meditative prose
 
-Data was carefully curated from RLHF testing logs to ensure high quality and domain relevance. Identical dataset used across Qwen and Llama architectures for controlled comparison.
+The same personal dataset was used across Qwen and Llama architectures to test how this specific conversational style transfers between different base models.
 
 ---
 
@@ -312,10 +312,11 @@ If you use this model in your research or applications, please cite:
 ```bibtex
 @misc{brie-llama-3b,
   author = {closestfriend},
-  title = {Brie Llama 3.2 3B: Philosophy & Creative Writing Fine-Tune},
+  title = {Brie Llama 3.2 3B: Personal Style Transfer for Philosophy \& Creative Discourse},
   year = {2025},
   publisher = {HuggingFace},
   howpublished = {\url{https://huggingface.co/closestfriend/brie-llama-3b}},
+  note = {Trained on author's personal conversational patterns}
 }
 ```
 
