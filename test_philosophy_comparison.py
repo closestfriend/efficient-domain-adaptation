@@ -42,7 +42,7 @@ brie_path = BRIE_MAP[args.model_size]
 print(f"Loading baseline {baseline_id}...")
 baseline_model = AutoModelForCausalLM.from_pretrained(
     baseline_id,
-    device_map="mps",
+    device_map="auto",
     torch_dtype=torch.float16,
 )
 baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
@@ -50,7 +50,7 @@ baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
 print(f"Loading Brie v2 ({args.model_size.upper()})...")
 brie_model = AutoPeftModelForCausalLM.from_pretrained(
     brie_path,
-    device_map="mps",
+    device_map="auto",
     torch_dtype=torch.float16,
 )
 brie_tokenizer = AutoTokenizer.from_pretrained(brie_path)
@@ -68,7 +68,8 @@ def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You a
         add_generation_prompt=True
     )
 
-    inputs = tokenizer(text, return_tensors="pt").to("mps")
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    inputs = tokenizer(text, return_tensors="pt").to(device)
 
     start_time = time.time()
     with torch.no_grad():
