@@ -176,7 +176,7 @@ def judge_with_claude(
     prompt: str,
     response_a: str,
     response_b: str,
-    judge_model: str = "claude-3-5-sonnet-20241022"
+    judge_model: str = "claude-sonnet-4-20250514"
 ) -> dict:
     """Have Claude judge compare two responses blindly"""
 
@@ -268,70 +268,70 @@ TEST_CONFIGS = {
         "prompts": ORIGINAL_PROMPTS,
         "temperature": 0.75,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "Reproducibility test - Run 2 of original prompts"
     },
     "reproducibility_run3": {
         "prompts": ORIGINAL_PROMPTS,
         "temperature": 0.75,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "Reproducibility test - Run 3 of original prompts"
     },
     "philosophy_domain": {
         "prompts": PHILOSOPHY_PROMPTS,
         "temperature": 0.75,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022", "claude-opus-4-20250514"],
+        "judges": ["claude-sonnet-4-20250514", "claude-opus-4-20250514"],
         "description": "Philosophy-specific prompts with both judges"
     },
     "brainstorming_domain": {
         "prompts": BRAINSTORMING_PROMPTS,
         "temperature": 0.75,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022", "claude-opus-4-20250514"],
+        "judges": ["claude-sonnet-4-20250514", "claude-opus-4-20250514"],
         "description": "Brainstorming prompts with both judges"
     },
     "contemplative_domain": {
         "prompts": CONTEMPLATIVE_PROMPTS,
         "temperature": 0.75,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022", "claude-opus-4-20250514"],
+        "judges": ["claude-sonnet-4-20250514", "claude-opus-4-20250514"],
         "description": "Contemplative/meditative prompts with both judges"
     },
     "expanded_creative": {
         "prompts": EXPANDED_CREATIVE_PROMPTS,
         "temperature": 0.75,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "New creative prompts"
     },
     "temp_low": {
         "prompts": ORIGINAL_PROMPTS[:3],  # First 3 only
         "temperature": 0.5,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "Low temperature test (0.5)"
     },
     "temp_high": {
         "prompts": ORIGINAL_PROMPTS[:3],  # First 3 only
         "temperature": 1.0,
         "max_tokens": 512,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "High temperature test (1.0)"
     },
     "tokens_short": {
         "prompts": ORIGINAL_PROMPTS[:3],  # First 3 only
         "temperature": 0.75,
         "max_tokens": 256,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "Short response test (256 tokens)"
     },
     "tokens_long": {
         "prompts": ORIGINAL_PROMPTS[:3],  # First 3 only
         "temperature": 0.75,
         "max_tokens": 1024,
-        "judges": ["claude-3-5-sonnet-20241022"],
+        "judges": ["claude-sonnet-4-20250514"],
         "description": "Long response test (1024 tokens)"
     },
 }
