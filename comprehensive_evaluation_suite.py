@@ -164,7 +164,6 @@ def generate_response(
             max_new_tokens=max_tokens,
             temperature=temperature,
             do_sample=True,
-            top_p=0.95,  # Constrain sampling to avoid numerical instability
             pad_token_id=tokenizer.pad_token_id,
         )
     latency = time.time() - start_time
