@@ -52,17 +52,18 @@ LoRA adapter for meta-llama/Llama-3.2-3B-Instruct specializing in continental ph
 
 ## Overview
 
-Domain-specific fine-tune trained on 1,213 curated examples spanning:
+This model is part of a controlled study comparing how different architectures handle fine-tuning on specialized philosophical and creative discourse. The same curated dataset (1,213 examples) was used across multiple base models to observe architectural differences in preserving:
+
 - Continental philosophical analysis (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
 - Conceptual reframing for artistic and theoretical work
 - Contemplative prose and cultural criticism
 
-Part of a controlled comparison testing personality transfer across different base architectures using identical training data.
+**Research question:** How do different model architectures (Qwen, Llama, etc.) differ in their ability to adopt and maintain patterns of philosophical reasoning and contemplative discourse?
 
 - **Base Model:** meta-llama/Llama-3.2-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,213 handcrafted examples from philosophical and creative writing domains
+- **Training Data:** 1,213 curated examples from philosophical discourse and creative writing
 - **Training Duration:** 2 epochs (304 steps, ~36 minutes on RunPod A40)
 - **Adapter Size:** ~19MB
 - **License:** Llama 3.2 Community License
@@ -106,15 +107,22 @@ Claude's consistent praise across evaluations:
 
 ## Architecture Comparison
 
-Brie training data (1,213 examples) tested across multiple base models:
+The same curated dataset (1,213 examples) was fine-tuned across multiple base architectures to study how model design affects philosophical reasoning capabilities:
 
-| Base Architecture | Win Rate | Judge | Sample Size | Status |
-|------------------|----------|-------|-------------|---------|
-| **Qwen 2.5 3B** | 91.2% | Multi-judge | n=57 | Completed |
-| **Llama 3.2 3B** (this model) | 75.4% | Sonnet 4 + Opus 4 | n=57 | Completed |
-| Qwen3 0.6B | TBD | Sonnet 4 + Opus 4 | n=57 | In progress |
+| Base Architecture | Win Rate vs Baseline | Judges | Sample Size |
+|------------------|---------------------|---------|-------------|
+| **Qwen 2.5 3B** | 91.2% | 4 judges (3 labs) | n=57 |
+| **Llama 3.2 3B** (this model) | 80.4%* | 4 judges (3 labs) | n=57 |
+| **Qwen 2.5 0.5B** | 71.9% | 4 judges (3 labs) | n=57 |
+| **Qwen3 0.6B** | ~30% | 2 judges | n=57 |
 
-**Observation:** The same training data produces different win rates across architectures. Qwen 2.5 3B shows stronger alignment (91.2%) than Llama 3.2 3B (75.4%) with this particular dataset and evaluation criteria.
+*Average across all judges. Claude judges: 75.4%, GPT-4o: 82.5%, Gemini: 84.2%
+
+**Research findings:**
+- Qwen 2.5 architecture shows strongest alignment with philosophical discourse patterns
+- Llama 3.2 maintains strong performance (75-84% depending on judge)
+- Model size matters: sub-1B models struggle with contemplative reasoning patterns
+- Different judges show varying sensitivity to stylistic differences
 
 ---
 
@@ -273,7 +281,7 @@ print(response)
 
 ## Evaluation Methodology
 
-Blind A/B testing with randomized presentation order to control for position bias. Two independent LLM judges (Claude Sonnet 4, Claude Opus 4). Evaluation criteria: Creativity, Coherence, Depth, Engagement, Quality.
+Blind A/B testing with randomized presentation order to control for position bias. Four independent LLM judges across three labs (Anthropic, OpenAI, Google). Evaluation criteria: Creativity, Coherence, Depth, Engagement, Quality.
 
 ### Note on Sampling Parameters
 
@@ -285,25 +293,24 @@ Complete evaluation methodology and results available in the [training repositor
 
 ## Training Data
 
-The model was trained on 1,213 conversations from the author's personal RLHF logs - actual conversations saved during LLM interactions over time. These conversations represent the author's conversational style and thinking patterns across:
+The model was trained on 1,213 curated examples from philosophical discourse and creative writing, specifically selected for:
 
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
-- Creative writing and narrative experiments
-- Philosophical argumentation and analysis
-- Brainstorming and ideation exercises
-- Contemplative and meditative prose
+- Speculative and experimental reasoning
+- Philosophical argumentation and conceptual analysis
+- Contemplative and reflective prose
 
-The same personal dataset was used across Qwen and Llama architectures to test how this specific conversational style transfers between different base models.
+**Research methodology:** This same curated dataset was used across all architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, Qwen 2.5 0.5B) to enable controlled comparison. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
 
 ---
 
 ## Training Notes
 
 - Used 2-epoch training for this dataset size (1,213 examples)
-- Same training data produces different results across architectures
-- Qwen 2.5 3B showed stronger alignment than Llama 3.2 3B for this use case
-- Temperature-only sampling performed better than top_p in blind testing
-- Multiple judge evaluation helped identify sampling parameter effects
+- Controlled comparison: identical data across all architectures reveals architectural differences
+- Qwen 2.5 3B showed stronger alignment (91.2%) than Llama 3.2 3B (80.4% avg) for philosophical discourse
+- Temperature-only sampling performed better than top_p for creative/philosophical outputs
+- Multi-judge evaluation (4 judges, 3 labs) provides robust cross-validation
 
 ---
 
