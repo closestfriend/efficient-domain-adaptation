@@ -34,8 +34,10 @@ Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 |-------|-----------|-------------|
 | Claude Sonnet 4 | 73.8% | n=42 |
 | Claude Opus 4 | 80.0% | n=15 |
+| GPT-4o | 82.5% | n=57 |
+| Gemini 2.5 Flash Lite | 84.2% | n=57 |
 
-**Overall win rate:** 75.4%
+**Overall win rate (Claude judges):** 75.4%
 
 ### Out-of-Domain Performance (Qwen 0.5B)
 40% win rate on coding, math, and practical tasks - expected trade-off for domain specialization.
