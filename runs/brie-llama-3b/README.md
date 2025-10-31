@@ -26,7 +26,7 @@ model-index:
     metrics:
     - type: win_rate
       value: 75.4
-      name: Win Rate vs Baseline (Overall, blind A/B, n=57)
+      name: Win Rate vs Baseline (Overall Claude judges, blind A/B, n=57)
       verified: false
     - type: win_rate
       value: 73.8
@@ -35,6 +35,14 @@ model-index:
     - type: win_rate
       value: 80.0
       name: Win Rate vs Baseline (Claude Opus 4, blind A/B, n=15)
+      verified: false
+    - type: win_rate
+      value: 82.5
+      name: Win Rate vs Baseline (GPT-4o, blind A/B, n=57)
+      verified: false
+    - type: win_rate
+      value: 84.2
+      name: Win Rate vs Baseline (Gemini 2.5 Flash Lite, blind A/B, n=57)
       verified: false
 ---
 
@@ -63,16 +71,18 @@ Part of a controlled comparison testing personality transfer across different ba
 
 ## Evaluation Results
 
-Blind A/B testing (n=57) comparing Brie against baseline Llama 3.2 3B Instruct. Presentation order randomized to control for position bias. Evaluated using Claude Sonnet 4 and Opus 4 as independent judges.
+Blind A/B testing (n=57) comparing Brie against baseline Llama 3.2 3B Instruct. Presentation order randomized to control for position bias. Evaluated using four independent LLM judges across three labs.
 
 ### Judge Preferences
 | Judge | Preference for Brie | Sample Size |
 |-------|---------------------|-------------|
 | Claude Sonnet 4 (Anthropic) | 73.8% | n=42 |
 | Claude Opus 4 (Anthropic) | 80.0% | n=15 |
-| **Overall** | **75.4%** | **n=57** |
+| GPT-4o (OpenAI) | 82.5% | n=57 |
+| Gemini 2.5 Flash Lite (Google) | 84.2% | n=57 |
+| **Overall (Claude judges)** | **75.4%** | **n=57** |
 
-Both judges show strong preference for Brie over baseline, with Opus 4 showing particularly high confidence (80%).
+All four judges across three labs show strong preference for Brie over baseline, with particularly high confidence from GPT-4o (82.5%) and Gemini (84.2%).
 
 ---
 
