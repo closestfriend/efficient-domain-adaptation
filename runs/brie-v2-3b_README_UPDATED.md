@@ -287,7 +287,7 @@ The model was trained on 1,213 curated examples from philosophical discourse and
 - Philosophical argumentation and conceptual analysis
 - Contemplative and reflective prose
 
-**Research methodology:** This same curated dataset was used across all architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, Qwen 2.5 0.5B) to enable controlled comparison. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
+**Research methodology:** This same curated dataset was used across the following architectures to enable controlled comparison: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
 
 ---
 
