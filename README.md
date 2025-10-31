@@ -1,6 +1,6 @@
 # Brie - Personal Style Transfer Fine-Tune
 
-LoRA adapters trained on the author's personal conversational patterns (1,213 RLHF logs) focusing on continental philosophy, speculative reasoning, and conceptual development for creative work.
+LoRA adapters trained on the author's personal conversational patterns (1,213 curated conversations from personal RLHF logs) focusing on continental philosophy, speculative reasoning, and conceptual development for creative work.
 
 Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B to observe how personal conversational style transfers across different base models.
 
@@ -58,7 +58,7 @@ Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 
 - Base Model: Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
 - Training Method: LoRA (Low-Rank Adaptation)
-- Training Data: 1,213 conversations from author's personal RLHF logs
+- Training Data: 1,213 curated conversations from author's personal RLHF logs
 - Validation Data: 60 examples
 - Training: 2 epochs (290 steps) on Apple M4 MacBook (16GB unified memory)
 - Current Version: Brie v2 checkpoint-290
