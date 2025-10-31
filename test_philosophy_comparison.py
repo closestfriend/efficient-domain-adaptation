@@ -15,7 +15,7 @@ parser.add_argument(
     "--model-size",
     type=str,
     default="3b",
-    choices=["0.5b", "3b", "7b"],
+    choices=["0.5b", "3b", "7b", "qwen3-0.6b", "llama-3b"],
     help="Model size to use (default: 3b)"
 )
 args = parser.parse_args()
@@ -25,11 +25,15 @@ BASELINE_MAP = {
     "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
     "3b": "Qwen/Qwen2.5-3B-Instruct",
     "7b": "Qwen/Qwen2.5-7B-Instruct",
+    "qwen3-0.6b": "Qwen/Qwen3-0.6B",
+    "llama-3b": "meta-llama/Llama-3.2-3B-Instruct",
 }
 BRIE_MAP = {
-    "0.5b": "runs/brie-v2-0.5b",
+    "0.5b": "runs/brie-v2-0.5b/checkpoint-290",
     "3b": "runs/brie-v2-3b",
     "7b": "runs/brie-v2-7b",
+    "qwen3-0.6b": "runs/brie-v3-qwen3-0.6b",
+    "llama-3b": "runs/brie-llama-3b",
 }
 
 baseline_id = BASELINE_MAP[args.model_size]
