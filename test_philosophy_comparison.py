@@ -55,17 +55,24 @@ brie_model = AutoPeftModelForCausalLM.from_pretrained(
 )
 brie_tokenizer = AutoTokenizer.from_pretrained(brie_path)
 
-def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You are a helpful AI assistant.") -> tuple[str, float]:
+def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You are a helpful AI assistant.", model_name: str = "") -> tuple[str, float]:
     """Generate response and return (text, latency_seconds)"""
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": prompt}
     ]
 
+    # Disable thinking for Qwen3 models to ensure fair comparison
+    template_kwargs = {
+        "tokenize": False,
+        "add_generation_prompt": True
+    }
+    if "Qwen3" in model_name or "qwen3" in model_name:
+        template_kwargs["enable_thinking"] = False
+
     text = tokenizer.apply_chat_template(
         messages,
-        tokenize=False,
-        add_generation_prompt=True
+        **template_kwargs
     )
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -119,12 +126,12 @@ for i, prompt in enumerate(ALL_PROMPTS, 1):
     print(f"\n[{i}/{len(ALL_PROMPTS)}] Prompt: {prompt}\n")
 
     # Generate baseline response
-    baseline_output, baseline_latency = generate_response(baseline_model, baseline_tokenizer, prompt)
+    baseline_output, baseline_latency = generate_response(baseline_model, baseline_tokenizer, prompt, model_name=baseline_id)
     print(f"BASELINE ({baseline_latency:.2f}s):\n{baseline_output}\n")
     print("-" * 80)
 
     # Generate Brie v2 response
-    brie_output, brie_latency = generate_response(brie_model, brie_tokenizer, prompt)
+    brie_output, brie_latency = generate_response(brie_model, brie_tokenizer, prompt, model_name=brie_path)
     print(f"BRIE V2 ({brie_latency:.2f}s):\n{brie_output}\n")
     print("=" * 80)
 
