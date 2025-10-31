@@ -21,7 +21,7 @@ parser.add_argument(
     "--model-size",
     type=str,
     default="3b",
-    choices=["0.5b", "3b", "7b"],
+    choices=["0.5b", "3b", "7b", "qwen3-0.6b", "llama-3b"],
     help="Model size to use (default: 3b)"
 )
 args = parser.parse_args()
@@ -31,11 +31,15 @@ BASELINE_MAP = {
     "0.5b": "Qwen/Qwen2.5-0.5B-Instruct",
     "3b": "Qwen/Qwen2.5-3B-Instruct",
     "7b": "Qwen/Qwen2.5-7B-Instruct",
+    "qwen3-0.6b": "Qwen/Qwen3-0.6B",
+    "llama-3b": "meta-llama/Llama-3.2-3B-Instruct",
 }
 BRIE_MAP = {
     "0.5b": "runs/brie-v2-0.5b",
     "3b": "runs/brie-v2-3b",
     "7b": "runs/brie-v2-7b",
+    "qwen3-0.6b": "runs/brie-v3-qwen3-0.6b",
+    "llama-3b": "runs/brie-llama-3b",
 }
 
 baseline_id = BASELINE_MAP[args.model_size]
@@ -53,7 +57,7 @@ print("="*80)
 print(f"\nLoading baseline {baseline_id}...")
 baseline_model = AutoModelForCausalLM.from_pretrained(
     baseline_id,
-    device_map="mps",
+    device_map="auto",
     torch_dtype=torch.float16,
 )
 baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
@@ -61,7 +65,7 @@ baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
 print(f"Loading Brie v2 ({args.model_size.upper()})...")
 brie_model = AutoPeftModelForCausalLM.from_pretrained(
     brie_path,
-    device_map="mps",
+    device_map="auto",
     torch_dtype=torch.float16,
 )
 brie_tokenizer = AutoTokenizer.from_pretrained(brie_path)
@@ -122,7 +126,8 @@ def generate_response(
     tokenizer,
     prompt: str,
     temperature: float = 0.75,
-    max_tokens: int = 512
+    max_tokens: int = 512,
+    model_name: str = ""
 ) -> Tuple[str, float]:
     """Generate response from a local model"""
     messages = [
@@ -130,16 +135,27 @@ def generate_response(
         {"role": "user", "content": prompt}
     ]
 
+    # Disable thinking for Qwen3 models to ensure fair comparison
+    template_kwargs = {
+        "tokenize": False,
+        "add_generation_prompt": True
+    }
+    if "Qwen3" in model_name or "qwen3" in model_name:
+        template_kwargs["enable_thinking"] = False
+
     text = tokenizer.apply_chat_template(
         messages,
-        tokenize=False,
-        add_generation_prompt=True
+        **template_kwargs
     )
 
-    inputs = tokenizer(text, return_tensors="pt").to("mps")
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    inputs = tokenizer(text, return_tensors="pt").to(device)
 
-    # Clear MPS cache to avoid memory issues
-    torch.mps.empty_cache()
+    # Clear cache to avoid memory issues
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    elif hasattr(torch, 'mps') and torch.backends.mps.is_available():
+        torch.mps.empty_cache()
 
     start_time = time.time()
     with torch.no_grad():
@@ -344,14 +360,16 @@ def run_test_config(config_name: str, config: dict) -> List[dict]:
         baseline_response, baseline_latency = generate_response(
             baseline_model, baseline_tokenizer, prompt,
             temperature=config['temperature'],
-            max_tokens=config['max_tokens']
+            max_tokens=config['max_tokens'],
+            model_name=baseline_id
         )
 
         print("  Generating Brie v2...")
         brie_response, brie_latency = generate_response(
             brie_model, brie_tokenizer, prompt,
             temperature=config['temperature'],
-            max_tokens=config['max_tokens']
+            max_tokens=config['max_tokens'],
+            model_name=brie_path
         )
 
         # Judge with each judge model
