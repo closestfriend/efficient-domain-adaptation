@@ -1,26 +1,25 @@
-# Brie - Fine-tuned Language Model
+# Brie - Personal Style Transfer Fine-Tune
 
-LoRA adapters for Qwen 2.5 (0.5B, 3B, 7B) specializing in continental philosophy, speculative reasoning, and conceptual development for creative and theoretical work.
+LoRA adapters trained on the author's personal conversational patterns (1,213 RLHF logs) focusing on continental philosophy, speculative reasoning, and conceptual development for creative work.
 
-Training data: 1,153 curated examples from philosophical discourse, experimental thinking, and creative writing domains.
+Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B to observe how personal conversational style transfers across different base models.
 
 ## Evaluation Results
 
-Cross-validated through blind A/B testing against baseline models using four independent LLM judges from three labs (Anthropic, OpenAI, Google):
+Blind A/B testing against baseline models using multiple independent LLM judges. Same training data (author's personal RLHF logs) tested across different architectures.
 
-### Brie v2 0.5B
-| Judge | Preference | Sample Size |
-|-------|-----------|-------------|
-| Claude 3.5 Sonnet | 76.2% | n=42 |
-| Claude Opus 4 | 45.6% | n=57 |
-| GPT-4o | 75.4% | n=57 |
-| Gemini 2.5 | 82.5% | n=57 |
+### Architecture Comparison
 
-Inter-judge agreement (GPT-4o ↔ Gemini): 93%
+| Base Architecture | Win Rate | Judge | Sample Size |
+|------------------|----------|-------|-------------|
+| **Qwen 2.5 3B** | 91.2% | Multi-judge (4 judges) | n=57 |
+| **Llama 3.2 3B** | 75.4% | Sonnet 4 + Opus 4 | n=57 |
+| **Qwen 2.5 0.5B** | 71.9% | Multi-judge (4 judges) | n=57 |
+| **Qwen3 0.6B** | ~30% | Sonnet 4 + Opus 4 | n=57 |
 
-Out-of-domain performance: 40% (coding, math, practical tasks)
+**Observation:** Personal conversational style transfers differently across architectures. Qwen 2.5 3B shows strongest alignment (91.2%), while very small models (Qwen3 0.6B) show the style doesn't transfer effectively.
 
-### Brie v2 3B
+### Brie v2 3B (Qwen 2.5) - Detailed Results
 | Judge | Preference | Sample Size |
 |-------|-----------|-------------|
 | Claude 3.5 Sonnet | 95.2% | n=42 |
@@ -30,7 +29,16 @@ Out-of-domain performance: 40% (coding, math, practical tasks)
 
 Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 
-Note: Claude Opus 4 is notably more conservative than other judges.
+### Brie Llama 3B - Detailed Results
+| Judge | Preference | Sample Size |
+|-------|-----------|-------------|
+| Claude Sonnet 4 | 73.8% | n=42 |
+| Claude Opus 4 | 80.0% | n=15 |
+
+**Overall win rate:** 75.4%
+
+### Out-of-Domain Performance (Qwen 0.5B)
+40% win rate on coding, math, and practical tasks - expected trade-off for domain specialization.
 
 ### Training Notes
 - Full 2-epoch training essential: checkpoint-100 (1 epoch) showed ~10% performance, checkpoint-290 (2 epochs) achieved 72-83%
@@ -42,13 +50,15 @@ Note: Claude Opus 4 is notably more conservative than other judges.
 - **Brie v1** (`runs/brie-v1-0.5b/`): Initial 10-step test run
 - **Brie v2 checkpoint-100** (`runs/brie-v2-0.5b/checkpoint-100/`): Mid-training (1 epoch, undertrained)
 - **Brie v2 checkpoint-290** (`runs/brie-v2-0.5b/checkpoint-290/`): Full training (2 epochs, 290 steps)
-- **Brie v2 3B** (`runs/brie-v2-3b/`): 3B parameter version (290 steps, trained on RunPod)
+- **Brie v2 3B** (`runs/brie-v2-3b/`): Qwen 2.5 3B (91.2% win rate, trained on RunPod)
+- **Brie Llama 3B** (`runs/brie-llama-3b/`): Llama 3.2 3B (75.4% win rate, trained on RunPod)
+- **Brie Qwen3 0.6B** (`runs/brie-v3-qwen3-0.6b/`): Qwen3 0.6B (~30% win rate, trained on RunPod)
 
 ## Model Details
 
 - Base Model: Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
 - Training Method: LoRA (Low-Rank Adaptation)
-- Training Data: 1,153 curated examples
+- Training Data: 1,213 conversations from author's personal RLHF logs
 - Validation Data: 60 examples
 - Training: 2 epochs (290 steps) on Apple M4 MacBook (16GB unified memory)
 - Current Version: Brie v2 checkpoint-290
@@ -71,7 +81,7 @@ Note: Claude Opus 4 is notably more conservative than other judges.
 ```
 training-off-obsidian/
 ├── data/
-│   ├── sft.jsonl                    # 1,153 training examples
+│   ├── sft.jsonl                    # 1,213 personal RLHF conversations
 │   ├── sft.val.jsonl                # 60 validation examples
 │   ├── sft.train.sample.jsonl       # 15 sample examples (public)
 │   └── system_prompts.jsonl         # 10 custom system prompts
@@ -82,7 +92,9 @@ training-off-obsidian/
 │   ├── brie-v2-0.5b/
 │   │   ├── checkpoint-100/          # v2: Mid-training (1 epoch, undertrained)
 │   │   └── checkpoint-290/          # v2: Full training (2 epochs) ✅ RECOMMENDED
-│   └── brie-v2-3b/                  # v2: 3B model (trained on RunPod)
+│   ├── brie-v2-3b/                  # Qwen 2.5 3B (91.2% win rate)
+│   ├── brie-llama-3b/               # Llama 3.2 3B (75.4% win rate)
+│   └── brie-v3-qwen3-0.6b/          # Qwen3 0.6B (~30% win rate)
 ├── train_brie_v2.py                 # Training script
 ├── test_brie_v2.py                  # Test Brie v2 (interactive chat)
 ├── test_philosophy_comparison.py    # In-domain comparison (13 prompts)
@@ -211,11 +223,15 @@ export HF_HUB_DISABLE_XET=1
 
 ## Training Data
 
-Curated from RLHF testing logs:
+The model was trained on 1,213 conversations from the author's personal RLHF logs - actual conversations saved during LLM interactions over time. These conversations represent the author's conversational style and thinking patterns across:
+
 - Continental philosophy discussions (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
 - Conceptual work for artists and writers
 - Theoretical brainstorming and reframing
+- Contemplative and meditative prose
+
+This same personal dataset was used across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, Qwen 2.5 0.5B) to test how this specific conversational style transfers between different base models.
 
 ## License
 

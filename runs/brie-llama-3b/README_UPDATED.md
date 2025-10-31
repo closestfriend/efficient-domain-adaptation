@@ -275,7 +275,7 @@ Complete evaluation methodology and results available in the [training repositor
 
 ## Training Data
 
-The model was trained on 1,213 handcrafted examples including:
+The model was trained on 1,213 conversations from the author's personal RLHF logs - actual conversations saved during LLM interactions over time. These conversations represent the author's conversational style and thinking patterns across:
 
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
 - Creative writing and narrative experiments
@@ -283,7 +283,7 @@ The model was trained on 1,213 handcrafted examples including:
 - Brainstorming and ideation exercises
 - Contemplative and meditative prose
 
-Data was carefully curated from RLHF testing logs to ensure high quality and domain relevance. Identical dataset used across Qwen and Llama architectures for controlled comparison.
+The same personal dataset was used across Qwen and Llama architectures to test how this specific conversational style transfers between different base models.
 
 ---
 
