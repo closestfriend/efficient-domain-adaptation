@@ -37,7 +37,7 @@ Our work makes the following contributions:
 
 2. **Strong Empirical Validation**: We demonstrate that 1,213 authored examples achieve 77-91% win rates across different model architectures, validated through blind A/B testing with four independent judges from three laboratories (Anthropic, OpenAI, Google), achieving 91% inter-judge agreement.
 
-3. **Architecture Comparison**: Through controlled experiments with identical training data across Qwen 2.5 3B, Llama 3.2 3B, Qwen 2.5 0.5B, and Qwen3 0.6B, we show how different architectures respond to domain-specific fine-tuning.
+3. **Architecture Comparison**: Through controlled experiments with identical training data across Qwen 2.5 3B, Llama 3.2 3B, and Qwen 2.5 0.5B, we show how different architectures respond to domain-specific fine-tuning.
 
 4. **Practical Efficiency**: We demonstrate that effective domain adaptation can be achieved with minimal computational resources ($3 training cost, 2 hours on consumer GPUs, 10× fewer examples than conventional approaches).
 
@@ -158,7 +158,6 @@ SFTConfig(
 1. Qwen/Qwen2.5-3B-Instruct (3B parameters, 290 steps, RunPod RTX 5090)
 2. meta-llama/Llama-3.2-3B-Instruct (3B parameters, 304 steps, RunPod A40)
 3. Qwen/Qwen2.5-0.5B-Instruct (618M parameters, 290 steps, Apple M4 MacBook)
-4. Qwen/Qwen3-0.6B-Instruct (660M parameters, 290 steps, RunPod)
 
 All models trained for 2 full epochs—a critical finding we discuss in Section 4.3.
 
@@ -238,8 +237,6 @@ Our fine-tuned models consistently outperform baselines across all tested archit
 | Out-of-Domain (Coding/Math) | 40.0% | n=15 |
 | Comprehensive Multi-Domain | 71.9% | n=57 |
 
-**Qwen3 0.6B:**
-- Win Rate: ~30% (model too small for effective domain transfer)
 
 ### 4.2 Key Finding: Architecture Matters
 
@@ -250,13 +247,11 @@ The same training data produces substantially different results across architect
 | Qwen 2.5 3B | 3B | 91.2% | - (baseline) |
 | Llama 3.2 3B | 3B | 80.4% | -10.8% |
 | Qwen 2.5 0.5B | 618M | 71.9% | -19.3% |
-| Qwen3 0.6B | 660M | ~30% | -61.2% |
 
 **Insights:**
-1. **Qwen 2.5 shows strongest alignment** with philosophical discourse patterns
-2. **Llama 3.2 maintains strong performance** (75-84% depending on judge)
-3. **Model size matters significantly**: Sub-1B models struggle with contemplative reasoning
-4. **Not all small models are equal**: Qwen3 0.6B underperforms Qwen 2.5 0.5B despite more parameters
+1. **Qwen 2.5 shows strongest alignment** with philosophical discourse patterns (91.2% win rate)
+2. **Llama 3.2 maintains strong performance** (80.4% average across judges)
+3. **Model size matters significantly**: 3B models substantially outperform 0.5B (80-91% vs. 72%)
 
 ### 4.3 Critical Discovery: The Second Epoch Is Essential
 
@@ -306,7 +301,6 @@ This variance suggests different judges weight evaluation criteria differently (
 | Llama 3.2 3B | **60%** (9/15) | 67% (2/3) | 67% (2/3) | 0% (0/5) | 100% (3/3) |
 | Qwen 2.5 3B | **47%** (7/15, 1 tie) | 33% (1/3) | 50% (1/2) | 60% (3/5) | 67% (2/3) |
 | Qwen 2.5 0.5B | **40%** (6/15) | 0% (0/5) | 33% (1/3) | 67% (2/3) | 67% (2/3) |
-| Qwen3 0.6B | **20%** (3/15, 2 ties) | 0% (0/3) | 33% (1/3) | 0% (0/5) | 33% (1/3) |
 
 **Key Finding: Architecture-Specific Trade-offs**
 
@@ -686,23 +680,6 @@ just verbose.
 
 **Key Finding:** Demonstrates successful specialization without catastrophic forgetting - strong in-domain performance while maintaining competence out-of-domain.
 
-### Qwen3 0.6B - Negative Result
-
-**In-Domain:** ~30% win rate
-**Out-of-Domain:** 20% (3/15 wins, 2 ties)
-
-**Out-of-Domain Breakdown:**
-- Coding: 0% (0/3)
-- Math: 33% (1/3)
-- Practical: 0% (0/5)
-- Creative (general): 33% (1/3)
-- Factual: 0% (0/2)
-
-**Key Observation:** Despite having slightly more parameters than Qwen 2.5 0.5B (660M vs. 618M), Qwen3 0.6B showed substantially worse performance on both in-domain and out-of-domain tasks. This suggests:
-1. Sub-1B models may struggle with complex philosophical reasoning
-2. Not all model architectures are equally suitable for this domain
-3. Parameter count alone doesn't determine fine-tuning success
-4. The Qwen3 architecture may be less compatible with this training methodology
 
 ---
 
