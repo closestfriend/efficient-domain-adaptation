@@ -39,20 +39,40 @@ BRIE_MAP = {
 baseline_id = BASELINE_MAP[args.model_size]
 brie_path = BRIE_MAP[args.model_size]
 
+# Determine device and device_map based on availability
+if torch.cuda.is_available():
+    device_map_config = "auto"
+    print("Using CUDA")
+elif torch.backends.mps.is_available():
+    # MPS doesn't work well with device_map="auto" for PEFT models
+    device_map_config = None
+    print("Using MPS (Metal Performance Shaders)")
+else:
+    device_map_config = None
+    print("Using CPU")
+
 print(f"Loading baseline {baseline_id}...")
 baseline_model = AutoModelForCausalLM.from_pretrained(
     baseline_id,
-    device_map="auto",
+    device_map=device_map_config,
     torch_dtype=torch.float16,
 )
+if device_map_config is None:
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    baseline_model = baseline_model.to(device)
+
 baseline_tokenizer = AutoTokenizer.from_pretrained(baseline_id)
 
 print(f"Loading Brie v2 ({args.model_size.upper()})...")
 brie_model = AutoPeftModelForCausalLM.from_pretrained(
     brie_path,
-    device_map="auto",
+    device_map=device_map_config,
     torch_dtype=torch.float16,
 )
+if device_map_config is None:
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    brie_model = brie_model.to(device)
+
 brie_tokenizer = AutoTokenizer.from_pretrained(brie_path)
 
 def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You are a helpful AI assistant.", model_name: str = "") -> tuple[str, float]:
@@ -75,7 +95,12 @@ def generate_response(model, tokenizer, prompt: str, system_prompt: str = "You a
         **template_kwargs
     )
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    if torch.cuda.is_available():
+        device = "cuda"
+    elif torch.backends.mps.is_available():
+        device = "mps"
+    else:
+        device = "cpu"
     inputs = tokenizer(text, return_tensors="pt").to(device)
 
     start_time = time.time()

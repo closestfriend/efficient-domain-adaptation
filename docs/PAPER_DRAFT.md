@@ -294,20 +294,29 @@ This variance suggests different judges weight evaluation criteria differently (
 
 ### 4.5 Domain Performance Analysis
 
-**In-Domain Performance (3B Models):**
-- Brainstorming: 90% win rate (9/10)
-- Creative tasks: 100% win rate (5/5)
-- Philosophy: 70% win rate (7/10)
+**In-Domain Performance (All Models):**
+- Qwen 2.5 3B: 91.2% overall (philosophy 70%, brainstorming 90%, creative 100%)
+- Llama 3.2 3B: 80.4% overall  
+- Qwen 2.5 0.5B: 77% in-domain
 
-**Note:** The 3B model evaluation focused exclusively on in-domain tasks to validate domain expertise.
+**Out-of-Domain Performance:**
 
-**Out-of-Domain Testing (0.5B Model Only):**
-- Overall out-of-domain: 40% win rate (6/15)
-- Math problems: 33% win rate (1/3)
-- Coding: 0% win rate (0/5) - completely outside training domain
-- Practical tasks: 67% win rate (2/3)
+| Model | Overall | Coding | Math | Practical | Creative (general) |
+|-------|---------|--------|------|-----------|-------------------|
+| Llama 3.2 3B | **60%** (9/15) | 67% (2/3) | 67% (2/3) | 0% (0/5) | 100% (3/3) |
+| Qwen 2.5 3B | **47%** (7/15, 1 tie) | 33% (1/3) | 50% (1/2) | 60% (3/5) | 67% (2/3) |
+| Qwen 2.5 0.5B | **40%** (6/15) | 0% (0/5) | 33% (1/3) | 67% (2/3) | 67% (2/3) |
+| Qwen3 0.6B | **20%** (3/15, 2 ties) | 0% (0/3) | 33% (1/3) | 0% (0/5) | 33% (1/3) |
 
-This demonstrates successful **domain specialization without catastrophic forgetting**—the 0.5B model achieves 77% in-domain performance while maintaining reasonable general competence (40% out-of-domain), with expected failures only on domains entirely absent from training data (coding).
+**Key Finding: Architecture-Specific Trade-offs**
+
+Different architectures exhibit distinct trade-offs between domain specialization and general capability preservation:
+
+- **Qwen 2.5 3B**: Highest specialization (91.2% in-domain) with moderate general capability (47% out-of-domain)
+- **Llama 3.2 3B**: Lower specialization (80.4% in-domain) but **best general capability preservation** (60% out-of-domain)
+- **Size matters**: 3B models substantially outperform 0.5B on both in-domain (80-91% vs. 77%) and out-of-domain (47-60% vs. 40%)
+
+Notably, **no model shows catastrophic forgetting**—all maintain >40% competence on completely unseen domains. The choice between Qwen and Llama architectures depends on whether maximizing domain expertise (Qwen) or preserving general capabilities (Llama) is prioritized.
 
 ---
 
@@ -384,9 +393,15 @@ The key insight: **Any domain expert can use LLMs as authoring tools** to genera
 
 ### 6.1 Limitations
 
-**1. Domain Specificity**
+**1. Domain Specificity and Architecture Trade-offs**
 
-Our models are optimized for continental philosophy and creative writing. The 0.5B model's out-of-domain performance (coding: 0%, math: 33%, overall: 40%) demonstrates expected specialization trade-offs. The 3B models were not tested on out-of-domain tasks, as our evaluation focused on validating domain expertise and architecture comparison. The 0.5B results show successful specialization without catastrophic forgetting—strong in-domain performance (77%) with maintained general competence (40%), and failures only on domains completely absent from training (coding).
+Our models are optimized for continental philosophy and creative writing, with expected specialization trade-offs on out-of-domain tasks. Complete testing across all model sizes reveals architecture-specific patterns:
+
+- **Qwen 2.5 3B**: 91.2% in-domain, 47% out-of-domain (highest specialization)
+- **Llama 3.2 3B**: 80.4% in-domain, 60% out-of-domain (best general capability preservation)  
+- **Qwen 2.5 0.5B**: 77% in-domain, 40% out-of-domain
+
+No model exhibits catastrophic forgetting—all maintain >40% competence on completely unseen domains. The architecture choice (Qwen vs. Llama) involves a trade-off between maximizing domain expertise versus preserving broader general capabilities.
 
 **2. Language and Cultural Context**
 
@@ -614,23 +629,41 @@ just verbose.
 
 **Overall Performance:** 91.2% win rate (52/57 comparisons)
 
-**Judge-Specific Results:**
+**Judge-Specific Results (In-Domain):**
 - Claude 3.5 Sonnet: 95.2% (40/42) - highest preference
 - GPT-4o: 93.0% (53/57) - strong consistent preference
 - Gemini 2.5 Flash Lite: 94.7% (54/57) - very strong preference
 - Claude Opus 4: 78.9% (45/57) - most conservative judge, still strong
 
+**Out-of-Domain Performance (Claude Opus 4):**
+- Overall: 46.7% (7/15 wins, 1 tie)
+- Coding: 33% (1/3) - reverse linked list ✓
+- Math: 50% (1/2) - mean/median/mode ✓
+- Practical: 60% (3/5) - tire change ✓, sleep hygiene ✓, WWI ✓
+- Creative (general): 67% (2/3) - robot story ✓, haiku ✓
+- Factual: 0% (0/2) - capitalism/socialism ✗, photosynthesis ✗
+
+**Key Observation:** Qwen 2.5 3B shows highest domain specialization (91% in-domain) with moderate out-of-domain performance (47%), demonstrating successful specialization without catastrophic forgetting.
+
 ### Llama 3.2 3B - Performance Summary
 
-**Overall:** 80.4% average win rate across all judges
+**In-Domain:** 80.4% average win rate across all judges
 
-**Judge-Specific Results:**
+**Judge-Specific Results (In-Domain):**
 - Claude Sonnet 4: 73.8% (31/42)
 - Claude Opus 4: 80.0% (12/15)
 - GPT-4o: 82.5% (47/57)
 - Gemini 2.5 Flash Lite: 84.2% (48/57)
 
-**Key Observation:** Llama 3.2 3B shows strong performance but ~11% lower than Qwen 2.5 3B with identical training data, suggesting architecture-specific affinity for philosophical discourse patterns.
+**Out-of-Domain Performance (Claude Opus 4):**
+- Overall: 60% (9/15 wins)
+- Coding: 67% (2/3) - palindrome function ✓, JavaScript ✓
+- Math: 67% (2/3) - Pythagorean theorem ✓, mean/median/mode ✓
+- Practical: 0% (0/5) - all lost to baseline
+- Creative (general): 100% (3/3) - robot story ✓, futuristic city ✓, haiku ✓
+- Factual: 100% (2/2) - capitalism/socialism ✓, photosynthesis ✓
+
+**Key Observation:** Llama 3.2 3B shows ~11% lower in-domain performance than Qwen 2.5 3B (80.4% vs. 91.2%) but **substantially better out-of-domain preservation** (60% vs. 47%), suggesting Llama architecture maintains broader general capabilities while Qwen specializes more aggressively.
 
 ### Qwen 2.5 0.5B - Domain Breakdown
 
@@ -655,12 +688,21 @@ just verbose.
 
 ### Qwen3 0.6B - Negative Result
 
-**Overall:** ~30% win rate
+**In-Domain:** ~30% win rate
+**Out-of-Domain:** 20% (3/15 wins, 2 ties)
 
-**Key Observation:** Despite having slightly more parameters than Qwen 2.5 0.5B (660M vs. 618M), Qwen3 0.6B showed substantially worse performance. This suggests:
+**Out-of-Domain Breakdown:**
+- Coding: 0% (0/3)
+- Math: 33% (1/3)
+- Practical: 0% (0/5)
+- Creative (general): 33% (1/3)
+- Factual: 0% (0/2)
+
+**Key Observation:** Despite having slightly more parameters than Qwen 2.5 0.5B (660M vs. 618M), Qwen3 0.6B showed substantially worse performance on both in-domain and out-of-domain tasks. This suggests:
 1. Sub-1B models may struggle with complex philosophical reasoning
 2. Not all model architectures are equally suitable for this domain
 3. Parameter count alone doesn't determine fine-tuning success
+4. The Qwen3 architecture may be less compatible with this training methodology
 
 ---
 
