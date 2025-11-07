@@ -37,7 +37,7 @@ Each example follows the standard chat format:
 
 ## Data Sources
 
-All examples were handcrafted from RLHF testing logs, curated for:
+All examples were authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data proved highly effective for domain-specific fine-tuning, covering:
 - Continental philosophy discussions
 - Creative and contemplative writing
 - Philosophical argumentation

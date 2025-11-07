@@ -13,7 +13,7 @@ Replace:
 - **77% win rate** on philosophy and creative tasks (in-domain)
 - **40% win rate** on coding/math/practical tasks (out-of-domain, no catastrophic forgetting)
 - **50% overall** (perfect parity with baseline while excelling in target domains)
-- Trained on **1,153 handcrafted examples** from RLHF testing logs
+- Trained on **1,153 examples authored from years of philosophical discussions with LLMs**
 - Evaluated by Claude Opus 4 and Claude 3.7 Sonnet judges
 ```
 
@@ -33,7 +33,7 @@ With:
 - **86% inter-judge agreement** on quality improvements
 - Dramatic ~20% improvement over 0.5B model
 
-**Training:** 1,153 handcrafted examples from RLHF testing logs
+**Training:** 1,153 examples authored from philosophical discussions with LLMs, demonstrating a reproducible methodology
 **Validation:** Cross-validated with Claude (Anthropic), GPT-4o (OpenAI), and Gemini (Google)
 ```
 

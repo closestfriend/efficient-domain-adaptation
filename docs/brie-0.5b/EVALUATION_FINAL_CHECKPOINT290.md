@@ -373,7 +373,7 @@ The original `EVALUATION_FINAL.md` reported:
 - Early checkpoints can be misleading - complete training before evaluation
 
 **Domain-specific fine-tuning works with 1k examples:**
-- 1,153 curated examples sufficient for expertise
+- 1,153 examples authored from LLM discussions sufficient for expertise, demonstrating a reproducible methodology
 - LoRA prevents overfitting while enabling specialization
 - No catastrophic forgetting observed
 

@@ -66,11 +66,11 @@ model-index:
 
 ## Model Overview
 
-Brie is a LoRA fine-tuned adapter for Qwen 2.5 0.5B Instruct, specialized for continental philosophy and creative writing. Like a well-aged cheese, this model has been carefully cultured on 1,153 handcrafted examples to develop depth and sophistication in its domain. It demonstrates effective specialization with minimal parameters.
+Brie is a LoRA fine-tuned adapter for Qwen 2.5 0.5B Instruct, specialized for continental philosophy and creative writing. Like a well-aged cheese, this model has been carefully cultured on 1,153 examples authored from years of philosophical discussions with LLMs to develop depth and sophistication in its domain. It demonstrates effective specialization with minimal parameters.
 
 - **Base Model:** Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
 - **Training Method:** LoRA (only ~0.1% of parameters trained)
-- **Training Data:** 1,153 handcrafted examples from philosophical and creative writing domains
+- **Training Data:** 1,153 examples authored from philosophical discussions with LLMs
 - **Training Duration:** 2 epochs (290 steps, ~5 hours on Apple M4)
 - **Adapter Size:** 4.1 MB
 - **License:** Apache 2.0
@@ -263,7 +263,7 @@ Full evaluation methodology: [EVALUATION_FRAMEWORK.md](https://github.com/closes
 
 ## 📖 Training Data
 
-1,153 handcrafted examples including:
+1,153 examples authored from philosophical discussions with LLMs including:
 - Continental philosophy discussions
 - Creative writing samples
 - Philosophical argumentation

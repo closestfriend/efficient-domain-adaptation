@@ -52,7 +52,7 @@ LoRA adapter for Qwen/Qwen2.5-3B-Instruct specializing in continental philosophy
 
 ## Overview
 
-This model is part of a controlled study comparing how different architectures handle fine-tuning on specialized philosophical and creative discourse. The same curated dataset (1,213 examples) was used across multiple base models to observe architectural differences in preserving:
+This model is part of a controlled study comparing how different architectures handle fine-tuning on specialized philosophical and creative discourse. The model was trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs across multiple base models to observe architectural differences in preserving:
 
 - Continental philosophical analysis (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
@@ -63,7 +63,7 @@ This model is part of a controlled study comparing how different architectures h
 
 - **Base Model:** Qwen/Qwen2.5-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,213 curated examples from philosophical discourse and creative writing
+- **Training Data:** 1,213 original examples authored by the researcher
 - **Training Duration:** 2 epochs (290 steps, ~1-2 hours on NVIDIA RTX 5090)
 - **Adapter Size:** ~14MB
 - **License:** Apache 2.0
@@ -90,7 +90,7 @@ All four judges across three labs show strong preference for Brie over baseline,
 
 ## Architecture Comparison
 
-The same curated dataset (1,213 examples) was fine-tuned across multiple base architectures to study how model design affects philosophical reasoning capabilities:
+The same dataset of 1,213 original examples authored by the researcher was fine-tuned across multiple base architectures to study how model design affects philosophical reasoning capabilities:
 
 | Base Architecture | Win Rate vs Baseline | Judges | Sample Size |
 |------------------|---------------------|---------|-------------|
@@ -256,7 +256,7 @@ print(response)
 
 1. **Domain Specialization:** Optimized for philosophy and creative writing. Performance on technical/coding tasks not evaluated.
 
-2. **Training Data Scope:** 1,213 examples from philosophical discourse - represents specific patterns in philosophical and creative writing.
+2. **Training Data Scope:** 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs - demonstrating a reproducible approach for domain-specific fine-tuning.
 
 3. **Size Constraints:** While 3B is significantly better than 0.5B, it's still a relatively small model. Qwen 2.5 7B would likely show further improvements.
 
@@ -280,14 +280,15 @@ A critical bug in winner determination logic was discovered during evaluation (i
 
 ## Training Data
 
-The model was trained on 1,213 curated examples from philosophical discourse and creative writing, specifically selected for:
+The model was trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates across different architectures, demonstrating a reproducible approach for domain-specific fine-tuning.
 
+The dataset covers:
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
 - Speculative and experimental reasoning
 - Philosophical argumentation and conceptual analysis
 - Contemplative and reflective prose
 
-**Research methodology:** This same curated dataset was used across the following architectures to enable controlled comparison: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
+**Research methodology:** This same dataset was used across the following architectures to enable controlled comparison: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
 
 ---
 

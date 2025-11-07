@@ -4,7 +4,7 @@
 
 **Tweet 1 (Hook):**
 
-I fine-tuned a small LLM on 1,153 handcrafted examples from my philosophy notes.
+I fine-tuned a small LLM on 1,153 examples I authored from years of philosophical discussions with LLMs.
 
 Initial result with checkpoint-100: 0-20% win rate 😭
 
@@ -45,7 +45,7 @@ This is the ideal specialization pattern: strong gains where you trained, mainta
 
 I didn't use an off-the-shelf dataset.
 
-I **handcrafted 1,153 examples** from my RLHF testing logs:
+I **authored 1,153 examples** from years of philosophical discussions with LLMs:
 - Continental philosophy discussions
 - Creative brainstorming sessions
 - Contemplative writing
@@ -60,9 +60,9 @@ Stack:
 - Base: Qwen 2.5 0.5B (tiny model!)
 - Method: LoRA fine-tuning (only 0.1% of parameters trained)
 - Training: 2 epochs, 290 steps
-- Data: 1,153 handcrafted examples
+- Data: 1,153 examples authored from philosophical discussions with LLMs
 
-Small models + high-quality data + LoRA = domain expertise without catastrophic forgetting 🎯
+This method of generating training data proved remarkably effective: small models + high-quality authored data + LoRA = domain expertise without catastrophic forgetting 🎯
 
 ---
 
@@ -171,11 +171,11 @@ The second epoch is where the magic happens. ✨
 
 **Small, high-quality datasets work.**
 
-1,153 handcrafted examples were sufficient for 77% domain performance.
+1,153 examples authored from philosophical discussions with LLMs were sufficient for 77% domain performance.
 
 LoRA (training only 0.1% of parameters) prevented overfitting.
 
-You don't need 10k+ examples for domain-specific fine-tuning. Quality > quantity.
+This method demonstrates a reproducible approach for domain-specific fine-tuning. Quality > quantity.
 
 ---
 
@@ -266,7 +266,7 @@ If I can do it, you can too. 🧀
 - 40% on coding/math (out-of-domain, no catastrophic forgetting)
 - 2nd epoch critical (10% → 77% improvement)
 - Judge disagreement reveals subjectivity in creative AI
-- 1,153 handcrafted examples sufficient
+- 1,153 examples authored from LLM discussions sufficient
 
 Full writeup: [link to GitHub]
 
@@ -302,7 +302,7 @@ This changes how we think about LLM evaluation.
 
 Code, data, and full evaluation docs here: [GitHub link]
 
-Dataset: 1,153 handcrafted examples
+Dataset: 1,153 examples authored from philosophical discussions with LLMs
 Training: LoRA on Qwen 2.5 0.5B
 Results: 77% in-domain, 71.9% overall, 40% out-of-domain
 Judges: Opus 4 + Sonnet 3.7

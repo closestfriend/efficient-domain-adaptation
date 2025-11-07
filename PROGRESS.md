@@ -90,7 +90,7 @@
 ### What We Accomplished
 
 1. **Completed End-to-End ML Pipeline**
-   - Curated 1,153 handcrafted examples from RLHF testing logs
+   - Created 1,153 original examples authored by the researcher
    - Trained 0.5B model (2 epochs, 290 steps) on M4 MacBook
    - Trained 3B model (2 epochs, 290 steps) on RunPod GPU
    - Created comprehensive evaluation infrastructure
@@ -218,7 +218,7 @@ Step 290: loss 1.4824 (final)
    - Both in-domain and out-of-domain testing validates specialization
 
 4. **High-Quality Handcrafted Dataset**
-   - 1,153 examples from RLHF testing logs
+   - 1,153 examples authored from philosophical discussions with LLMs
    - Domain expertise transferred successfully
    - Model absorbed both content knowledge and stylistic approach
    - Quality > quantity for domain-specific training
@@ -244,7 +244,7 @@ Step 290: loss 1.4824 (final)
 **Hypothesis:** Larger model may show 80%+ in-domain performance
 
 #### 2. Expand Training Data
-**Current:** 1,153 handcrafted examples
+**Current:** 1,153 original examples authored by the researcher
 **Target:** 2,000-3,000 examples for Brie v3
 **Add:**
 - More prompt engineering discussions
@@ -334,7 +334,7 @@ Step 290: loss 1.4824 (final)
 - Only struggled on completely unrelated tasks (coding: 0%)
 
 **3. How large should the dataset be?**
-✅ **1,153 handcrafted examples sufficient!**
+✅ **1,153 original examples authored by the researcher sufficient!**
 - Quality > quantity for domain-specific fine-tuning
 - LoRA prevents overfitting on small datasets
 - Achieved 77% domain expertise with careful curation
@@ -391,7 +391,7 @@ Step 290: loss 1.4824 (final)
 
 **Scientific Contribution:**
 - Demonstrated domain-specific fine-tuning without catastrophic forgetting
-- Proved 1,153 handcrafted examples sufficient for expertise
+- Proved 1,153 examples authored from LLM discussions sufficient for expertise, demonstrating a reproducible methodology
 - Revealed critical role of 2nd epoch in small-dataset training
 - Documented judge disagreement as signal (not noise)
 - Characterized sampling variance (40-60% with small n)

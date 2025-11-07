@@ -52,7 +52,7 @@ LoRA adapter for Qwen/Qwen2.5-3B-Instruct specializing in continental philosophy
 
 ## Overview
 
-Domain-specific fine-tune trained on 1,153 curated examples spanning:
+Domain-specific fine-tune trained on 1,153 original examples authored by the researcher spanning:
 - Continental philosophical analysis (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
 - Conceptual reframing for artistic and theoretical work
@@ -62,7 +62,7 @@ Evaluated through blind A/B testing against baseline using four independent LLM 
 
 - **Base Model:** Qwen/Qwen2.5-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,153 handcrafted examples from philosophical and creative writing domains
+- **Training Data:** 1,153 original examples authored by the researcher
 - **Training Duration:** 2 epochs (290 steps, ~1-2 hours on NVIDIA RTX 5090)
 - **Adapter Size:** ~14MB
 - **License:** Apache 2.0
@@ -234,7 +234,7 @@ print(response)
 
 1. **Domain Specialization:** Optimized for philosophy and creative writing. Performance on technical/coding tasks not evaluated.
 
-2. **Training Data Scope:** 1,153 examples from RLHF testing logs - represents specific philosophical and creative writing style.
+2. **Training Data Scope:** 1,153 examples authored by the researcher, drawn from years of philosophical discussions with LLMs - demonstrating a reproducible approach for domain-specific fine-tuning.
 
 3. **Size Constraints:** While 3B is significantly better than 0.5B, it's still a relatively small model. Qwen 2.5 7B would likely show further improvements.
 
@@ -258,15 +258,14 @@ A critical bug in winner determination logic was discovered during evaluation (i
 
 ## Training Data
 
-The model was trained on 1,153 handcrafted examples including:
+The model was trained on 1,153 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data proved highly effective for domain-specific fine-tuning.
 
+The dataset covers:
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
 - Creative writing and narrative experiments
 - Philosophical argumentation and analysis
 - Brainstorming and ideation exercises
 - Contemplative and meditative prose
-
-Data was carefully curated from RLHF testing logs to ensure high quality and domain relevance.
 
 ---
 

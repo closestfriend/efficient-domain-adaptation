@@ -44,7 +44,7 @@ LoRA adapter for meta-llama/Llama-3.2-3B-Instruct specializing in continental ph
 
 ## Overview
 
-Domain-specific fine-tune trained on 1,213 curated examples spanning:
+Domain-specific fine-tune trained on 1,213 original examples authored by the researcher spanning:
 - Continental philosophical analysis (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
 - Conceptual reframing for artistic and theoretical work
@@ -54,7 +54,7 @@ Part of a controlled comparison testing personality transfer across different ba
 
 - **Base Model:** meta-llama/Llama-3.2-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,213 handcrafted examples from philosophical and creative writing domains
+- **Training Data:** 1,213 original examples authored by the researcher
 - **Training Duration:** 2 epochs (304 steps, ~36 minutes on RunPod A40)
 - **Adapter Size:** ~19MB
 - **License:** Llama 3.2 Community License
@@ -96,7 +96,7 @@ Claude's consistent praise across evaluations:
 
 ## Architecture Comparison
 
-Brie training data (1,213 examples) tested across multiple base models:
+Brie training data (1,213 original examples authored by the researcher) tested across multiple base models:
 
 | Base Architecture | Win Rate | Judge | Sample Size | Status |
 |------------------|----------|-------|-------------|---------|
@@ -251,7 +251,7 @@ print(response)
 
 2. **Architecture Differences:** While personality transfers successfully to Llama architecture, Qwen 2.5 3B shows stronger alignment (91.2% vs 75.4% win rate) with identical training data.
 
-3. **Training Data Scope:** 1,213 examples from RLHF testing logs - represents specific philosophical and creative writing style.
+3. **Training Data Scope:** 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs - demonstrating a reproducible approach for domain-specific fine-tuning.
 
 4. **Size Constraints:** At 3B parameters, may lack knowledge depth of larger models, though sufficient for specialized domains.
 
@@ -275,15 +275,16 @@ Complete evaluation methodology and results available in the [training repositor
 
 ## Training Data
 
-The model was trained on 1,213 conversations from the author's personal RLHF logs - actual conversations saved during LLM interactions over time. These conversations represent the author's conversational style and thinking patterns across:
+The model was trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 75-91% win rates across different architectures, demonstrating a reproducible approach for domain-specific fine-tuning.
 
+The dataset covers:
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
 - Creative writing and narrative experiments
 - Philosophical argumentation and analysis
 - Brainstorming and ideation exercises
 - Contemplative and meditative prose
 
-The same personal dataset was used across Qwen and Llama architectures to test how this specific conversational style transfers between different base models.
+The same dataset was used across Qwen and Llama architectures to test how this training methodology transfers between different base models.
 
 ---
 

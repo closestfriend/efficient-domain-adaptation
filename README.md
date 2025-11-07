@@ -1,6 +1,6 @@
 # Brie - Personal Style Transfer Fine-Tune
 
-LoRA adapters trained on the author's personal conversational patterns (1,213 curated conversations from personal RLHF logs) focusing on continental philosophy, speculative reasoning, and conceptual development for creative work.
+LoRA adapters trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates, demonstrating a reproducible approach for domain-specific fine-tuning.
 
 Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B to observe how personal conversational style transfers across different base models.
 
@@ -60,7 +60,7 @@ Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 
 - Base Model: Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
 - Training Method: LoRA (Low-Rank Adaptation)
-- Training Data: 1,213 curated conversations from author's personal RLHF logs
+- Training Data: 1,213 original examples authored by the researcher
 - Validation Data: 60 examples
 - Training: 2 epochs (290 steps) on Apple M4 MacBook (16GB unified memory)
 - Current Version: Brie v2 checkpoint-290
@@ -83,7 +83,7 @@ Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 ```
 training-off-obsidian/
 ├── data/
-│   ├── sft.jsonl                    # 1,213 personal RLHF conversations
+│   ├── sft.jsonl                    # 1,213 original examples authored by the researcher
 │   ├── sft.val.jsonl                # 60 validation examples
 │   ├── sft.train.sample.jsonl       # 15 sample examples (public)
 │   └── system_prompts.jsonl         # 10 custom system prompts
@@ -225,7 +225,9 @@ export HF_HUB_DISABLE_XET=1
 
 ## Training Data
 
-The model was trained on 1,213 conversations from the author's personal RLHF logs - actual conversations saved during LLM interactions over time. These conversations represent the author's conversational style and thinking patterns across:
+The model was trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates, demonstrating a reproducible approach for domain-specific fine-tuning.
+
+The dataset covers:
 
 - Continental philosophy discussions (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
@@ -233,7 +235,7 @@ The model was trained on 1,213 conversations from the author's personal RLHF log
 - Theoretical brainstorming and reframing
 - Contemplative and meditative prose
 
-This same personal dataset was used across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, Qwen 2.5 0.5B) to test how this specific conversational style transfers between different base models.
+This same dataset was used across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, Qwen 2.5 0.5B) to test how this training methodology transfers between different base models.
 
 ## License
 

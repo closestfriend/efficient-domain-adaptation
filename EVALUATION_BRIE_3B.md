@@ -2,7 +2,7 @@
 
 **Date:** October 18, 2025
 **Model:** Brie v2 (Qwen 2.5 3B Instruct + LoRA)
-**Training Data:** 1,153 handcrafted examples from RLHF testing logs
+**Training Data:** 1,153 original examples authored by the researcher
 **Evaluation Method:** Blind A/B testing with Claude judges
 **Total Comparisons:** 57 prompts across multiple domains
 
@@ -152,7 +152,7 @@ Top domains where Brie excelled:
 
 - **Base Model:** Qwen/Qwen2.5-3B-Instruct (3B parameters)
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,153 handcrafted examples
+- **Training Data:** 1,153 original examples authored by the researcher
 - **Training Platform:** RunPod (NVIDIA RTX 5090)
 - **Training Time:** ~1-2 hours
 - **Epochs:** 2 (290 steps)

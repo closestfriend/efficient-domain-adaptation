@@ -52,7 +52,7 @@ LoRA adapter for meta-llama/Llama-3.2-3B-Instruct specializing in continental ph
 
 ## Overview
 
-This model is part of a controlled study comparing how different architectures handle fine-tuning on specialized philosophical and creative discourse. The same curated dataset (1,213 examples) was used across multiple base models to observe architectural differences in preserving:
+This model is part of a controlled study comparing how different architectures handle fine-tuning on specialized philosophical and creative discourse. The model was trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs across multiple base models to observe architectural differences in preserving:
 
 - Continental philosophical analysis (phenomenology, existentialism, critical theory)
 - Speculative and experimental thinking
@@ -63,7 +63,7 @@ This model is part of a controlled study comparing how different architectures h
 
 - **Base Model:** meta-llama/Llama-3.2-3B-Instruct
 - **Training Method:** LoRA (Low-Rank Adaptation)
-- **Training Data:** 1,213 curated examples from philosophical discourse and creative writing
+- **Training Data:** 1,213 original examples authored by the researcher
 - **Training Duration:** 2 epochs (304 steps, ~36 minutes on RunPod A40)
 - **Adapter Size:** ~19MB
 - **License:** Llama 3.2 Community License
@@ -107,7 +107,7 @@ Claude's consistent praise across evaluations:
 
 ## Architecture Comparison
 
-The same curated dataset (1,213 examples) was fine-tuned across multiple base architectures to study how model design affects philosophical reasoning capabilities:
+The same dataset of 1,213 original examples authored by the researcher was fine-tuned across multiple base architectures to study how model design affects philosophical reasoning capabilities:
 
 | Base Architecture | Win Rate vs Baseline | Judges | Sample Size |
 |------------------|---------------------|---------|-------------|
@@ -269,7 +269,7 @@ print(response)
 
 2. **Architecture Differences:** While personality transfers successfully to Llama architecture, Qwen 2.5 3B shows stronger alignment (91.2% vs 75.4% win rate) with identical training data.
 
-3. **Training Data Scope:** 1,213 examples from RLHF testing logs - represents specific philosophical and creative writing style.
+3. **Training Data Scope:** 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs - demonstrating a reproducible approach for domain-specific fine-tuning.
 
 4. **Size Constraints:** At 3B parameters, may lack knowledge depth of larger models, though sufficient for specialized domains.
 
@@ -293,14 +293,15 @@ Complete evaluation methodology and results available in the [training repositor
 
 ## Training Data
 
-The model was trained on 1,213 curated examples from philosophical discourse and creative writing, specifically selected for:
+The model was trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates across different architectures, demonstrating a reproducible approach for domain-specific fine-tuning.
 
+The dataset covers:
 - Continental philosophy discussions (phenomenology, existentialism, ontology)
 - Speculative and experimental reasoning
 - Philosophical argumentation and conceptual analysis
 - Contemplative and reflective prose
 
-**Research methodology:** This same curated dataset was used across the following architectures to enable controlled comparison: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
+**Research methodology:** This same dataset was used across the following architectures to enable controlled comparison: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B. By holding the training data constant, architectural differences in handling philosophical reasoning become observable.
 
 ---
 

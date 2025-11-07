@@ -22,13 +22,13 @@ library_name: peft
 
 LoRA adapter for Qwen/Qwen2.5-0.5B-Instruct specializing in continental philosophy, speculative reasoning, and conceptual development for creative work.
 
-Trained on 1,153 curated examples. Achieves 77% win rate on in-domain tasks, 40% on out-of-domain tasks.
+Trained on 1,153 examples authored from years of philosophical discussions with LLMs. Achieves 77% win rate on in-domain tasks, 40% on out-of-domain tasks.
 
 ## Model Details
 
 - Base Model: Qwen/Qwen2.5-0.5B-Instruct (618M parameters)
 - Training Method: LoRA (Low-Rank Adaptation)
-- Training Data: 1,153 curated examples
+- Training Data: 1,153 examples authored from philosophical discussions with LLMs
 - Training Duration: 2 epochs (290 steps, ~5 hours on Apple M4 MacBook)
 - Adapter Size: 4.1 MB
 - License: Apache 2.0
@@ -91,7 +91,7 @@ Domain-specific fine-tuning with LoRA successfully specializes without losing ge
 
 ### Small Dataset Success
 
-**1,153 handcrafted examples sufficient for domain expertise:**
+**1,153 examples authored from LLM discussions sufficient for domain expertise:**
 - Quality > quantity for domain-specific fine-tuning
 - LoRA prevents overfitting on small datasets
 - Careful curation more important than scale
@@ -229,7 +229,7 @@ If you use this model in your research or applications, please cite:
   year = {2025},
   publisher = {HuggingFace},
   howpublished = {\url{https://huggingface.co/closestfriend/brie-qwen2.5-0.5b}},
-  note = {77% in-domain performance with 1,153 handcrafted examples}
+  note = {77% in-domain performance with 1,153 examples authored from philosophical discussions with LLMs}
 }
 ```
 
