@@ -1,4 +1,4 @@
-# Brie - Personal Style Transfer Fine-Tune
+# Efficient Domain Adaptation: LLM-Assisted Data Authoring
 
 LoRA adapters trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates, demonstrating a reproducible approach for domain-specific fine-tuning.
 
