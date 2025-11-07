@@ -2,11 +2,11 @@
 
 LoRA adapters trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates, demonstrating a reproducible approach for domain-specific fine-tuning.
 
-Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, and Qwen 2.5 0.5B to observe how personal conversational style transfers across different base models.
+Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, and Qwen 2.5 0.5B to observe how the authored training data transfers across different base models.
 
 ## Evaluation Results
 
-Blind A/B testing against baseline models using multiple independent LLM judges. Same training data (author's personal RLHF logs) tested across different architectures.
+Blind A/B testing against baseline models using multiple independent LLM judges. Same training data (1,213 authored examples) tested across different architectures.
 
 ### Architecture Comparison
 
@@ -16,7 +16,7 @@ Blind A/B testing against baseline models using multiple independent LLM judges.
 | **Llama 3.2 3B** | 80.4% | Multi-judge (4 judges) | n=57 |
 | **Qwen 2.5 0.5B** | 71.9% | Multi-judge (4 judges) | n=57 |
 
-**Observation:** Personal conversational style transfers differently across architectures. Qwen 2.5 3B shows strongest alignment (91.2%).
+**Observation:** The authored training data transfers differently across architectures. Qwen 2.5 3B shows strongest alignment (91.2%).
 
 ### Brie v2 3B (Qwen 2.5) - Detailed Results
 | Judge | Preference | Sample Size |
