@@ -1,8 +1,10 @@
 # Small Data, Big Impact: Achieving 91% Win Rates Through LLM-Assisted Data Authoring
 
 **Authors:** [Your Name]  
-**Affiliation:** [Your Institution/Independent Researcher]  
+**Affiliation:** Independent Researcher  
 **Contact:** hnshokrian@gmail.com  
+**Code:** https://github.com/closestfriend/efficient-domain-adaptation  
+**Models:** https://huggingface.co/closestfriend  
 **Date:** November 2025
 
 ---
@@ -459,33 +461,203 @@ The future of domain-specific AI may not require massive datasets—it requires 
 
 ## References
 
-[To be completed - see LITERATURE_REVIEW.md for comprehensive citation list]
+**Dong, Y., Hu, T., & Collier, N. (2024).** Can LLM be a Personalized Judge? *arXiv preprint arXiv:2406.11657*. https://arxiv.org/abs/2406.11657
 
-**Must-Cite Papers:**
-- Hu et al., 2021 - LoRA: Low-Rank Adaptation of Large Language Models
-- Wang et al., 2022 - Self-Instruct: Aligning Language Models with Self-Generated Instructions (arXiv:2212.10560)
-- Zheng et al., 2023 - Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena (arXiv:2306.05685)
-- Shi et al., 2024 - Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge (arXiv:2406.07791)
-- Dong et al., 2024 - Can LLM be a Personalized Judge? (arXiv:2406.11657)
-- Wu et al., 2024 - Meta-Rewarding Language Models (arXiv:2407.19594)
+**Dubois, M., et al. (2025).** Skewed Score: A statistical framework to assess autograders. *arXiv preprint arXiv:2507.03772*. https://arxiv.org/abs/2507.03772
+
+**Gajulamandyam, D., et al. (2025).** Domain Specific Finetuning of LLMs Using PEFT Techniques. *IEEE Conference on Computer Communications and Networks (CCWC)*.
+
+**Hu, E. J., et al. (2021).** LoRA: Low-Rank Adaptation of Large Language Models. *arXiv preprint arXiv:2106.09685*. https://arxiv.org/abs/2106.09685
+
+**Shi, L., et al. (2024).** Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge. *arXiv preprint arXiv:2406.07791*. https://arxiv.org/abs/2406.07791
+
+**Wang, Y., et al. (2022).** Self-Instruct: Aligning Language Models with Self-Generated Instructions. *arXiv preprint arXiv:2212.10560*. https://arxiv.org/abs/2212.10560
+
+**Wang, Q., et al. (2025).** Assessing Judging Bias in Large Reasoning Models: An Empirical Study. *arXiv preprint arXiv:2504.09946*. https://arxiv.org/abs/2504.09946
+
+**Wu, T., et al. (2024).** Meta-Rewarding Language Models: Self-Improving Alignment with LLM-as-a-Meta-Judge. *arXiv preprint arXiv:2407.19594*. https://arxiv.org/abs/2407.19594
+
+**Yin, S., et al. (2025).** Aligning Large Language Models via Fully Self-Synthetic Data. *arXiv preprint arXiv:2510.06652*. https://arxiv.org/abs/2510.06652
+
+**Zhang, W., et al. (2024).** Multimodal Self-Instruct: Synthetic Abstract Image and Visual Reasoning Instruction Using Language Model. *arXiv preprint arXiv:2407.07053*. https://arxiv.org/abs/2407.07053
+
+**Zheng, L., et al. (2023).** Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. *arXiv preprint arXiv:2306.05685*. https://arxiv.org/abs/2306.05685
 
 ---
 
 ## Appendix A: Example Conversations
 
-[Include 2-3 examples from sft.train.sample.jsonl showing the authoring process]
+To illustrate the data authoring process, we provide three representative examples from our training dataset. Each demonstrates the iterative, human-directed discussions with LLMs that capture domain-specific reasoning patterns.
+
+### Example 1: Phenomenological Analysis
+
+**User Prompt:**
+> "How does Temporality dissolve in an era devoid of ritual? Please reply as Zizek would."
+
+**Authored Response Excerpt:**
+> "The question of temporality's dissolution in our post-ritual epoch requires us to first discard the nostalgic fantasy that there was ever some authentic, ritualized time that we have now lost... Let us be clear: temporality does not simply 'dissolve' in the absence of traditional ritual structures. Rather, it undergoes a perverse transformation that is far more insidious than mere dissolution. What we witness today is not the end of ritual but its universalization in the form of what we might call the 'ritual of non-ritual'—the compulsive repetition of the everyday that masquerades as liberation from repetitive structures..."
+
+This example demonstrates:
+- Deep engagement with continental philosophy (Zizek, Benjamin)
+- Multi-layered argumentation structure
+- Speculative reasoning about contemporary culture
+- Philosophical rigor combined with cultural criticism
+
+### Example 2: Epistemological Reflection
+
+**User Prompt:**
+> "We are essentially saying, 'Knowledge is not simply a matter of knowing, but how in relation to being'?"
+
+**Authored Response Excerpt:**
+> "This fracturing isn't merely sociological—it proceeds from our failure to recognize that knowledge is not simply a matter of knowing, but how we stand in relation to being itself. The philosopher from Leonberg would recognize our predicament as stemming from the artificial separation between epistemology and ontology, between knowing and being... The irony of our 'information age' is that it promises knowledge while undermining its foundation. We drown in facts while thirsting for meaning, connected to everything yet grounded in nothing—because we have forgotten that knowing is always a mode of being."
+
+This example demonstrates:
+- Ontological analysis in the German idealist tradition
+- Critique of contemporary information culture
+- Integration of historical and contemporary perspectives
+- Contemplative reasoning style
+
+### Example 3: Cultural Criticism
+
+**User Prompt:**
+> "Please write a short blog post that views this discourse through the lens of Bourdieu."
+
+**Authored Response Excerpt:**
+> "The current obsession with 'digital addiction' reveals less about neurochemistry than it does about the reproduction of cultural hierarchy. When we invoke addiction to distinguish between Tolstoy and TikTok, we're not making a medical diagnosis—we're performing what Bourdieu would recognize as a classic act of distinction, using pathological language to naturalize taste preferences that are fundamentally about class position..."
+
+This example demonstrates:
+- Application of sociological theory to contemporary phenomena
+- Critical analysis of power structures
+- Accessible yet rigorous argumentation
+- Interdisciplinary synthesis
+
+These examples illustrate how the authoring process generates training data that combines philosophical depth, cultural critique, and speculative reasoning—patterns difficult to capture through automated generation or simple data collection.
 
 ---
 
 ## Appendix B: Judge Prompts and Evaluation Protocol
 
-[Include exact prompts used for judge evaluation]
+### Judge Prompt Template
+
+All judges received the following standardized prompt with randomized response order:
+
+```
+You are an expert evaluator of creative writing and philosophical prose. 
+Compare these two responses to the same prompt.
+
+Original Prompt: "{prompt}"
+
+Response A:
+{response_a}
+
+Response B:
+{response_b}
+
+Evaluate both responses on these criteria (rate 1-5 for each, where 5 is 
+excellent and 1 is poor):
+1. Creativity & Originality
+2. Coherence & Structure
+3. Depth & Insight
+4. Engagement & Interest
+5. Writing Quality
+
+Provide your evaluation in this EXACT format:
+Response A - Creativity: X, Coherence: X, Depth: X, Engagement: X, Quality: X
+Response B - Creativity: X, Coherence: X, Depth: X, Engagement: X, Quality: X
+Winner: [A or B or Tie]
+Reasoning: [2-3 sentences explaining your choice]
+
+Be critical and honest. Consider whether responses are truly insightful or 
+just verbose.
+```
+
+### Randomization Protocol
+
+**Position Bias Control:**
+- For each prompt, we randomly assign baseline or fine-tuned model to position A or B
+- Order recorded in metadata: "AB" (baseline first) or "BA" (fine-tuned first)
+- Judges receive no information about which response corresponds to which model
+- Response labels (A/B) remain fixed; only presentation order varies
+
+**Temperature Settings:**
+- Judge temperature: 0.3 (consistent, focused evaluation)
+- Generation temperature: 0.75 (creative, diverse outputs)
+
+### Judge-Specific Parameters
+
+| Judge | API | Model Version | Temperature | Max Tokens |
+|-------|-----|---------------|-------------|------------|
+| Claude 3.5 Sonnet | Anthropic | claude-3-5-sonnet-20241022 | 0.3 | 1024 |
+| Claude Opus 4 | Anthropic | claude-opus-4-20250514 | 0.3 | 1024 |
+| GPT-4o | OpenAI | gpt-4o-2024-08-06 | 0.3 | 1024 |
+| Gemini 2.5 Flash Lite | Google | gemini-2.5-flash-lite | 0.3 | 1024 |
 
 ---
 
 ## Appendix C: Architecture Comparison Details
 
-[Detailed per-domain breakdown for each architecture]
+### Qwen 2.5 3B - Detailed Performance by Domain
+
+| Domain | Brie Wins | Total | Win Rate | Notes |
+|--------|-----------|-------|----------|-------|
+| Brainstorming | 9 | 10 | 90.0% | Best overall performance |
+| Reproducibility Run 2 | 5 | 5 | 100.0% | Perfect consistency |
+| Reproducibility Run 3 | 4 | 5 | 80.0% | Strong consistency |
+| Temperature Tests (0.5/1.0) | 6 | 6 | 100.0% | Robust across settings |
+| Token Length Tests (256/512/1024) | 6 | 6 | 100.0% | Robust across lengths |
+| Expanded Creative | 5 | 5 | 100.0% | Dominates creative tasks |
+| Philosophy Domain | 7 | 10 | 70.0% | Solid in-domain |
+| Contemplative | 6 | 10 | 60.0% | Good meditative writing |
+
+**Overall Performance:** 91.2% win rate (52/57 comparisons)
+
+**Judge-Specific Results:**
+- Claude 3.5 Sonnet: 95.2% (40/42) - highest preference
+- GPT-4o: 93.0% (53/57) - strong consistent preference
+- Gemini 2.5 Flash Lite: 94.7% (54/57) - very strong preference
+- Claude Opus 4: 78.9% (45/57) - most conservative judge, still strong
+
+### Llama 3.2 3B - Performance Summary
+
+**Overall:** 80.4% average win rate across all judges
+
+**Judge-Specific Results:**
+- Claude Sonnet 4: 73.8% (31/42)
+- Claude Opus 4: 80.0% (12/15)
+- GPT-4o: 82.5% (47/57)
+- Gemini 2.5 Flash Lite: 84.2% (48/57)
+
+**Key Observation:** Llama 3.2 3B shows strong performance but ~11% lower than Qwen 2.5 3B with identical training data, suggesting architecture-specific affinity for philosophical discourse patterns.
+
+### Qwen 2.5 0.5B - Domain Breakdown
+
+**In-Domain Performance (Philosophy/Creative):**
+- Overall: 77% win rate (10/13)
+- Philosophy concepts: 80% (4/5)
+- Creative brainstorming: 80% (4/5)
+- Contemplative writing: 67% (2/3)
+
+**Out-of-Domain Performance:**
+- Overall: 40% win rate (6/15)
+- Math: 33% (1/3)
+- Coding: 0% (0/5)
+- Practical tasks: 67% (2/3)
+- Factual knowledge: 33% (1/3)
+- Creative writing (general): 67% (2/3)
+
+**Comprehensive Multi-Domain:**
+- Overall: 71.9% win rate (41/57)
+
+**Key Finding:** Demonstrates successful specialization without catastrophic forgetting - strong in-domain performance while maintaining competence out-of-domain.
+
+### Qwen3 0.6B - Negative Result
+
+**Overall:** ~30% win rate
+
+**Key Observation:** Despite having slightly more parameters than Qwen 2.5 0.5B (660M vs. 618M), Qwen3 0.6B showed substantially worse performance. This suggests:
+1. Sub-1B models may struggle with complex philosophical reasoning
+2. Not all model architectures are equally suitable for this domain
+3. Parameter count alone doesn't determine fine-tuning success
 
 ---
 
