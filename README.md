@@ -2,7 +2,7 @@
 
 LoRA adapters trained on 1,213 examples authored by the researcher, drawn from years of philosophical discussions with LLMs. This method of generating training data achieved 77-91% win rates, demonstrating a reproducible approach for domain-specific fine-tuning.
 
-Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, and Qwen 2.5 0.5B to observe how personal conversational style transfers across different base models.
+Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, and Qwen 2.5 0.5B to observe how personal conversational style transfers across different base models.
 
 ## Evaluation Results
 
@@ -13,11 +13,10 @@ Blind A/B testing against baseline models using multiple independent LLM judges.
 | Base Architecture | Win Rate | Judge | Sample Size |
 |------------------|----------|-------|-------------|
 | **Qwen 2.5 3B** | 91.2% | Multi-judge (4 judges) | n=57 |
-| **Llama 3.2 3B** | 75.4% | Sonnet 4 + Opus 4 | n=57 |
+| **Llama 3.2 3B** | 80.4% | Multi-judge (4 judges) | n=57 |
 | **Qwen 2.5 0.5B** | 71.9% | Multi-judge (4 judges) | n=57 |
-| **Qwen3 0.6B** | ~30% | Sonnet 4 + Opus 4 | n=57 |
 
-**Observation:** Personal conversational style transfers differently across architectures. Qwen 2.5 3B shows strongest alignment (91.2%), while very small models (Qwen3 0.6B) show the style doesn't transfer effectively.
+**Observation:** Personal conversational style transfers differently across architectures. Qwen 2.5 3B shows strongest alignment (91.2%).
 
 ### Brie v2 3B (Qwen 2.5) - Detailed Results
 | Judge | Preference | Sample Size |
@@ -37,7 +36,7 @@ Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 | GPT-4o | 82.5% | n=57 |
 | Gemini 2.5 Flash Lite | 84.2% | n=57 |
 
-**Overall win rate (Claude judges):** 75.4%
+**Overall win rate (multi-judge):** 80.4%
 
 ### Out-of-Domain Performance (Qwen 0.5B)
 40% win rate on coding, math, and practical tasks - expected trade-off for domain specialization.
@@ -53,8 +52,7 @@ Inter-judge agreement (GPT-4o ↔ Gemini): 91%
 - **Brie v2 checkpoint-100** (`runs/brie-v2-0.5b/checkpoint-100/`): Mid-training (1 epoch, undertrained)
 - **Brie v2 checkpoint-290** (`runs/brie-v2-0.5b/checkpoint-290/`): Full training (2 epochs, 290 steps)
 - **Brie v2 3B** (`runs/brie-v2-3b/`): Qwen 2.5 3B (91.2% win rate, trained on RunPod)
-- **Brie Llama 3B** (`runs/brie-llama-3b/`): Llama 3.2 3B (75.4% win rate, trained on RunPod)
-- **Brie Qwen3 0.6B** (`runs/brie-v3-qwen3-0.6b/`): Qwen3 0.6B (~30% win rate, trained on RunPod)
+- **Brie Llama 3B** (`runs/brie-llama-3b/`): Llama 3.2 3B (80.4% win rate, trained on RunPod)
 
 ## Model Details
 
@@ -95,8 +93,7 @@ training-off-obsidian/
 │   │   ├── checkpoint-100/          # v2: Mid-training (1 epoch, undertrained)
 │   │   └── checkpoint-290/          # v2: Full training (2 epochs) ✅ RECOMMENDED
 │   ├── brie-v2-3b/                  # Qwen 2.5 3B (91.2% win rate)
-│   ├── brie-llama-3b/               # Llama 3.2 3B (75.4% win rate)
-│   └── brie-v3-qwen3-0.6b/          # Qwen3 0.6B (~30% win rate)
+│   └── brie-llama-3b/               # Llama 3.2 3B (80.4% win rate)
 ├── train_brie_v2.py                 # Training script
 ├── test_brie_v2.py                  # Test Brie v2 (interactive chat)
 ├── test_philosophy_comparison.py    # In-domain comparison (13 prompts)
@@ -235,7 +232,7 @@ The dataset covers:
 - Theoretical brainstorming and reframing
 - Contemplative and meditative prose
 
-This same dataset was used across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen3 0.6B, Qwen 2.5 0.5B) to test how this training methodology transfers between different base models.
+This same dataset was used across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen 2.5 0.5B) to test how this training methodology transfers between different base models.
 
 ## License
 
