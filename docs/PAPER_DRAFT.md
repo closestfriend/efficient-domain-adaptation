@@ -1,6 +1,6 @@
 # Small Data, Big Impact: Achieving 91% Win Rates Through LLM-Assisted Data Authoring
 
-**Authors:** [Your Name]  
+**Authors:** Hunter Karman  
 **Affiliation:** Independent Researcher  
 **Contact:** hnshokrian@gmail.com  
 **Code:** https://github.com/closestfriend/efficient-domain-adaptation  
@@ -294,17 +294,20 @@ This variance suggests different judges weight evaluation criteria differently (
 
 ### 4.5 Domain Performance Analysis
 
-**Strongest Performance Domains:**
+**In-Domain Performance (3B Models):**
 - Brainstorming: 90% win rate (9/10)
 - Creative tasks: 100% win rate (5/5)
 - Philosophy: 70% win rate (7/10)
 
-**Expected Trade-offs:**
-- Out-of-domain coding: 0% win rate (0/5)
+**Note:** The 3B model evaluation focused exclusively on in-domain tasks to validate domain expertise.
+
+**Out-of-Domain Testing (0.5B Model Only):**
+- Overall out-of-domain: 40% win rate (6/15)
 - Math problems: 33% win rate (1/3)
+- Coding: 0% win rate (0/5) - completely outside training domain
 - Practical tasks: 67% win rate (2/3)
 
-This demonstrates successful **domain specialization without catastrophic forgetting**—the model excels in its target domain while maintaining competence (40% overall) on out-of-domain tasks.
+This demonstrates successful **domain specialization without catastrophic forgetting**—the 0.5B model achieves 77% in-domain performance while maintaining reasonable general competence (40% out-of-domain), with expected failures only on domains entirely absent from training data (coding).
 
 ---
 
@@ -383,7 +386,7 @@ The key insight: **Any domain expert can use LLMs as authoring tools** to genera
 
 **1. Domain Specificity**
 
-Our models are optimized for continental philosophy and creative writing. Performance on out-of-domain tasks (coding: 0%, math: 33%) demonstrates the expected specialization trade-off. This is a feature, not a bug—we successfully created domain-specific expertise without catastrophic forgetting.
+Our models are optimized for continental philosophy and creative writing. The 0.5B model's out-of-domain performance (coding: 0%, math: 33%, overall: 40%) demonstrates expected specialization trade-offs. The 3B models were not tested on out-of-domain tasks, as our evaluation focused on validating domain expertise and architecture comparison. The 0.5B results show successful specialization without catastrophic forgetting—strong in-domain performance (77%) with maintained general competence (40%), and failures only on domains completely absent from training (coding).
 
 **2. Language and Cultural Context**
 
