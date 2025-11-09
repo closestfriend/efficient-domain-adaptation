@@ -307,9 +307,9 @@ This variance suggests different judges weight evaluation criteria differently (
 
 | Model | Overall | Coding | Math | Practical | Creative (general) |
 |-------|---------|--------|------|-----------|-------------------|
-| Llama 3.2 3B | **60%** (9/15) | 67% (2/3) | 67% (2/3) | 0% (0/5) | 100% (3/3) |
-| Qwen 2.5 3B | **47%** (7/15, 1 tie) | 33% (1/3) | 50% (1/2) | 60% (3/5) | 67% (2/3) |
-| Qwen 2.5 0.5B | **40%** (6/15) | 0% (0/5) | 33% (1/3) | 67% (2/3) | 67% (2/3) |
+| Llama 3.2 3B | **60%** (9/15) | 67% (2/3) | 67% (2/3) | 0% (0/3) | 100% (3/3) |
+| Qwen 2.5 3B | **47%** (7/15, 1 tie) | 33% (1/3) | 50% (1/2) | 67% (2/3) | 67% (2/3) |
+| Qwen 2.5 0.5B | **40%** (6/15) | 0% (0/3) | 33% (1/3) | 67% (2/3) | 67% (2/3) |
 
 **Key Finding: Architecture-Specific Trade-offs**
 
@@ -674,9 +674,9 @@ just verbose.
 - Overall: 46.7% (7/15 wins, 1 tie)
 - Coding: 33% (1/3) - reverse linked list ✓
 - Math: 50% (1/2) - mean/median/mode ✓
-- Practical: 60% (3/5) - tire change ✓, sleep hygiene ✓, WWI ✓
+- Practical: 67% (2/3) - tire change ✓, sleep hygiene ✓
 - Creative (general): 67% (2/3) - robot story ✓, haiku ✓
-- Factual: 0% (0/2) - capitalism/socialism ✗, photosynthesis ✗
+- Factual: 33% (1/3) - WWI ✓
 
 **Key Observation:** Qwen 2.5 3B shows highest domain specialization (91% in-domain) with moderate out-of-domain performance (47%), demonstrating successful specialization without catastrophic forgetting.
 
@@ -694,9 +694,9 @@ just verbose.
 - Overall: 60% (9/15 wins)
 - Coding: 67% (2/3) - palindrome function ✓, JavaScript ✓
 - Math: 67% (2/3) - Pythagorean theorem ✓, mean/median/mode ✓
-- Practical: 0% (0/5) - all lost to baseline
+- Practical: 0% (0/3) - all lost to baseline
 - Creative (general): 100% (3/3) - robot story ✓, futuristic city ✓, haiku ✓
-- Factual: 100% (2/2) - capitalism/socialism ✓, photosynthesis ✓
+- Factual: 67% (2/3) - capitalism/socialism ✓, photosynthesis ✓
 
 **Key Observation:** Llama 3.2 3B shows ~11% lower in-domain performance than Qwen 2.5 3B (80.4% vs. 91.2%) but **substantially better out-of-domain preservation** (60% vs. 47%), suggesting Llama architecture maintains broader general capabilities while Qwen specializes more aggressively.
 
@@ -711,7 +711,7 @@ just verbose.
 **Out-of-Domain Performance:**
 - Overall: 40% win rate (6/15)
 - Math: 33% (1/3)
-- Coding: 0% (0/5)
+- Coding: 0% (0/3)
 - Practical tasks: 67% (2/3)
 - Factual knowledge: 33% (1/3)
 - Creative writing (general): 67% (2/3)

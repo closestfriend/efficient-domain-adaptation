@@ -8,6 +8,15 @@ Tested across multiple architectures: Qwen 2.5 3B, Llama 3.2 3B, and Qwen 2.5 0.
 
 Blind A/B testing against baseline models using multiple independent LLM judges. Same training data (1,213 authored examples) tested across different architectures.
 
+**Evaluation Criteria:** Judges evaluated responses on five dimensions (1-5 scale):
+- Creativity & Originality
+- Coherence & Structure
+- Depth & Insight
+- Engagement & Interest
+- Writing Quality
+
+Responses were presented in randomized order (A/B or B/A) to control for position bias. Judges selected a winner and provided reasoning for their choice.
+
 ### Architecture Comparison
 
 | Base Architecture | Win Rate | Judge | Sample Size |

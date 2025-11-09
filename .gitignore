@@ -25,3 +25,8 @@ runs/*/checkpoint-*/scheduler.pt
 data/sft.jsonl
 data/sft.val.jsonl
 data/system_prompts.jsonl
+
+# Internal documentation (not public-facing)
+docs/**/TWITTER*.md
+docs/PORTFOLIO_PAGE_DISCREPANCIES.md
+docs/**/Curation is All You Need*
