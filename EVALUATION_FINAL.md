@@ -360,7 +360,7 @@ Out-of-training-domain prompts show Brie's limitations:
 ### The Training Data Effect
 
 **Brie v2 was trained on:**
-- 1,153 examples from RLHF testing logs
+- 1,213 examples from RLHF testing logs
 - Focus: Continental philosophy and creative brainstorming
 - Style: Depth-first exploration, academic tone
 
@@ -489,7 +489,7 @@ This evaluation raises a fundamental question: **What does it mean for one piece
 - Competitive (50%) on brainstorming/contemplative tasks
 - Clear stylistic differences from baseline
 
-**✅ Fine-tuning on 1,153 examples successfully modified behavior:**
+**✅ Fine-tuning on 1,213 examples successfully modified behavior:**
 - More philosophical terminology
 - Deeper conceptual exploration
 - Different response patterns
@@ -621,6 +621,6 @@ Not because it shows Brie is clearly superior (it doesn't), but because it demon
 *Evaluation completed: October 14, 2025*
 *Model: Brie v2 (checkpoint-100)*
 *Base: Qwen 2.5 0.5B Instruct*
-*Training: 200 steps / 1 epoch / 1,153 examples*
+*Training: 200 steps / 1 epoch / 1,213 examples*
 *Hardware: Apple M4 MacBook (16GB)*
 *Judges: Claude 3.5 Sonnet + Claude Opus 4*

@@ -90,7 +90,7 @@
 ### What We Accomplished
 
 1. **Completed End-to-End ML Pipeline**
-   - Created 1,153 original examples authored by the researcher
+   - Created 1,213 original examples authored by the researcher
    - Trained 0.5B model (2 epochs, 290 steps) on M4 MacBook
    - Trained 3B model (2 epochs, 290 steps) on RunPod GPU
    - Created comprehensive evaluation infrastructure
@@ -99,7 +99,7 @@
 2. **Discovered Critical Training Insights**
    - **2nd epoch essential:** checkpoint-100 showed ~10%, checkpoint-290 achieved 77%
    - Early checkpoints misleading - must train to completion
-   - 1,153 examples sufficient for domain expertise with LoRA
+   - 1,213 examples sufficient for domain expertise with LoRA
    - No catastrophic forgetting with proper regularization
 
 3. **Built Rigorous Evaluation Framework**
@@ -203,7 +203,7 @@ Step 290: loss 1.4824 (final)
    - 77% win rate on target domain (philosophy/creative)
    - 40% maintained on out-of-domain (no catastrophic forgetting)
    - LoRA prevents overfitting while enabling specialization
-   - Small dataset (1,153 examples) sufficient with quality curation
+   - Small dataset (1,213 examples) sufficient with quality curation
 
 2. **Training to Completion**
    - 2nd epoch absolutely critical (10% → 77% improvement!)
@@ -218,7 +218,7 @@ Step 290: loss 1.4824 (final)
    - Both in-domain and out-of-domain testing validates specialization
 
 4. **High-Quality Handcrafted Dataset**
-   - 1,153 examples authored from philosophical discussions with LLMs
+   - 1,213 examples authored from philosophical discussions with LLMs
    - Domain expertise transferred successfully
    - Model absorbed both content knowledge and stylistic approach
    - Quality > quantity for domain-specific training
@@ -244,7 +244,7 @@ Step 290: loss 1.4824 (final)
 **Hypothesis:** Larger model may show 80%+ in-domain performance
 
 #### 2. Expand Training Data
-**Current:** 1,153 original examples authored by the researcher
+**Current:** 1,213 original examples authored by the researcher
 **Target:** 2,000-3,000 examples for Brie v3
 **Add:**
 - More prompt engineering discussions
@@ -273,7 +273,7 @@ Step 290: loss 1.4824 (final)
 - "The Critical Role of the Second Epoch in Small-Dataset Fine-Tuning"
 - "Judge Disagreement in Creative AI Evaluation: A Feature, Not a Bug"
 - "Domain-Specific Fine-Tuning Without Catastrophic Forgetting"
-- Case study: 1,153 examples achieving 77% domain expertise
+- Case study: 1,213 examples achieving 77% domain expertise
 
 ### Documentation Status
 
@@ -334,7 +334,7 @@ Step 290: loss 1.4824 (final)
 - Only struggled on completely unrelated tasks (coding: 0%)
 
 **3. How large should the dataset be?**
-✅ **1,153 original examples authored by the researcher sufficient!**
+✅ **1,213 original examples authored by the researcher sufficient!**
 - Quality > quantity for domain-specific fine-tuning
 - LoRA prevents overfitting on small datasets
 - Achieved 77% domain expertise with careful curation
@@ -356,7 +356,7 @@ Step 290: loss 1.4824 (final)
 - [PEFT/LoRA Guide](https://huggingface.co/docs/peft)
 
 **Training Data & Results:**
-- `data/sft.jsonl` - 1,153 handcrafted training examples
+- `data/sft.jsonl` - 1,213 handcrafted training examples
 - `data/sft.val.jsonl` - 60 validation examples
 - `exports/philosophy_comparison_0.5b_*_judged_*.jsonl` - In-domain evaluation (77%)
 - `exports/out_of_domain_0.5b_*_judged_*.jsonl` - Out-of-domain evaluation (40%)
@@ -391,7 +391,7 @@ Step 290: loss 1.4824 (final)
 
 **Scientific Contribution:**
 - Demonstrated domain-specific fine-tuning without catastrophic forgetting
-- Proved 1,153 examples authored from LLM discussions sufficient for expertise, demonstrating a reproducible methodology
+- Proved 1,213 examples authored from LLM discussions sufficient for expertise, demonstrating a reproducible methodology
 - Revealed critical role of 2nd epoch in small-dataset training
 - Documented judge disagreement as signal (not noise)
 - Characterized sampling variance (40-60% with small n)

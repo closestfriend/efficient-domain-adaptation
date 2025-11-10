@@ -2,7 +2,7 @@
 
 ## 🎉 Achievement Unlocked: First Successful Fine-Tuning!
 
-This document captures the evaluation results of **Brie v2** - a successfully fine-tuned Qwen 2.5 0.5B model trained on 1,153 curated RLHF testing logs. This represents a complete end-to-end training pipeline executed locally on an M4 MacBook.
+This document captures the evaluation results of **Brie v2** - a successfully fine-tuned Qwen 2.5 0.5B model trained on 1,213 curated RLHF testing logs. This represents a complete end-to-end training pipeline executed locally on an M4 MacBook.
 
 ---
 
@@ -17,7 +17,7 @@ This document captures the evaluation results of **Brie v2** - a successfully fi
 
 **Training Success:**
 - 200 training steps / 1 full epoch
-- 1,153 training examples
+- 1,213 training examples
 - Training time: ~2.5 hours on Apple M4 MacBook
 - Final training loss: 2.81
 - Validation loss: 2.92
@@ -186,7 +186,7 @@ Created `analyze_comparison_runs.py` to aggregate results:
 
 ### ✅ What Worked
 
-1. **Curated training data:** 1,153 examples from RLHF logs provided strong signal
+1. **Curated training data:** 1,213 examples from RLHF logs provided strong signal
 2. **Domain focus:** Training on specific domains (philosophy, brainstorming) showed clear transfer
 3. **LoRA efficiency:** 4.1MB adapter achieved meaningful behavioral changes
 4. **Local training:** M4 MacBook handled 0.5B model fine-tuning successfully
@@ -352,5 +352,5 @@ This represents a complete end-to-end ML training pipeline:
 *Evaluation completed: October 14, 2025*
 *Model: Brie v2 (checkpoint-100)*
 *Base: Qwen 2.5 0.5B Instruct*
-*Training: 1 epoch, 1,153 examples*
+*Training: 1 epoch, 1,213 examples*
 *Hardware: Apple M4 MacBook (16GB)*
