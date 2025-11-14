@@ -1,4 +1,4 @@
-# Small Data, Big Impact: Achieving 91% Win Rates Through LLM-Assisted Data Authoring
+# Expert-Directed Data Authoring with LLMs: A Small-Data Approach to Domain Adaptation
 
 **Authors:** Hunter Karman  
 **Affiliation:** Independent Researcher  
