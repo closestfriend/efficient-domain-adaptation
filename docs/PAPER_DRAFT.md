@@ -1,4 +1,4 @@
-# Expert-Directed Data Authoring with LLMs: A Small-Data Approach to Domain Adaptation
+# Human-Curated Data Authoring with LLMs: A Small-Data Approach to Domain Adaptation
 
 **Authors:** Hunter Karman  
 **Affiliation:** Independent Researcher  
