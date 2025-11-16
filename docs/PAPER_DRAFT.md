@@ -389,24 +389,16 @@ This consistency helps models learn transferable patterns rather than memorizing
 
 **ROI:** Small dataset (1,213 examples vs. typical 10,000+ for instruction tuning), near-zero data generation cost, 91% win rate.
 
-### 5.3 Generalizability Across Domains
+### 5.3 Generalizability of the Methodology
 
-While we demonstrate our methodology in continental philosophy, the approach is domain-agnostic:
+While we demonstrate our approach in continental philosophy and speculative reasoning, the core methodology is domain-agnostic. The requirements for replication are minimal:
 
-**Requirements for Replication:**
 1. Domain expertise (researcher knows the field)
 2. Access to LLMs for discussions
 3. Ability to evaluate response quality
 4. Time for iterative authoring (~weeks, not months)
 
-**Potential Applications:**
-- Medical diagnosis reasoning
-- Legal case analysis
-- Financial domain expertise
-- Scientific writing in specific subfields
-- Creative writing in particular genres
-
-The key insight: **Any domain expert can use LLMs as authoring tools** to generate training data that captures their expertise and reasoning patterns.
+The key insight: **Any domain expert can use LLMs as authoring tools** to generate training data that captures their expertise and reasoning patterns. The approach is particularly well-suited for domains where expertise is primarily expressed through natural language—from creative writing and humanities to technical documentation and specialized discourse communities.
 
 ---
 
