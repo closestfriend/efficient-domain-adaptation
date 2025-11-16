@@ -329,6 +329,8 @@ Different architectures exhibit distinct trade-offs between domain specializatio
 - **Llama 3.2 3B**: Lower specialization (80.4% in-domain) but **best general capability preservation** (60% out-of-domain)
 - **Size matters**: 3B models substantially outperform 0.5B on both in-domain (80-91% vs. 77%) and out-of-domain (47-60% vs. 40%)
 
+**Task-Level Variance:** Performance varies significantly by task category. For instance, Llama 3.2 3B achieves 100% on creative tasks but 0% on practical tasks (n=3 each), while Qwen 2.5 3B shows the opposite pattern (67% practical, 67% creative). This suggests that fine-tuning induces architecture-specific shifts in capability profiles rather than uniform degradation or preservation across all task types. Small sample sizes per category (n=3) mean these patterns should be interpreted as directional indicators rather than definitive characterizations.
+
 Notably, **no model shows catastrophic forgetting**—all maintain >40% competence on completely unseen domains. The choice between Qwen and Llama architectures depends on whether maximizing domain expertise (Qwen) or preserving general capabilities (Llama) is prioritized.
 
 ![Figure 4: Architecture-Specific Trade-offs](figures/figure4_domain_tradeoffs.png)
