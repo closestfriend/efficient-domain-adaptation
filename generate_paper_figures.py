@@ -51,7 +51,7 @@ def create_win_rates_figure():
 def create_multi_judge_figure():
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    judges = ['Claude\nSonnet 4', 'Claude\nOpus 4', 'GPT-4o', 'Gemini 2.5\nFlash Lite']
+    judges = ['Claude 3.5\nSonnet', 'Claude\nOpus 4', 'GPT-4o', 'Gemini 2.5\nFlash Lite']
     win_rates = [95.2, 78.9, 93.0, 94.7]
     labs = ['Anthropic', 'Anthropic', 'OpenAI', 'Google']
     lab_colors = {'Anthropic': '#2E86AB', 'OpenAI': '#10A37F', 'Google': '#4285F4'}

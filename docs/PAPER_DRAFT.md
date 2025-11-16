@@ -13,7 +13,7 @@
 
 Fine-tuning large language models for specialized domains traditionally requires tens of thousands of training examples, limiting accessibility for researchers and practitioners with domain expertise but limited data collection resources. Recent work has explored synthetic data generation through automated bootstrapping, but these approaches lack the domain expertise and reasoning patterns needed for specialized fields. We present a novel methodology where training data is **authored through iterative discussions with LLMs**, providing researchers direct control over domain expertise injection and reasoning pattern curation.
 
-Using this approach, we generated 1,213 examples focused on continental philosophy and speculative reasoning. Through controlled experiments across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen 2.5 0.5B) and rigorous multi-judge validation across three independent laboratories (Anthropic, OpenAI, Google), we demonstrate that our authored examples achieve **77-91% win rates** against baseline models. All four judges show strong preference for our fine-tuned models (78.9-95.2%), with 91.2% pairwise agreement between judges from different labs (GPT-4o ↔ Gemini), demonstrating robust cross-laboratory consensus. Our approach requires minimal computational resources ($3 training cost, 2 hours on consumer GPUs) with substantially fewer examples than typical fine-tuning datasets.
+Using this approach, we generated 1,213 examples focused on continental philosophy and speculative reasoning. Through controlled experiments across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen 2.5 0.5B) and rigorous multi-judge validation across three independent laboratories (Anthropic, OpenAI, Google), we demonstrate that our authored examples achieve **77-91% win rates on in-domain tasks** against baseline models. All four judges show strong preference for our fine-tuned models (78.9-95.2%), with 91.2% pairwise agreement between judges from different labs (GPT-4o ↔ Gemini), demonstrating robust cross-laboratory consensus. Our approach requires minimal computational resources ($3 training cost, 2 hours on consumer GPUs) with substantially fewer examples than typical fine-tuning datasets.
 
 Our results demonstrate that **human-directed data authoring** - where LLMs serve as authoring tools rather than autonomous generators - offers a reproducible, cost-effective framework for domain-specific fine-tuning applicable to any specialized field. We release our code, evaluation framework, and representative data samples to facilitate adoption of this methodology.
 
@@ -130,13 +130,12 @@ We employ standard LoRA (Hu et al., 2021) for parameter-efficient fine-tuning ac
 **LoRA Configuration:**
 ```python
 LoraConfig(
-    r=16,                  # rank for 3B models (r=8 for 0.5B)
-    lora_alpha=32,         # alpha for 3B models (alpha=16 for 0.5B)
+    r=16,                  # rank for all models
+    lora_alpha=32,         # alpha for all models
     lora_dropout=0.05,
     bias='none',
     task_type='CAUSAL_LM',
-    target_modules=['q_proj', 'k_proj', 'v_proj', 'o_proj', 
-                   'gate_proj', 'up_proj', 'down_proj']
+    target_modules=['q_proj', 'v_proj']
 )
 ```
 
@@ -144,8 +143,8 @@ LoraConfig(
 ```python
 SFTConfig(
     num_train_epochs=2,
-    per_device_train_batch_size=2,
-    gradient_accumulation_steps=4,
+    per_device_train_batch_size=1,  # 3B models
+    gradient_accumulation_steps=8,   # 3B models
     effective_batch_size=8,
     learning_rate=2e-4,
     lr_scheduler_type='linear',
@@ -218,7 +217,7 @@ Our fine-tuned models consistently outperform baselines across all tested archit
 | Claude Opus 4 | 78.9% | n=57 | - |
 | GPT-4o | 93.0% | n=57 | 91.2% (w/ Gemini) |
 | Gemini 2.5 Flash Lite | 94.7% | n=57 | 91.2% (w/ GPT-4o) |
-| **Overall Average** | **91.2%** | **n=57** | - |
+| **Aggregate Win Rate** | **91.2% (52/57)** | **n=57** | - |
 
 **Key Validation: Unanimous Multi-Lab Consensus**
 - All four judges show strong preference (range: 78.9-95.2%)
@@ -235,11 +234,11 @@ This unanimous cross-laboratory consensus validates genuine quality improvements
 
 | Judge | Win Rate | Sample Size |
 |-------|----------|-------------|
-| Claude Sonnet 4 | 73.8% | n=42 |
+| Claude 3.5 Sonnet | 73.8% | n=42 |
 | Claude Opus 4 | 80.0% | n=15 |
 | GPT-4o | 82.5% | n=57 |
 | Gemini 2.5 Flash Lite | 84.2% | n=57 |
-| **Overall Average** | **80.4%** | **n=57** |
+| **Aggregate Win Rate** | **80.4%** | **n=57** |
 
 **Qwen 2.5 0.5B:**
 
@@ -261,7 +260,7 @@ The same training data produces substantially different results across architect
 | Qwen 2.5 0.5B | 618M | 71.9% | -19.3% |
 
 **Insights:**
-1. **Qwen 2.5 shows strongest alignment** with philosophical discourse patterns (91.2% win rate)
+1. **Qwen 2.5 shows the strongest alignment** with philosophical discourse patterns (91.2% win rate)
 2. **Llama 3.2 maintains strong performance** (80.4% average across judges)
 3. **Model size matters significantly**: 3B models substantially outperform 0.5B (80-91% vs. 72%)
 
@@ -537,7 +536,7 @@ All models are released under their respective base model licenses (Apache 2.0 f
 
 **Dubois, M., et al. (2025).** Skewed Score: A statistical framework to assess autograders. *arXiv preprint arXiv:2507.03772*. https://arxiv.org/abs/2507.03772
 
-**Gajulamandyam, D., et al. (2025).** Domain Specific Finetuning of LLMs Using PEFT Techniques. *IEEE Conference on Computer Communications and Networks (CCWC)*.
+**Gajulamandyam, D., Veerla, S., Emami, Y., Lee, K., Li, Y., Mamillapalli, J. S., & Shim, S. (2025).** Domain Specific Finetuning of LLMs Using PEFT Techniques. *IEEE 15th Annual Computing and Communication Workshop and Conference (CCWC)*, 484-490. https://doi.org/10.1109/CCWC62904.2025.10903789
 
 **Houlsby, N., Giurgiu, A., Jastrzebski, S., Morrone, B., de Laroussilhe, Q., Gesmundo, A., Attariyan, M., & Gelly, S. (2019).** Parameter-Efficient Transfer Learning for NLP. *Proceedings of the 36th International Conference on Machine Learning (ICML)*. https://arxiv.org/abs/1902.00751
 
