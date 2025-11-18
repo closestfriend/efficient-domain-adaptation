@@ -568,13 +568,13 @@ To illustrate the data authoring process, we provide three representative exampl
 ### Example 1: Phenomenological Analysis
 
 **User Prompt:**
-> "How does Temporality dissolve in an era devoid of ritual? Please reply as Zizek would."
+> "How does Temporality dissolve in an era devoid of ritual? Please reply as Žižek would."
 
 **Authored Response Excerpt:**
 > "The question of temporality's dissolution in our post-ritual epoch requires us to first discard the nostalgic fantasy that there was ever some authentic, ritualized time that we have now lost... Let us be clear: temporality does not simply 'dissolve' in the absence of traditional ritual structures. Rather, it undergoes a perverse transformation that is far more insidious than mere dissolution. What we witness today is not the end of ritual but its universalization in the form of what we might call the 'ritual of non-ritual'—the compulsive repetition of the everyday that masquerades as liberation from repetitive structures..."
 
 This example demonstrates:
-- Deep engagement with continental philosophy (Zizek, Benjamin)
+- Engagement with philosophical discourse in the style of Slavoj Žižek
 - Multi-layered argumentation structure
 - Speculative reasoning about contemporary culture
 - Philosophical rigor combined with cultural criticism
@@ -588,7 +588,7 @@ This example demonstrates:
 > "This fracturing isn't merely sociological—it proceeds from our failure to recognize that knowledge is not simply a matter of knowing, but how we stand in relation to being itself. The philosopher from Leonberg would recognize our predicament as stemming from the artificial separation between epistemology and ontology, between knowing and being... The irony of our 'information age' is that it promises knowledge while undermining its foundation. We drown in facts while thirsting for meaning, connected to everything yet grounded in nothing—because we have forgotten that knowing is always a mode of being."
 
 This example demonstrates:
-- Ontological analysis in the German idealist tradition
+- Ontological analysis drawing on German idealist philosophy (oblique reference to Schelling)
 - Critique of contemporary information culture
 - Integration of historical and contemporary perspectives
 - Contemplative reasoning style
@@ -602,8 +602,8 @@ This example demonstrates:
 > "The current obsession with 'digital addiction' reveals less about neurochemistry than it does about the reproduction of cultural hierarchy. When we invoke addiction to distinguish between Tolstoy and TikTok, we're not making a medical diagnosis—we're performing what Bourdieu would recognize as a classic act of distinction, using pathological language to naturalize taste preferences that are fundamentally about class position..."
 
 This example demonstrates:
-- Application of sociological theory to contemporary phenomena
-- Critical analysis of power structures
+- Application of Pierre Bourdieu's sociological framework to contemporary phenomena
+- Critical analysis of power structures and cultural capital
 - Accessible yet rigorous argumentation
 - Interdisciplinary synthesis
 
