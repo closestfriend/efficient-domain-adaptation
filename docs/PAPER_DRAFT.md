@@ -121,8 +121,8 @@ We validate data quality through:
 **Dataset Statistics:**
 - Total examples: 1,213 training examples, 60 validation examples
 - Average conversation length: ~500 tokens (user + assistant)
-- Domain coverage: Phenomenology, existentialism, critical theory, speculative reasoning, creative development
-- Generation period: Developed over several years of philosophical discussions
+- Domain coverage: Phenomenology, existentialism, critical theory, speculative reasoning, creative writing (essays, cultural criticism, literary analysis)
+- Generation period: Developed over several years of philosophical and creative discussions
 
 ### 3.2 Model Fine-Tuning
 
@@ -604,8 +604,10 @@ This example demonstrates:
 This example demonstrates:
 - Application of Pierre Bourdieu's sociological framework to contemporary phenomena
 - Critical analysis of power structures and cultural capital
-- Accessible yet rigorous argumentation
-- Interdisciplinary synthesis
+- Accessible yet rigorous argumentation blending philosophical theory with creative writing
+- Interdisciplinary synthesis across sociology, cultural criticism, and public-facing prose
+
+Note that while framed as philosophical inquiry, this example also represents **creative nonfiction** - the authoring process captures not just conceptual frameworks but also literary voice, rhetorical style, and the craft of public intellectual writing.
 
 These examples illustrate how the authoring process generates training data that combines philosophical depth, cultural critique, and speculative reasoning—patterns difficult to capture through automated generation or simple data collection.
 
