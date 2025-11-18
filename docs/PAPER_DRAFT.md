@@ -39,20 +39,21 @@ Our work makes the following contributions:
 
 3. **Architecture Comparison**: Through controlled experiments with identical training data across Qwen 2.5 3B, Llama 3.2 3B, and Qwen 2.5 0.5B, we show how different architectures respond to domain-specific fine-tuning.
 
-4. **Practical Efficiency**: We demonstrate that effective domain adaptation can be achieved with minimal computational resources ($3 training cost, 2 hours on consumer GPUs) using substantially fewer examples than typical instruction-tuning datasets.
+4. **Practical Efficiency**: We demonstrate that effective domain adaptation can be achieved with minimal computational resources (~$3 training cost on cloud GPUs) using substantially fewer examples than typical instruction-tuning datasets.
 
 5. **Reproducible Framework**: We release our complete evaluation framework, training code, and representative data samples, enabling researchers to apply this methodology in their own domains.
 
 ### 1.2 Key Results Summary
 
-| Base Model | Win Rate | Judges | Cost | Training Time |
-|------------|----------|--------|------|---------------|
-| Qwen 2.5 3B | 91.2% | 4 judges (3 labs) | ~$3 | 1-2 hours |
-| Llama 3.2 3B | 80.4% | 4 judges (3 labs) | ~$3 | ~36 minutes |
-| Qwen 2.5 0.5B | 71.9% | 4 judges (3 labs) | ~$0 | ~5 hours (M4 Mac) |
+| Base Model | Win Rate (In-Domain) | Multi-Judge Validation |
+|------------|---------------------|------------------------|
+| Qwen 2.5 3B | 91.2% | 4 judges (3 labs) |
+| Llama 3.2 3B | 80.4% | 4 judges (3 labs) |
+| Qwen 2.5 0.5B | 71.9% | 4 judges (3 labs) |
 
-Unanimous strong preference across all judges (78.9-95.2%)  
-Cross-lab pairwise agreement: 91.2% (GPT-4o ↔ Gemini 2.5 Flash Lite)
+**Validation Robustness:** Unanimous strong preference across all judges (78.9-95.2%); 91.2% cross-lab pairwise agreement (GPT-4o ↔ Gemini 2.5 Flash Lite)
+
+**Resource Requirements:** Training cost ~$3 per 3B model on cloud GPUs (RunPod); 0.5B model trains on consumer hardware (M4 MacBook) at negligible cost
 
 ---
 
@@ -384,10 +385,10 @@ This consistency helps models learn transferable patterns rather than memorizing
 **Our Approach:**
 - 1,213 examples authored through LLM discussions
 - ~$0 data generation cost (using existing LLM access)
-- ~$3 training cost (2 hours GPU time)
+- ~$3 training cost (cloud GPU rental)
 - Single expert author maintains consistency
 
-**ROI:** Small dataset (1,213 examples vs. typical 10,000+ for instruction tuning), near-zero data generation cost, 91% win rate.
+**ROI:** Small dataset (1,213 examples vs. typical 10,000+ for instruction tuning), near-zero data generation cost, ~$3 training cost, 91% win rate.
 
 ### 5.3 Generalizability of the Methodology
 
@@ -485,7 +486,7 @@ We present LLM-assisted data authoring, a reproducible methodology for efficient
 
 Our key insight is that **curation—the human-directed process of authoring training examples through LLM discussions—is the critical factor for efficient domain adaptation**. By positioning LLMs as authoring tools rather than autonomous generators, domain experts can create high-quality training data that captures specialized reasoning patterns and expertise.
 
-With minimal computational resources ($3 training cost, 2 hours on consumer GPUs) and strong empirical validation (91.2% pairwise agreement between independent judges from different labs), our approach offers a practical framework for domain-specific fine-tuning accessible to researchers and practitioners across any specialized field. We release our code, evaluation framework, and representative data samples to enable broad adoption of this methodology.
+With minimal computational resources (~$3 training cost on cloud GPUs) and strong empirical validation (91.2% pairwise agreement between independent judges from different labs), our approach offers a practical framework for domain-specific fine-tuning accessible to researchers and practitioners across any specialized field. We release our code, evaluation framework, and representative data samples to enable broad adoption of this methodology.
 
 The future of domain-specific AI may not require massive datasets—it requires thoughtful curation by domain experts who know how to direct LLMs to capture genuine expertise.
 
