@@ -484,7 +484,7 @@ The future of domain-specific AI may not require massive datasets—it requires 
 
 ## Ethics Statement
 
-This research was conducted as an independent project without institutional oversight. All training data was personally authored by the researcher through discussions with publicly available LLMs. No human subjects were involved in data generation, and all evaluation was conducted using publicly accessible AI systems.
+This research was conducted as an independent project without institutional oversight. All training data was personally authored by the researcher through discussions with publicly available LLMs. No human participants beyond the author were involved in data generation, and all evaluation was conducted using publicly accessible AI systems. The research does not involve sensitive data, medical information, or personally identifiable information beyond the author's own creative and philosophical writing.
 
 ## Data Availability Statement
 
