@@ -119,10 +119,13 @@ We validate data quality through:
 3. **Contamination Prevention**: Checking for memorization or superficiality
 
 **Dataset Statistics:**
-- Total examples: 1,213 training examples, 60 validation examples
+- Total examples: 1,213 training examples (202 unique prompts with multiple responses per prompt), 60 validation examples
+- Response diversity: Average ~6 responses per prompt, providing distribution of valid responses rather than single prompt-response mappings
 - Average conversation length: ~500 tokens (user + assistant)
 - Domain coverage: Phenomenology, existentialism, critical theory, speculative reasoning, creative writing (essays, cultural criticism, literary analysis)
 - Generation period: Developed over several years of philosophical and creative discussions
+
+**Multi-Response Sampling:** Rather than generating single responses per prompt, we retained multiple high-quality responses for most prompts. This approach exposes the model to the **distribution of valid responses** for each domain topic—teaching not just what to say, but the acceptable range of variation in how to say it. This response diversity may explain why relatively few unique prompts (202) achieve strong generalization: the model learns reasoning patterns and stylistic variance rather than memorizing fixed prompt-response pairs.
 
 ### 3.2 Model Fine-Tuning
 
@@ -351,6 +354,15 @@ Authored examples share:
 - Authentic domain voice
 
 This consistency helps models learn transferable patterns rather than memorizing disconnected facts.
+
+**4. Response Distribution Learning**
+
+Our multi-response sampling approach (202 unique prompts, 1,213 total responses) provides a critical advantage: the model learns not just individual prompt-response mappings, but the **distribution of valid responses** for each type of philosophical question. By exposing models to multiple high-quality responses per prompt (average ~6), we teach:
+- The range of acceptable variation in philosophical discourse
+- Multiple valid reasoning paths to similar conclusions
+- Stylistic flexibility within domain constraints
+
+This distribution learning may explain why our approach achieves strong generalization with relatively few unique prompts—the model learns the **variance within valid answers**, not just the answers themselves.
 
 ### 5.2 Cost-Effectiveness Analysis
 
