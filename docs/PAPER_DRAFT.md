@@ -13,7 +13,7 @@
 
 Fine-tuning large language models for specialized domains traditionally requires tens of thousands of training examples, limiting accessibility for researchers and practitioners with domain expertise but limited data collection resources. Recent work has explored synthetic data generation through automated bootstrapping, but these approaches lack the domain expertise and reasoning patterns needed for specialized fields. We present a novel methodology where training data is **authored through iterative discussions with LLMs**, providing researchers direct control over domain expertise injection and reasoning pattern curation.
 
-Using this approach, we generated 1,213 examples focused on continental philosophy and speculative reasoning. Through controlled experiments across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen 2.5 0.5B) and rigorous multi-judge validation across three independent laboratories (Anthropic, OpenAI, Google), we demonstrate that our best model achieves **91.2% win rate on in-domain tasks**, with all architectures showing 77-91% performance against baseline models. All models were trained for 2 full epochs; analysis of intermediate checkpoints on Qwen 2.5 0.5B revealed that **completing two training epochs is essential for small datasets**: the epoch-1 checkpoint showed only 10-15% win rates, while the epoch-2 model achieved 72-77%, representing a 60+ percentage point improvement that reveals important training dynamics when fine-tuning with limited examples. Our multi-judge evaluation demonstrates unanimous consensus across all four judges (78.9-95.2% individual win rates) with 91.2% pairwise agreement between independent laboratories (GPT-4o ↔ Gemini), validating genuine quality improvements rather than judge-specific biases. Our approach requires minimal computational resources ($3 training cost, 2 hours on consumer GPUs) with substantially fewer examples than typical fine-tuning datasets.
+Using this approach, we generated 1,213 examples focused on continental philosophy and speculative reasoning. Through controlled experiments across multiple architectures (Qwen 2.5 3B, Llama 3.2 3B, Qwen 2.5 0.5B) and rigorous multi-judge validation across three independent laboratories (Anthropic, OpenAI, Google), we demonstrate that our best model achieves **91.2% win rate on in-domain tasks**, with all architectures showing 77-91% performance against baseline models. Our multi-judge evaluation demonstrates unanimous consensus across all four judges (78.9-95.2% individual win rates) with 91.2% pairwise agreement between independent laboratories (GPT-4o ↔ Gemini), validating genuine quality improvements rather than judge-specific biases. Our approach requires minimal computational resources (~$3 training cost on cloud GPUs) with substantially fewer examples than typical fine-tuning datasets.
 
 Our results demonstrate that **human-directed data authoring**—where LLMs serve as authoring tools rather than autonomous generators—offers a reproducible, cost-effective framework for domain-specific fine-tuning applicable to any specialized field. We release our code, evaluation framework, and representative data samples to facilitate adoption of this methodology.
 
@@ -160,7 +160,7 @@ SFTConfig(
 2. meta-llama/Llama-3.2-3B-Instruct (3B parameters, 304 steps, RunPod A40)
 3. Qwen/Qwen2.5-0.5B-Instruct (618M parameters, 290 steps, Apple M4 MacBook)
 
-All models trained for 2 full epochs—a critical finding we discuss in Section 4.3.
+All models trained for 2 full epochs following standard PEFT practices.
 
 ### 3.3 Evaluation Protocol
 
@@ -268,29 +268,7 @@ The same training data produces substantially different results across architect
 ![Figure 1: Win Rates by Architecture](figures/figure1_win_rates_by_architecture.png)
 *Figure 1: Win rates across three model architectures trained on identical data (1,213 examples, 2 epochs). Qwen 2.5 3B achieves 91.2% win rate, demonstrating strongest alignment with philosophical discourse patterns. All models substantially exceed random baseline (50%), with performance correlated to model size.*
 
-### 4.3 Critical Discovery: The Second Epoch Is Essential
-
-All models were trained for 2 full epochs (290-304 steps). Analysis of intermediate checkpoints on Qwen 2.5 0.5B revealed a crucial finding about training dynamics for small datasets:
-
-| Checkpoint | Training Progress | In-Domain Win Rate | Overall Win Rate |
-|------------|------------------|-------------------|------------------|
-| Checkpoint-100 | 1 epoch | ~10-20% | ~10% |
-| Checkpoint-290 | 2 epochs | **77%** | **72%** |
-
-**Impact:** The second epoch improved performance by approximately **60 percentage points**.
-
-This reveals important training dynamics for small datasets:
-- **Epoch 1**: Model learns basic patterns but remains undertrained
-- **Epoch 2**: Model refines understanding and develops true expertise
-
-**Mechanistic Hypothesis:** We hypothesize that small datasets exhibit distinct two-phase learning dynamics. During the first epoch, the model undergoes **distribution alignment**—adapting to the linguistic patterns and surface-level features of the target domain—but lacks sufficient exposure to internalize deeper reasoning patterns. The second epoch enables **expertise consolidation**: with the distribution already aligned, the model can now refine its internal representations and compress domain-specific reasoning strategies into its weights. This suggests that small datasets require more repetition (higher epoch counts) to achieve the same level of expertise transfer that larger datasets achieve through diversity. The dramatic 60-point improvement observed in Qwen 2.5 0.5B indicates that conventional early-stopping criteria developed for large-scale pretraining may be inappropriate for domain-specific fine-tuning with <2,000 examples.
-
-**Implication:** For small datasets (~1,000 examples), completing 2 full epochs is critical. Many researchers might have abandoned training after epoch 1, missing the dramatic improvements from continued training. While we only evaluated intermediate checkpoints for Qwen 2.5 0.5B, we trained all models for 2 epochs based on this finding.
-
-![Figure 3: The Second Epoch Is Essential](figures/figure3_second_epoch_discovery.png)
-*Figure 3: Dramatic performance improvement from first epoch (checkpoint-100) to second epoch (checkpoint-290). Both in-domain and overall performance increased by approximately 60 percentage points, revealing critical training dynamics for small datasets. This finding suggests many researchers may abandon training prematurely.*
-
-### 4.4 Multi-Judge Validation Robustness
+### 4.3 Multi-Judge Validation Robustness
 
 Inter-judge agreement analysis reveals strong consensus across different AI systems:
 
@@ -307,7 +285,7 @@ While all judges showed strong preference for our fine-tuned models, we observed
 
 This variance suggests different judges weight evaluation criteria differently (depth vs. clarity, creativity vs. structure), but the strong overall consensus validates genuine quality improvements rather than judge-specific biases.
 
-### 4.5 Domain Performance Analysis
+### 4.4 Domain Performance Analysis
 
 **In-Domain Performance (All Models):**
 - Qwen 2.5 3B: 91.2% overall (philosophy 70%, brainstorming 90%, creative 100%)
