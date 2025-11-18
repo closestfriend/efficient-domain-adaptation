@@ -703,15 +703,27 @@ just verbose.
 
 **Key Observation:** Qwen 2.5 3B shows highest domain specialization (91% in-domain) with moderate out-of-domain performance (47%), demonstrating successful specialization without catastrophic forgetting.
 
-### Llama 3.2 3B - Performance Summary
+### Llama 3.2 3B - Detailed Performance by Domain
 
-**In-Domain:** 80.4% average win rate across all judges
+| Domain | Brie Wins | Total | Win Rate | Notes |
+|--------|-----------|-------|----------|-------|
+| Contemplative | 10 | 10 | 100.0% | Perfect performance |
+| Expanded Creative | 5 | 5 | 100.0% | Perfect performance |
+| Temperature Tests (0.5/1.0) | 6 | 6 | 100.0% | Robust across settings |
+| Brainstorming | 8 | 10 | 80.0% | Strong performance |
+| Philosophy Domain | 8 | 10 | 80.0% | Strong performance |
+| Token Length Tests | 4 | 6 | 66.7% | Moderate performance |
+| Reproducibility Run 2 | 3 | 5 | 60.0% | Consistent but lower |
+| Reproducibility Run 3 | 3 | 5 | 60.0% | Consistent but lower |
+
+**Overall Performance:** 82.5% win rate (47/57 comparisons, GPT-4o)
 
 **Judge-Specific Results (In-Domain):**
-- Claude Sonnet 4: 73.8% (31/42)
+- Claude 3.5 Sonnet: 73.8% (31/42)
 - Claude Opus 4: 80.0% (12/15)
 - GPT-4o: 82.5% (47/57)
 - Gemini 2.5 Flash Lite: 84.2% (48/57)
+- **Overall Average:** 80.4%
 
 **Out-of-Domain Performance (Claude Opus 4):**
 - Overall: 60% (9/15 wins)
